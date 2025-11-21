@@ -14,17 +14,16 @@ public abstract class Document implements Loadable {
 
     private boolean loaded = false;
 
-    public Document(DocumentType type, File dir, String fileName, boolean defaultResource, boolean loadOnInit) {
+    public Document(DocumentType type, File dir, String fileName, boolean loadOnInit) {
         this.dir = dir;
         this.type = type;
         this.file = new File(dir, fileName);
         Validate.isTrue(isTypeOf(type), "file must be correct type.");
-        if (defaultResource) saveDefaultResource(fileName);
         if (loadOnInit) load();
     }
 
-    public Document(DocumentType type, String dir, String fileName, boolean defaultResource, boolean loadOnInit) {
-        this(type, new File(dir), fileName, defaultResource, loadOnInit);
+    public Document(DocumentType type, String dir, String fileName, boolean loadOnInit) {
+        this(type, new File(dir), fileName, loadOnInit);
     }
 
     // returns true if config file does end with 'filename{".ending"}'

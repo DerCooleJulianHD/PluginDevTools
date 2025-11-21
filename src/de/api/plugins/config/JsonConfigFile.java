@@ -35,8 +35,8 @@ public class JsonConfigFile extends Document {
     private final SpigotPlugin plugin = SpigotPlugin.getInstance();
     private final Gson gson;
 
-    public JsonConfigFile(File dir, String fileName, boolean defaultResource, boolean loadOnInit) {
-        super(DocumentType.JSON, dir, fileName, defaultResource, loadOnInit);
+    public JsonConfigFile(File dir, String fileName, boolean loadOnInit) {
+        super(DocumentType.JSON, dir, fileName, loadOnInit);
 
         final JsonProperties properties = getClass().getDeclaredAnnotation(JsonProperties.class);
         Validate.notNull(properties, getClass().getName() + " misses JsonProperties Annotation!");

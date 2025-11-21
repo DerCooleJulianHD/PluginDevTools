@@ -5,7 +5,7 @@ import de.api.plugins.config.YamlConfigFile;
 public final class PluginConfigFile extends YamlConfigFile {
 
     public PluginConfigFile(SpigotPlugin plugin) {
-        super(plugin.getDataFolder(), "config.yml", true, true);
+        super(plugin.getDataFolder(), "config.yml", true);
     }
 
     // returns the String that is set in plugin config.

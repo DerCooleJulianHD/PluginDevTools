@@ -1,6 +1,7 @@
 package de.api.plugins.plugin;
 
 import de.api.plugins.bundle.Bundle;
+import de.api.plugins.listener.ListenerBundle;
 import de.api.plugins.utils.FileManager;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -24,6 +25,7 @@ public abstract class SpigotPlugin extends JavaPlugin implements MinecraftPlugin
     public void onLoad() {
         // init the instance of the plugin
         instance = this;
+        bundles.put("listeners", new HashMap<>());
 
         // creating the Plugin folder
         FileManager.mkdirIfNotExists(getDataFolder());
