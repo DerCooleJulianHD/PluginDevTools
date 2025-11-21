@@ -1,11 +1,11 @@
 package de.api.plugins;
 
-import de.api.plugins.plugin.SpigotPlugin;
+import org.bukkit.plugin.java.JavaPlugin;
 
-public final class MinecraftDevToolPlugin extends SpigotPlugin {
+public final class MinecraftDevToolPlugin extends JavaPlugin {
 
     @Override
-    public void onPluginStart() {
+    public void onEnable() {
         getLogger().info("Successfully Enabled :D");
     }
 
