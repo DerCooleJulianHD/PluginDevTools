@@ -5,7 +5,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 public abstract class Timer extends BukkitRunnable implements Executable {
 
-    protected final SpigotPlugin plugin = SpigotPlugin.getPlugin();
+    protected final SpigotPlugin plugin = SpigotPlugin.getInstance();
 
     protected boolean running = false;
     protected final long delay, period;

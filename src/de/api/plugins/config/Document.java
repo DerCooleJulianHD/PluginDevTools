@@ -8,7 +8,7 @@ import java.io.File;
 
 public abstract class Document implements Loadable {
 
-    protected final SpigotPlugin plugin = SpigotPlugin.getPlugin();
+    protected final SpigotPlugin plugin = SpigotPlugin.getInstance();
     protected final DocumentType type;
     protected final File dir, file;
 

@@ -32,7 +32,7 @@ interface JsonConfigurationBuilder {
 @JsonProperties() /* <-- by default */
 public class JsonConfigFile extends Document {
 
-    private final SpigotPlugin plugin = SpigotPlugin.getPlugin();
+    private final SpigotPlugin plugin = SpigotPlugin.getInstance();
     private final Gson gson;
 
     public JsonConfigFile(File dir, String fileName, boolean defaultResource, boolean loadOnInit) {

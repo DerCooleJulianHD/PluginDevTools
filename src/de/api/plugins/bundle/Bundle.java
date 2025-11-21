@@ -9,7 +9,7 @@ import java.util.function.BiConsumer;
 
 public abstract class Bundle<T> {
 
-    protected final SpigotPlugin plugin = SpigotPlugin.getPlugin();
+    protected final SpigotPlugin plugin = SpigotPlugin.getInstance();
 
     // this is the map, all objects of type T will be stored in.
     protected final Map<Class<?>, T> actives = new HashMap<>();

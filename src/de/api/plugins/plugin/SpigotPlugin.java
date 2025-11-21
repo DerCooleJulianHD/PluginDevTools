@@ -16,26 +16,21 @@ import java.util.Map;
 
 public abstract class SpigotPlugin extends JavaPlugin implements MinecraftPlugin {
 
-    private static SpigotPlugin plugin;
-    private final PluginDescriptionFile meta = getDescription();
+    private static SpigotPlugin instance;
     private final Map<String, Map<String, Bundle<?>>> bundles = new HashMap<>();
     private PluginConfigFile config;
-
-    public static SpigotPlugin getPlugin() {
-        return plugin;
-    }
 
     @Override
     public void onLoad() {
         // init the instance of the plugin
-        plugin = this;
+        instance = this;
 
         // creating the Plugin folder
         FileManager.mkdirIfNotExists(getDataFolder());
 
         // creating the config file and load it.
-        config = new PluginConfigFile(plugin);
-        onPluginInit();
+        config = new PluginConfigFile(this);
+        onPluginLoad();
     }
 
     @Override
@@ -57,12 +52,12 @@ public abstract class SpigotPlugin extends JavaPlugin implements MinecraftPlugin
 
     @Override
     public String getPluginVersion() {
-        return meta.getVersion();
+        return getDescription().getVersion();
     }
 
     @Override
     public String getPluginName() {
-        return meta.getName();
+        return getDescription().getName();
     }
 
     @Override
@@ -70,9 +65,8 @@ public abstract class SpigotPlugin extends JavaPlugin implements MinecraftPlugin
         return bundles;
     }
 
-    @Utility
     // does check if a plugin, which is using a dependency, also has the dependency plugin installed.
-    public static void checkForDependencyPlugin(String pluginNameOfDepend) {
+    public static void checkForDependencyPlugin(Plugin plugin, String pluginNameOfDepend) {
         final Server server = plugin.getServer();
         final PluginManager manager = server.getPluginManager();
 
@@ -88,5 +82,14 @@ public abstract class SpigotPlugin extends JavaPlugin implements MinecraftPlugin
 
         if (plugin.isEnabled())
             manager.disablePlugin(plugin);
+    }
+
+    @Override
+    public String getPrefix() {
+        return config != null ? config.getPrefix() : "";
+    }
+
+    public static SpigotPlugin getInstance() {
+        return instance;
     }
 }

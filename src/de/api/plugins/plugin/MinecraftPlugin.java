@@ -15,7 +15,7 @@ public interface MinecraftPlugin extends Prefixable {
         return Bukkit.getConsoleSender();
     }
 
-    default void onPluginInit() {} // plugin load logic
+    default void onPluginLoad() {} // plugin load logic
 
     void onPluginStart(); // plugin enable logic
 

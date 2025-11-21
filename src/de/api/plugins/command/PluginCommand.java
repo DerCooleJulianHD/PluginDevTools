@@ -15,7 +15,7 @@ import java.util.logging.Level;
 
 public abstract class PluginCommand implements CommandExecutor, TabCompleter {
 
-    protected final SpigotPlugin plugin = SpigotPlugin.getPlugin();
+    protected final SpigotPlugin plugin = SpigotPlugin.getInstance();
     protected final CommandInfo info = getClass().getDeclaredAnnotation(CommandInfo.class);;
 
     public PluginCommand() {
