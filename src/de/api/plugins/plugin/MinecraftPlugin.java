@@ -4,11 +4,7 @@ import de.api.plugins.bundle.Bundle;
 import de.api.plugins.listener.ListenerBundle;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
-import org.bukkit.Server;
-import org.bukkit.Utility;
 import org.bukkit.command.ConsoleCommandSender;
-import org.bukkit.plugin.Plugin;
-import org.bukkit.plugin.PluginManager;
 
 import java.util.Map;
 
@@ -19,11 +15,11 @@ public interface MinecraftPlugin extends Prefixable {
         return Bukkit.getConsoleSender();
     }
 
-    void onPluginInit(); // plugin load logic
+    default void onPluginInit() {} // plugin load logic
 
     void onPluginStart(); // plugin enable logic
 
-    void onPluginStop(); // plugin disable logic
+    default void onPluginStop() {} // plugin disable logic
 
     // printing out to console, that the plugin has been enabled.
     default void sendEnableMessage() {
