@@ -1,0 +1,11 @@
+<component name="ArtifactManager">
+  <artifact name="PluginDevTools:jar">
+    <output-path>$PROJECT_DIR$/build/out/PluginDevTools/libs</output-path>
+    <root id="root">
+      <element id="archive" name="PluginDevTools.jar">
+        <element id="module-output" name="PluginDevTools" />
+      </element>
+      <element id="library" level="project" name="spigot" />
+    </root>
+  </artifact>
+</component>
