@@ -38,9 +38,8 @@ public final class Base64 {
             final ItemStack[] items = new ItemStack[dataInput.readInt()];
 
             // Read the serialized inventory
-            for (int i = 0; i < items.length; i++) {
+            for (int i = 0; i < items.length; i++)
                 items[i] = (ItemStack) dataInput.readObject();
-            }
 
             dataInput.close();
             return items;

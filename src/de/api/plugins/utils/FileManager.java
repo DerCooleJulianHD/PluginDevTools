@@ -13,24 +13,34 @@ public final class FileManager {
     }
 
     public static void copyDir(File dir, File to) {
-        if (!dir.exists()) return;
-        if (!dir.isDirectory()) return;
+        if (!dir.exists())
+            return;
+
+        if (!dir.isDirectory())
+            return;
 
         mkdirIfNotExists(to);
 
         final File copy = new File(to, dir.getName());
 
-        if (!copy.isDirectory()) return;
-        if (!copy.exists()) copy.mkdirs();
+        if (!copy.isDirectory())
+            return;
+
+        if (!copy.exists())
+            copy.mkdirs();
+
         copyInnerFiles(dir, copy);
     }
 
     public static void deleteFile(File file) {
-        if (!file.exists()) return;
+        if (!file.exists())
+            return;
 
         if (file.isDirectory()) {
             final File[] childs = file.listFiles();
-            if (childs == null) return;
+            if (childs == null)
+                return;
+
             if (hasChilds(file))
                 for (File child : childs) deleteFile(child);
         }
@@ -51,13 +61,15 @@ public final class FileManager {
     }
 
     public static void zip(File target) {
-        if (!target.exists()) return;
+        if (!target.exists())
+            return;
 
         final File dir = target.getParentFile();
         final File zip = new File(dir, target.getName() + ".zip");
 
         try {
-            if (!zip.exists()) zip.createNewFile();
+            if (!zip.exists())
+                zip.createNewFile();
 
             copyDir(target, zip);
         } catch (IOException e) {
@@ -74,8 +86,11 @@ public final class FileManager {
     }
 
     public static void renameFile(File file, String newName) {
-        if (!file.exists()) return;
+        if (!file.exists())
+            return;
+
         File destination = new File(file.getParent(), newName);
+
         file.renameTo(destination);
     }
 
