@@ -21,6 +21,7 @@ public abstract class SpigotPlugin extends JavaPlugin implements MinecraftPlugin
     public void onLoad() {
         // init the instance of the plugin
         instance = this;
+        // put in the default map for holding listener bundles.
         bundles.put("listeners", new HashMap<>());
         // creating the config file and load it.
         config = new PluginConfigFile(this);
