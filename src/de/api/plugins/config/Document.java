@@ -43,7 +43,7 @@ public abstract class Document implements Loadable {
             try {
                 file.createNewFile();
             } catch (IOException ex) {
-                plugin.getLogger().log(Level.SEVERE, "Unable to create: " + file.getName());
+                plugin.getLogger().log(Level.SEVERE, "Unable to create: " + file.getName(), ex);
             }
         }
     }

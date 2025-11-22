@@ -86,11 +86,11 @@ public class JsonConfigFile extends Document {
     public final void load() {
         try {
             if (!exists())
-                file.createNewFile();
+                createFiles(false);
 
             this.setLoaded(true);
-        } catch (IOException e) {
-            plugin.getLogger().log(Level.SEVERE, "Unable to load: " + file.getName(), e);
+        } catch (Exception ex) {
+            plugin.getLogger().log(Level.SEVERE, "Unable to load: " + file.getName(), ex);
         }
     }
 }
