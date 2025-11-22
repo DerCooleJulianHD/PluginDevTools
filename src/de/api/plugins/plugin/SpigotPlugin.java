@@ -1,7 +1,6 @@
 package de.api.plugins.plugin;
 
 import de.api.plugins.bundle.Bundle;
-import de.api.plugins.utils.FileManager;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Server;
