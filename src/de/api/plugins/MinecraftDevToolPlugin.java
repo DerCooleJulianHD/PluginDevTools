@@ -8,5 +8,4 @@ public final class MinecraftDevToolPlugin extends JavaPlugin {
     public void onEnable() {
         getLogger().info("Successfully Enabled :D");
     }
-
 }

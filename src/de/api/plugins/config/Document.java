@@ -1,20 +1,25 @@
 package de.api.plugins.config;
 
 import de.api.plugins.plugin.SpigotPlugin;
+import de.api.plugins.utils.FileManager;
 import de.api.plugins.utils.Loadable;
 import org.apache.commons.lang3.Validate;
+import org.jetbrains.annotations.NotNull;
 
+import javax.annotation.Nullable;
 import java.io.File;
+import java.io.IOException;
+import java.util.logging.Level;
 
 public abstract class Document implements Loadable {
 
     protected final SpigotPlugin plugin = SpigotPlugin.getInstance();
     protected final DocumentType type;
-    protected final File dir, file;
+    @Nullable protected final File dir, file;
 
     private boolean loaded = false;
 
-    public Document(DocumentType type, File dir, String fileName, boolean loadOnInit) {
+    public Document(DocumentType type, @Nullable File dir, String fileName, boolean loadOnInit) {
         this.dir = dir;
         this.type = type;
         this.file = new File(dir, fileName);
@@ -22,8 +27,25 @@ public abstract class Document implements Loadable {
         if (loadOnInit) load();
     }
 
-    public Document(DocumentType type, String dir, String fileName, boolean loadOnInit) {
+    public Document(DocumentType type, @NotNull String dir, String fileName, boolean loadOnInit) {
         this(type, new File(dir), fileName, loadOnInit);
+    }
+
+    // creates the directory if it doesn't exist and the file in it.
+    public final void createFiles(boolean defaultResource) {
+        if (dir != null && !dir.exists())
+            FileManager.mkdirIfNotExists(dir);
+
+        if (defaultResource)
+            saveDefaultResource(file.getName());
+
+        if (!file.exists()) {
+            try {
+                file.createNewFile();
+            } catch (IOException ex) {
+                plugin.getLogger().log(Level.SEVERE, "Unable to create: " + file.getName());
+            }
+        }
     }
 
     // returns true if config file does end with 'filename{".ending"}'
