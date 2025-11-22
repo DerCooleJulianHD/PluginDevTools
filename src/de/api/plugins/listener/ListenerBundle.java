@@ -6,7 +6,7 @@ import org.bukkit.event.HandlerList;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.PluginManager;
 
-public final class ListenerBundle extends Bundle<Listener> {
+public class ListenerBundle extends Bundle<Listener> {
 
     // returns a new empty Listener Bundle.
     public static ListenerBundle EMPTY_BUNDLE = new ListenerBundle();
@@ -17,13 +17,13 @@ public final class ListenerBundle extends Bundle<Listener> {
 
     @Override
     // enables the listener on the server.
-    public void register(Listener listener) {
+    public final void register(Listener listener) {
         pluginManager.registerEvents(listener, plugin);
     }
 
     @Override
     // disables ist from the server.
-    public void unregister(Listener listener) {
+    public final void unregister(Listener listener) {
         HandlerList.unregisterAll(listener);
     }
 }
