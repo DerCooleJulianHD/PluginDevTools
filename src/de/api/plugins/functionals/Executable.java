@@ -1,4 +1,4 @@
-package de.api.plugins.timer;
+package de.api.plugins.functionals;
 
 public interface Executable {
     void execute();
