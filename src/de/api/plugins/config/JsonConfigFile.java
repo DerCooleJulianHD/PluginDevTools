@@ -37,11 +37,7 @@ public class JsonConfigFile extends Document {
 
     public JsonConfigFile(File dir, String fileName, boolean loadOnInit) {
         super(DocumentType.JSON, dir, fileName, loadOnInit);
-
-        final JsonProperties properties = getClass().getDeclaredAnnotation(JsonProperties.class);
-        Validate.notNull(properties, getClass().getName() + " misses JsonProperties Annotation!");
-
-        this.gson = JsonConfigurationBuilder.build(properties);
+        this.gson = JsonConfigurationBuilder.build(getClass().getDeclaredAnnotation(JsonProperties.class));
     }
 
     // writes an object to a Json-Configuration.
