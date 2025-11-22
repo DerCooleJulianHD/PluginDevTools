@@ -59,7 +59,7 @@ public abstract class SpigotPlugin extends JavaPlugin implements MinecraftPlugin
         return bundles;
     }
 
-    // does check if a plugin, which is using a dependency, also has the dependency plugin installed.
+    // does check if a plugin, which is using a dependency, also has the dependency plugin installed on the server.
     public static void checkForDependencyPlugin(Plugin using, String pluginNameOfDepend) {
         final Server server = using.getServer();
         final PluginManager manager = server.getPluginManager();
