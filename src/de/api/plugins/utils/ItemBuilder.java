@@ -16,8 +16,7 @@ public class ItemBuilder {
     protected final Map<Enchantment, Integer> enchantments = new HashMap<>();
     protected ItemStack itemStack;
     protected Material material;
-    // subid of material
-    protected int id;
+    protected int id; // subid of material
     protected String name;
     protected String displayName;
     protected boolean unbreakable = false;
@@ -36,6 +35,10 @@ public class ItemBuilder {
 
     public static ItemBuilder of(Material material, int id, int amount) {
         return new ItemBuilder(material, id, amount);
+    }
+
+    public static ItemBuilder of(Material material) {
+        return of(material, 0, 1);
     }
 
     public final ItemBuilder setDisplayName(String displayName) {
@@ -129,7 +132,9 @@ public class ItemBuilder {
     }
 
     public final ItemStack build() {
-        if (meta == null) return itemStack;
+        if (meta == null)
+            return itemStack;
+
         itemStack.setItemMeta(meta);
         return itemStack;
     }

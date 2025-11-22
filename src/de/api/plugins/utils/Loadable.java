@@ -7,5 +7,7 @@ public interface Loadable {
     boolean isLoaded();
 
     void setLoaded(boolean loaded);
+
+    default void unload() {}
 }
 
