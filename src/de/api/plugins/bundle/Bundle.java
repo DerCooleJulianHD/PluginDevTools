@@ -9,12 +9,15 @@ import java.util.function.BiConsumer;
 
 public abstract class Bundle<T> {
 
+    protected final String name;
+
     protected final SpigotPlugin plugin = SpigotPlugin.getInstance();
 
     // this is the map, all objects of type T will be stored in.
     protected final Map<Class<?>, T> actives = new HashMap<>();
 
-    public Bundle() {
+    public Bundle(String name) {
+        this.name = name;
     }
 
     // adds a new object to the bundle and enables it on the server
@@ -32,7 +35,7 @@ public abstract class Bundle<T> {
 
     public abstract void unregister(T t);
 
-    // removes and disables the listener from key
+    // removes and disables the object from key
     public final void remove(Class<?> k) {
         if (!contains(k))
             return; // if it's not in this bundle, then stop any execution of code here.
@@ -51,7 +54,7 @@ public abstract class Bundle<T> {
         return actives.get(k);
     }
 
-    // returns true when object is in map.
+    // returns true when object does contain in the map.
     public final boolean contains(Class<?> k) {
         return actives.containsKey(k);
     }
@@ -111,8 +114,8 @@ public abstract class Bundle<T> {
         return actives.size();
     }
 
-    // returns true when listener does contain in the map.
-    public boolean isRegistered(Class<?> k) {
-        return contains(k);
+    // returns the name for exact identify
+    public String getName() {
+        return name;
     }
 }

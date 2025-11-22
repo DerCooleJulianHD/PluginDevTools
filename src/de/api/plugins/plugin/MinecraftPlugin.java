@@ -6,6 +6,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.ConsoleCommandSender;
 
+import javax.annotation.Nullable;
 import java.util.Map;
 
 public interface MinecraftPlugin extends Prefixable {
@@ -34,8 +35,8 @@ public interface MinecraftPlugin extends Prefixable {
     // the 'config.yml' file in the main plugin data folder.
     PluginConfigFile getConfiguration();
 
-    /* returns the plugin name in this format: '$plugin_name$:[from plugin.yml file]-v.$version$'
-    example: yourplugin-v.1.0.0. */
+    /* returns the plugin name in this format: '$plugin_name$[from: plugin.yml]-v.$version$'
+    example: yourplugin-v.1.0 */
     default String getPluginFullName() {
         return getPluginName() + "-v." + getPluginVersion();
     }
@@ -58,13 +59,13 @@ public interface MinecraftPlugin extends Prefixable {
         if (bundle == null)
             return;
 
-        bundle.unregisterAll();
+        bundle.clear();
         getBundles("listeners").remove(name);
     }
 
     // returns a listener bundle which is registered on the server.
-    default ListenerBundle getListeners(String name) {
-        return (getBundles("listeners") != null) ? (ListenerBundle) getBundles("listeners").get(name) : ListenerBundle.EMPTY_BUNDLE;
+    @Nullable default ListenerBundle getListeners(String name) {
+        return (getBundles("listeners") != null) ? (ListenerBundle) getBundles("listeners").get(name) : null;
     }
 
     // returns the storage of all registered bundles
