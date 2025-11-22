@@ -1,14 +1,11 @@
 package de.api.plugins.plugin;
 
 import de.api.plugins.bundle.Bundle;
-import de.api.plugins.listener.ListenerBundle;
 import de.api.plugins.utils.FileManager;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Server;
-import org.bukkit.Utility;
 import org.bukkit.plugin.Plugin;
-import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -26,10 +23,6 @@ public abstract class SpigotPlugin extends JavaPlugin implements MinecraftPlugin
         // init the instance of the plugin
         instance = this;
         bundles.put("listeners", new HashMap<>());
-
-        // creating the Plugin folder
-        FileManager.mkdirIfNotExists(getDataFolder());
-
         // creating the config file and load it.
         config = new PluginConfigFile(this);
         onPluginLoad();
@@ -68,8 +61,8 @@ public abstract class SpigotPlugin extends JavaPlugin implements MinecraftPlugin
     }
 
     // does check if a plugin, which is using a dependency, also has the dependency plugin installed.
-    public static void checkForDependencyPlugin(Plugin plugin, String pluginNameOfDepend) {
-        final Server server = plugin.getServer();
+    public static void checkForDependencyPlugin(Plugin using, String pluginNameOfDepend) {
+        final Server server = using.getServer();
         final PluginManager manager = server.getPluginManager();
 
         // dependency-plugin which needs to be installed.
@@ -82,8 +75,8 @@ public abstract class SpigotPlugin extends JavaPlugin implements MinecraftPlugin
         // here when dependency-plugin is not installed:
         Bukkit.getConsoleSender().sendMessage(ChatColor.RED + "'" + pluginNameOfDepend + "' plugin not found, please install it before continue.");
 
-        if (plugin.isEnabled())
-            manager.disablePlugin(plugin);
+        if (using.isEnabled())
+            manager.disablePlugin(using);
     }
 
     @Override
