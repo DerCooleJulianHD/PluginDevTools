@@ -73,4 +73,8 @@ public interface MinecraftPlugin extends Prefixable {
     default Map<String, Bundle<?>> getBundles(String id) {
         return getBundles().get(id);
     }
+
+    default MinecraftPlugin getSubType() {
+        return this;
+    }
 }
