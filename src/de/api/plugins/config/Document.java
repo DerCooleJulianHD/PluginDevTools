@@ -15,7 +15,8 @@ public abstract class Document implements Loadable {
 
     protected final SpigotPlugin plugin = SpigotPlugin.getInstance();
     protected final DocumentType type;
-    @Nullable protected final File dir, file;
+    @Nullable protected final File dir;
+    protected final File file;
 
     private boolean loaded = false;
 

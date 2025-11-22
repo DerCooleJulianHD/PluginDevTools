@@ -11,7 +11,7 @@ public @interface JsonProperties {
 
     boolean prettyPrinting() default false;
 
-    boolean htmlEscaping() default false;
+    boolean htmlEscaping() default true;
 
-    boolean innerClassSerialisation() default false;
+    boolean innerClassSerialisation() default true;
 }

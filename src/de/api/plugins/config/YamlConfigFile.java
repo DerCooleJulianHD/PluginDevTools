@@ -103,10 +103,6 @@ public class YamlConfigFile extends Document {
         writeDouble(k + ".x", location.getX());
         writeDouble(k + ".y", location.getX());
         writeDouble(k + ".z", location.getX());
-
-        if (location.getYaw() == 0.0 && location.getPitch() == 0.0)
-            return;
-
         writeFloat(k + ".yaw", location.getYaw());
         writeFloat(k + ".pitch", location.getPitch());
     }
