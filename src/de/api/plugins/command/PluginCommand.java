@@ -10,7 +10,6 @@ import org.bukkit.command.TabCompleter;
 import org.bukkit.entity.Player;
 
 import java.util.List;
-import java.util.Objects;
 import java.util.logging.Level;
 
 public abstract class PluginCommand implements CommandExecutor, TabCompleter {
@@ -20,8 +19,8 @@ public abstract class PluginCommand implements CommandExecutor, TabCompleter {
 
     public PluginCommand() {
         Validate.notNull(this.info, getClass().getSimpleName() + " misses CommandInfo Annotation");
-        Validate.notNull(plugin.getServer().getPluginCommand(info.name()), "No Such Command: " + info.name());
-        Objects.requireNonNull(plugin.getServer().getPluginCommand(info.name())).setExecutor(this);
+        Validate.notNull(plugin.getServer().getPluginCommand(info.name()), "No Such Command: " + info.name() + ", please register in the plugin.yml");
+        plugin.getServer().getPluginCommand(info.name()).setExecutor(this);
     }
 
     @Override
