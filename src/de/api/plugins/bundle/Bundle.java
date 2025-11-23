@@ -115,7 +115,7 @@ public abstract class Bundle<T> {
     }
 
     // returns the name for exact identify
-    public String getName() {
+    public String name() {
         return name;
     }
 }

@@ -85,7 +85,7 @@ public interface MinecraftPlugin extends Prefixable {
             return null;
 
         for (Bundle<?> entry : bundles) {
-            if (entry.getName().equals(name))
+            if (entry.name().equals(name))
                 return (ListenerBundle) entry;
         }
 
