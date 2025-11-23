@@ -7,6 +7,7 @@ import org.bukkit.ChatColor;
 import org.bukkit.command.ConsoleCommandSender;
 
 import javax.annotation.Nullable;
+import java.util.List;
 import java.util.Map;
 
 public interface MinecraftPlugin extends Prefixable {
@@ -48,8 +49,16 @@ public interface MinecraftPlugin extends Prefixable {
     String getPluginName();
 
     // adds a new listener bundle to the server.
-    default void addListeners(String name, ListenerBundle bundle) {
-        if (!getBundles("listeners").containsKey(name)) getBundles("listeners").put(name, bundle);
+    default void addListeners(ListenerBundle bundle) {
+        if (getBundles("listeners") == null)
+            return;
+
+        final List<Bundle<?>> bundles = getBundles("listeners");
+
+        if (bundles.contains(bundle))
+            return;
+
+        bundles.add(bundle);
     }
 
     // removes a listener bundle from the server.
@@ -60,18 +69,33 @@ public interface MinecraftPlugin extends Prefixable {
             return;
 
         bundle.clear();
-        getBundles("listeners").remove(name);
+
+        final List<Bundle<?>> listeners = getBundles("listeners");
+        listeners.remove(bundle);
     }
 
     // returns a listener bundle which is registered on the server.
     @Nullable default ListenerBundle getListeners(String name) {
-        return (getBundles("listeners") != null) ? (ListenerBundle) getBundles("listeners").get(name) : null;
+        if (getBundles("listeners") == null)
+            return null;
+
+        final List<Bundle<?>> bundles = getBundles("listeners");
+
+        if (bundles == null)
+            return null;
+
+        for (Bundle<?> entry : bundles) {
+            if (entry.getName().equals(name))
+                return (ListenerBundle) entry;
+        }
+
+        return null;
     }
 
     // returns the storage of all registered bundles
-    Map<String, Map<String, Bundle<?>>> getBundles();
+    Map<String, List<Bundle<?>>> getBundles();
 
-    default Map<String, Bundle<?>> getBundles(String id) {
+    default List<Bundle<?>> getBundles(String id) {
         return getBundles().get(id);
     }
 

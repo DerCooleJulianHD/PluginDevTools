@@ -8,13 +8,15 @@ import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public abstract class SpigotPlugin extends JavaPlugin implements MinecraftPlugin {
 
     private static SpigotPlugin instance;
-    private final Map<String, Map<String, Bundle<?>>> bundles = new HashMap<>();
+    private final Map<String, List<Bundle<?>>> bundles = new HashMap<>();
     private PluginConfigFile config;
 
     @Override
@@ -22,7 +24,7 @@ public abstract class SpigotPlugin extends JavaPlugin implements MinecraftPlugin
         // init the instance of the plugin
         instance = this;
         // put in the default map for holding listener bundles.
-        bundles.put("listeners", new HashMap<>());
+        bundles.put("listeners", new ArrayList<>());
         // creating the config file and load it.
         config = new PluginConfigFile(this);
         onPluginLoad();
@@ -56,7 +58,7 @@ public abstract class SpigotPlugin extends JavaPlugin implements MinecraftPlugin
     }
 
     @Override
-    public Map<String, Map<String, Bundle<?>>> getBundles() {
+    public Map<String, List<Bundle<?>>> getBundles() {
         return bundles;
     }
 
