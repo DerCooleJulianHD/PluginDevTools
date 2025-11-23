@@ -7,6 +7,7 @@ import org.bukkit.ChatColor;
 import org.bukkit.command.ConsoleCommandSender;
 
 import javax.annotation.Nullable;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -51,7 +52,8 @@ public interface MinecraftPlugin extends Prefixable {
     // adds a new listener bundle to the server.
     default void addListeners(ListenerBundle bundle) {
         if (getBundles("listeners") == null)
-            return;
+            // put the map for holding listener bundles if it doesn't exist yet.
+            getBundles().put("listeners", new ArrayList<>());
 
         final List<Bundle<?>> bundles = getBundles("listeners");
 

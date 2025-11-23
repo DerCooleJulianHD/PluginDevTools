@@ -8,7 +8,6 @@ import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -23,8 +22,6 @@ public abstract class SpigotPlugin extends JavaPlugin implements MinecraftPlugin
     public void onLoad() {
         // init the instance of the plugin
         instance = this;
-        // put in the default map for holding listener bundles.
-        bundles.put("listeners", new ArrayList<>());
         // creating the config file and load it.
         config = new PluginConfigFile(this);
         onPluginLoad();
