@@ -12,5 +12,5 @@ public @interface CommandInfo {
 
     String permission() default "";
 
-    boolean requiresPlayer();
+    String[] args();
 }
