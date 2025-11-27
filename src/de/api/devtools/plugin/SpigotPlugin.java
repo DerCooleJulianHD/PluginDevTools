@@ -24,19 +24,19 @@ public abstract class SpigotPlugin extends JavaPlugin implements MinecraftPlugin
         instance = this;
         // creating the config file and load it.
         config = new PluginConfigFile(this);
-        onPluginLoad();
+        onPluginInit();
     }
 
     @Override
     public void onEnable() {
         onPluginStart();
-        sendEnableMessage();
+        sendStartMessage();
     }
 
     @Override
     public void onDisable() {
         onPluginStop();
-        sendDisableMessage();
+        sendStopMessage();
     }
 
     @Override

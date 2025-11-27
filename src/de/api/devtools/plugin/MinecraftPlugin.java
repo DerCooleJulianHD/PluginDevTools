@@ -18,20 +18,20 @@ public interface MinecraftPlugin extends Prefixable {
         return Bukkit.getConsoleSender();
     }
 
-    default void onPluginLoad() {} // plugin load logic
+    default void onPluginInit() {} // plugin load logic
 
     void onPluginStart(); // plugin enable logic
 
     default void onPluginStop() {} // plugin disable logic
 
     // printing out to console, that the plugin has been enabled.
-    default void sendEnableMessage() {
+    default void sendStartMessage() {
         getConsole().sendMessage(ChatColor.GREEN + getPluginFullName() + " has been successfully Enabled!");
     }
 
     // printing out to console, that the plugin has been disabled.
-    default void sendDisableMessage() {
-        getConsole().sendMessage(ChatColor.RED + getPluginFullName() + " has been successfully Disabled!");
+    default void sendStopMessage() {
+        getConsole().sendMessage(ChatColor.RED + getPluginName() + " has been successfully Disabled!");
     }
 
     // the 'config.yml' file in the main plugin data folder.
