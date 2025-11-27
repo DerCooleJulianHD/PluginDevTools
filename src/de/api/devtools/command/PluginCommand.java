@@ -1,6 +1,6 @@
-package de.api.plugins.command;
+package de.api.devtools.command;
 
-import de.api.plugins.plugin.SpigotPlugin;
+import de.api.devtools.plugin.SpigotPlugin;
 import org.apache.commons.lang3.Validate;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;

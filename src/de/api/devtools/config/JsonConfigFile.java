@@ -1,9 +1,8 @@
-package de.api.plugins.config;
+package de.api.devtools.config;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import de.api.plugins.plugin.SpigotPlugin;
-import org.apache.commons.lang3.Validate;
+import de.api.devtools.plugin.SpigotPlugin;
 
 import javax.annotation.Nullable;
 import java.io.File;

@@ -1,8 +1,8 @@
-package de.api.plugins.config;
+package de.api.devtools.config;
 
-import de.api.plugins.plugin.SpigotPlugin;
-import de.api.plugins.utils.FileManager;
-import de.api.plugins.utils.Loadable;
+import de.api.devtools.plugin.SpigotPlugin;
+import de.api.devtools.utils.FileManager;
+import de.api.devtools.utils.Loadable;
 import org.apache.commons.lang3.Validate;
 import org.jetbrains.annotations.NotNull;
 

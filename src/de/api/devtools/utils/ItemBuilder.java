@@ -1,4 +1,4 @@
-package de.api.plugins.utils;
+package de.api.devtools.utils;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Material;

@@ -1,6 +1,6 @@
-package de.api.plugins.plugin;
+package de.api.devtools.plugin;
 
-import de.api.plugins.config.YamlConfigFile;
+import de.api.devtools.config.YamlConfigFile;
 
 public final class PluginConfigFile extends YamlConfigFile {
 

@@ -1,4 +1,4 @@
-package de.api.plugins.functionals;
+package de.api.devtools.functionals;
 
 public interface Executable {
     void execute();

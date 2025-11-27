@@ -1,4 +1,4 @@
-package de.api.plugins.config;
+package de.api.devtools.config;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

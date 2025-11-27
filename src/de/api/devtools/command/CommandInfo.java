@@ -1,4 +1,4 @@
-package de.api.plugins.command;
+package de.api.devtools.command;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

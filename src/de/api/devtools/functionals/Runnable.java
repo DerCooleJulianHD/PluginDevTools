@@ -1,6 +1,6 @@
-package de.api.plugins.functionals;
+package de.api.devtools.functionals;
 
-import de.api.plugins.plugin.SpigotPlugin;
+import de.api.devtools.plugin.SpigotPlugin;
 import org.bukkit.Bukkit;
 import org.bukkit.scheduler.BukkitTask;
 

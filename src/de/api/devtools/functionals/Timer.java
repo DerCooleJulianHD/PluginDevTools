@@ -1,4 +1,4 @@
-package de.api.plugins.functionals;
+package de.api.devtools.functionals;
 
 public abstract class Timer extends Scheduler {
 

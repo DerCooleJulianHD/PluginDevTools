@@ -1,4 +1,4 @@
-package de.api.plugins.plugin;
+package de.api.devtools.plugin;
 
 public interface Prefixable {
 

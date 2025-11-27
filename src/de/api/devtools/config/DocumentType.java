@@ -1,4 +1,4 @@
-package de.api.plugins.config;
+package de.api.devtools.config;
 
 public enum DocumentType {
 

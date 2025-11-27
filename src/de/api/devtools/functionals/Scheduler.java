@@ -1,4 +1,4 @@
-package de.api.plugins.functionals;
+package de.api.devtools.functionals;
 
 import org.bukkit.scheduler.BukkitTask;
 

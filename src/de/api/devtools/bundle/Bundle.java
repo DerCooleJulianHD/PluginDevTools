@@ -1,6 +1,6 @@
-package de.api.plugins.bundle;
+package de.api.devtools.bundle;
 
-import de.api.plugins.plugin.SpigotPlugin;
+import de.api.devtools.plugin.SpigotPlugin;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.HashMap;

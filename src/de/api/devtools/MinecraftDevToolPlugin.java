@@ -1,4 +1,4 @@
-package de.api.plugins;
+package de.api.devtools;
 
 import org.bukkit.plugin.java.JavaPlugin;
 

@@ -1,4 +1,4 @@
-package de.api.plugins.utils;
+package de.api.devtools.utils;
 
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.util.io.BukkitObjectInputStream;

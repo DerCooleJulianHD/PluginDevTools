@@ -1,7 +1,7 @@
-package de.api.plugins.plugin;
+package de.api.devtools.plugin;
 
-import de.api.plugins.bundle.Bundle;
-import de.api.plugins.listener.ListenerBundle;
+import de.api.devtools.bundle.Bundle;
+import de.api.devtools.listener.ListenerBundle;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.ConsoleCommandSender;
