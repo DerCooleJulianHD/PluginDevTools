@@ -8,6 +8,7 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,7 +23,8 @@ public abstract class PluginCommand implements CommandExecutor, TabCompleter {
         Validate.notNull(info, "Commands must have CommandInfo annotations");
         Validate.notNull(plugin.getCommand(info.name()), "This Command hasn't been found! forgot to register in the plugin.yml ?");
 
-        plugin.getCommand(getInfo().name()).setExecutor(this);
+        if (getClass().isAnnotationPresent(AutoLoad.class))
+            plugin.getCommand(getInfo().name()).setExecutor(this);
     }
 
     public String getSyntaxFormat() {
@@ -51,5 +53,22 @@ public abstract class PluginCommand implements CommandExecutor, TabCompleter {
 
     public String getNoPermissionMessage() {
         return ChatColor.RED + "You doun't have the permission.";
+    }
+
+    protected boolean checkPermission(CommandSender sender) {
+        final String permission = info.permission();
+
+        if (permission != null && permission.isEmpty()) {
+            if (!sender.hasPermission(permission)) {
+                sender.sendMessage(getNoPermissionMessage());
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    public boolean canExecute(CommandSender sender) {
+        return checkSender(sender);
     }
 }

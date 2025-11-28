@@ -9,12 +9,12 @@ public abstract class PlayerCommand extends PluginCommand {
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String s, String[] args) {
-        final boolean canExecute = checkSender(sender);
+        final boolean b = canExecute(sender);
 
         if (args.length <= info.args().length)
             sendSyntax(sender);
 
-        if (canExecute)
+        if (b)
             execute((Player) sender, args);
 
         return true;
@@ -31,15 +31,6 @@ public abstract class PlayerCommand extends PluginCommand {
             return false;
         }
 
-        final String permission = info.permission();
-
-        if (permission != null && permission.isEmpty()) {
-            if (!sender.hasPermission(permission)) {
-                sender.sendMessage(getNoPermissionMessage());
-                return false;
-            }
-        }
-
-        return true;
+        return checkPermission(sender);
     }
 }

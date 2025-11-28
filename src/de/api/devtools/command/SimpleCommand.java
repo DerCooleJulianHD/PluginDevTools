@@ -23,15 +23,6 @@ public abstract class SimpleCommand extends PluginCommand {
 
     @Override
     protected final boolean checkSender(CommandSender sender) {
-        final String permission = info.permission();
-
-        if (permission != null && permission.isEmpty()) {
-            if (!sender.hasPermission(permission)) {
-                sender.sendMessage(getNoPermissionMessage());
-                return false;
-            }
-        }
-
-        return true;
+        return checkPermission(sender);
     }
 }
