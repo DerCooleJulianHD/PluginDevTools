@@ -19,18 +19,18 @@ public class ListenerBundle extends Bundle<Listener> {
 
     @Override
     // enables the listener on the server.
-    public final void register(Listener listener) {
+    protected final void register(Listener listener) {
         pluginManager.registerEvents(listener, plugin);
     }
 
     @Override
     // disables ist from the server.
-    public final void unregister(Listener listener) {
+    protected final void unregister(Listener listener) {
         HandlerList.unregisterAll(listener);
     }
 
     // returns true when it's enabled on the server.
-    public final boolean isRegistered(Listener listener) {
+    public final boolean isEnabled(Listener listener) {
         final Class<?> k = listener.getClass();
 
         if (!contains(k))

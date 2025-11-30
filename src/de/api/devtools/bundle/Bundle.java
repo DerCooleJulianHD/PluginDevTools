@@ -31,9 +31,9 @@ public abstract class Bundle<T> {
         register(t); // enabling it.
     }
 
-    public abstract void register(T t);
+    protected abstract void register(T t);
 
-    public abstract void unregister(T t);
+    protected abstract void unregister(T t);
 
     // removes and disables the object from key
     public final void remove(Class<?> k) {

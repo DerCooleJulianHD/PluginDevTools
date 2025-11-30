@@ -20,8 +20,8 @@ public class YamlConfigFile extends Document {
 
     private final FileConfiguration config = new YamlConfiguration();
 
-    public YamlConfigFile(@Nullable File dir, String fileName, boolean loadOnInit) {
-        super(DocumentType.YAML, dir, fileName, loadOnInit);
+    public YamlConfigFile(@Nullable File dir, String fileName) {
+        super(DocumentType.YAML, dir, fileName);
     }
 
     @Override

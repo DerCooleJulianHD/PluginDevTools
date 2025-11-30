@@ -1,8 +1,9 @@
 package de.api.devtools.config;
 
+import de.api.devtools.utils.functionals.AutoLoad;
 import de.api.devtools.plugin.SpigotPlugin;
 import de.api.devtools.utils.FileManager;
-import de.api.devtools.utils.Loadable;
+import de.api.devtools.utils.functionals.Loadable;
 import org.apache.commons.lang3.Validate;
 import org.jetbrains.annotations.NotNull;
 
@@ -20,16 +21,19 @@ public abstract class Document implements Loadable {
 
     private boolean loaded = false;
 
-    public Document(DocumentType type, @Nullable File dir, String fileName, boolean loadOnInit) {
+    public Document(DocumentType type, @Nullable File dir, String fileName) {
         this.dir = dir;
         this.type = type;
         this.file = new File(dir, fileName);
+
         Validate.isTrue(isTypeOf(type), "file must be correct type.");
-        if (loadOnInit) load();
+
+        if (getClass().isAnnotationPresent(AutoLoad.class))
+            load();
     }
 
-    public Document(DocumentType type, @NotNull String dir, String fileName, boolean loadOnInit) {
-        this(type, new File(dir), fileName, loadOnInit);
+    public Document(DocumentType type, @NotNull String dir, String fileName) {
+        this(type, new File(dir), fileName);
     }
 
     // creates the directory if it doesn't exist and the file in it.
@@ -93,7 +97,7 @@ public abstract class Document implements Loadable {
     }
 
     // the folder the config file is in.
-    public final File getDir() {
+    public final @Nullable File getDir() {
         return dir;
     }
 

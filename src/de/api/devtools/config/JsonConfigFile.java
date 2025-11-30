@@ -34,8 +34,8 @@ public class JsonConfigFile extends Document {
     private final SpigotPlugin plugin = SpigotPlugin.getInstance();
     private final Gson gson;
 
-    public JsonConfigFile(File dir, String fileName, boolean loadOnInit) {
-        super(DocumentType.JSON, dir, fileName, loadOnInit);
+    public JsonConfigFile(File dir, String fileName) {
+        super(DocumentType.JSON, dir, fileName);
         this.gson = JsonConfigurationBuilder.build(getClass().getDeclaredAnnotation(JsonProperties.class));
     }
 

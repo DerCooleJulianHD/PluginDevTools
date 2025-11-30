@@ -1,15 +1,20 @@
 package de.api.devtools.plugin;
 
 import de.api.devtools.bundle.Bundle;
+import de.api.devtools.command.Command;
+import de.api.devtools.command.SimpleCommand;
 import de.api.devtools.listener.ListenerBundle;
+import de.api.devtools.utils.functionals.AutoLoad;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.ConsoleCommandSender;
+import org.bukkit.command.PluginCommand;
 
 import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 public interface MinecraftPlugin extends Prefixable {
 
@@ -37,6 +42,19 @@ public interface MinecraftPlugin extends Prefixable {
     // the 'config.yml' file in the main plugin data folder.
     PluginConfigFile getConfiguration();
 
+    // loads or creates a new instance of the 'config.yml' file.
+    default PluginConfigFile loadConfiguration() {
+        PluginConfigFile config = getConfiguration();
+
+        if (config == null)
+            config = new PluginConfigFile(SpigotPlugin.getInstance());
+
+        if (!config.isLoaded())
+            config.load();
+
+        return config;
+    }
+
     /* returns the plugin name in this format: '$plugin_name$[from: plugin.yml]-v.$version$'
     example: yourplugin-v.1.0 */
     default String getPluginFullName() {
@@ -51,11 +69,11 @@ public interface MinecraftPlugin extends Prefixable {
 
     // adds a new listener bundle to the server.
     default void addListeners(ListenerBundle bundle) {
-        if (getBundles("listeners") == null)
+        if (getRegisteredBundles("listeners") == null)
             // put the map for holding listener bundles if it doesn't exist yet.
-            getBundles().put("listeners", new ArrayList<>());
+            getRegisteredBundles().put("listeners", new ArrayList<>());
 
-        final List<Bundle<?>> bundles = getBundles("listeners");
+        final List<Bundle<?>> bundles = getRegisteredBundles("listeners");
 
         if (bundles.contains(bundle))
             return;
@@ -72,16 +90,16 @@ public interface MinecraftPlugin extends Prefixable {
 
         bundle.clear();
 
-        final List<Bundle<?>> listeners = getBundles("listeners");
+        final List<Bundle<?>> listeners = getRegisteredBundles("listeners");
         listeners.remove(bundle);
     }
 
     // returns a listener bundle which is registered on the server.
     @Nullable default ListenerBundle getListeners(String name) {
-        if (getBundles("listeners") == null)
+        if (getRegisteredBundles("listeners") == null)
             return null;
 
-        final List<Bundle<?>> bundles = getBundles("listeners");
+        final List<Bundle<?>> bundles = getRegisteredBundles("listeners");
 
         if (bundles == null)
             return null;
@@ -95,10 +113,16 @@ public interface MinecraftPlugin extends Prefixable {
     }
 
     // returns the storage of all registered bundles
-    Map<String, List<Bundle<?>>> getBundles();
+    Map<String, List<Bundle<?>>> getRegisteredBundles();
 
-    default List<Bundle<?>> getBundles(String id) {
-        return getBundles().get(id);
+    default List<Bundle<?>> getRegisteredBundles(String id) {
+        return getRegisteredBundles().get(id);
+    }
+
+    default void registerCommand(SimpleCommand simpleCommand) {
+        final PluginCommand pluginCommand = SpigotPlugin.getInstance().getCommand(simpleCommand.getName());
+        Objects.requireNonNull(pluginCommand, "No such Command found. do you forgot to register it in the plugin.yml ?");
+        pluginCommand.setExecutor(simpleCommand);
     }
 
     default MinecraftPlugin getSubType() {

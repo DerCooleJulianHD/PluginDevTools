@@ -1,4 +1,4 @@
-package de.api.devtools.command;
+package de.api.devtools.utils.functionals;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -7,10 +7,5 @@ import java.lang.annotation.Target;
 
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
-public @interface CommandInfo {
-    String name();
-
-    String permission() default "";
-
-    String[] args();
+public @interface AutoLoad {
 }

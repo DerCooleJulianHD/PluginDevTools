@@ -1,4 +1,4 @@
-package de.api.devtools.menu;
+package de.api.devtools.utils;
 
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
@@ -7,22 +7,23 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.Arrays;
-import java.util.List;
 
 public final class ItemCreator {
 
     private static ItemStack item;
     private static ItemMeta meta;
 
-    public static ItemCreator of(Material material, int amount) {
-        return of(material, 0, amount);
+    public static ItemCreator of(Material material, int amount, String name, String... lore) {
+        return of(material, 0, amount, name, lore);
     }
 
-    public static ItemCreator of(Material material, int id, int amount) {
+    public static ItemCreator of(Material material, int id, int amount, String name, String... lore) {
         // creating the bukkit itemstack.
         item = new ItemStack(material, amount, (byte) id);
         // getting the itemmeta on that itemstack
         meta = item.getItemMeta();
+        meta.setDisplayName(TextColor.colorize(name));
+        meta.setLore(Arrays.stream(lore).toList());
 
         return new ItemCreator();
     }
@@ -30,16 +31,6 @@ public final class ItemCreator {
     public ItemCreator glow() {
         meta.addEnchant(Enchantment.ARROW_INFINITE, 1, false);
         meta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
-        return this;
-    }
-
-    public ItemCreator lore(String... lore) {
-        meta.setLore(Arrays.stream(lore).toList());
-        return this;
-    }
-
-    public ItemCreator name(String displayName) {
-        meta.setDisplayName(displayName);
         return this;
     }
 

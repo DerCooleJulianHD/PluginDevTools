@@ -18,8 +18,8 @@ public abstract class SpigotPlugin extends JavaPlugin implements MinecraftPlugin
     private final Map<String, List<Bundle<?>>> bundles = new HashMap<>();
     private PluginConfigFile config;
 
-    @Override
-    public void onLoad() {
+    @Deprecated
+    @Override public void onLoad() {
         // init the instance of the plugin
         instance = this;
         // creating the config file and load it.
@@ -27,14 +27,14 @@ public abstract class SpigotPlugin extends JavaPlugin implements MinecraftPlugin
         onPluginInit();
     }
 
-    @Override
-    public void onEnable() {
+    @Deprecated
+    @Override public void onEnable() {
         onPluginStart();
         sendStartMessage();
     }
 
-    @Override
-    public void onDisable() {
+    @Deprecated
+    @Override public void onDisable() {
         onPluginStop();
         sendStopMessage();
     }
@@ -55,7 +55,7 @@ public abstract class SpigotPlugin extends JavaPlugin implements MinecraftPlugin
     }
 
     @Override
-    public Map<String, List<Bundle<?>>> getBundles() {
+    public Map<String, List<Bundle<?>>> getRegisteredBundles() {
         return bundles;
     }
 
