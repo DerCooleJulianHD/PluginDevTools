@@ -4,6 +4,7 @@ import de.api.devtools.utils.functionals.AutoLoad;
 import de.api.devtools.config.YamlConfigFile;
 
 @AutoLoad
+// the config.yml file from the plugin
 public final class PluginConfigFile extends YamlConfigFile {
 
     public PluginConfigFile(SpigotPlugin plugin) {
