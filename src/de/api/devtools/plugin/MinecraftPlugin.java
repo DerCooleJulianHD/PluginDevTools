@@ -1,10 +1,8 @@
 package de.api.devtools.plugin;
 
 import de.api.devtools.bundle.Bundle;
-import de.api.devtools.command.Command;
 import de.api.devtools.command.SimpleCommand;
-import de.api.devtools.listener.ListenerBundle;
-import de.api.devtools.utils.functionals.AutoLoad;
+import de.api.devtools.bundle.listener.ListenerBundle;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.ConsoleCommandSender;

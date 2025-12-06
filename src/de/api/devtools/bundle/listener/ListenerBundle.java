@@ -1,4 +1,4 @@
-package de.api.devtools.listener;
+package de.api.devtools.bundle.listener;
 
 import de.api.devtools.bundle.Bundle;
 import org.bukkit.Bukkit;
