@@ -13,7 +13,7 @@ public final class FileManager {
     }
 
     public static void copyDir(File dir, File to) {
-        if (!dir.exists())
+        if (!isFileExist(dir))
             return;
 
         if (!dir.isDirectory())
@@ -26,14 +26,14 @@ public final class FileManager {
         if (!copy.isDirectory())
             return;
 
-        if (!copy.exists())
+        if (!isFileExist(copy))
             copy.mkdirs();
 
         copyInnerFiles(dir, copy);
     }
 
     public static void deleteFile(File file) {
-        if (!file.exists())
+        if (!isFileExist(file))
             return;
 
         if (file.isDirectory()) {
@@ -42,7 +42,8 @@ public final class FileManager {
                 return;
 
             if (hasChilds(file))
-                for (File child : childs) deleteFile(child);
+                for (File child : childs)
+                    deleteFile(child);
         }
 
         file.delete();
@@ -61,14 +62,14 @@ public final class FileManager {
     }
 
     public static void zip(File target) {
-        if (!target.exists())
+        if (!isFileExist(target))
             return;
 
         final File dir = target.getParentFile();
         final File zip = new File(dir, target.getName() + ".zip");
 
         try {
-            if (!zip.exists())
+            if (!isFileExist(zip))
                 zip.createNewFile();
 
             copyDir(target, zip);
@@ -78,7 +79,7 @@ public final class FileManager {
     }
 
     public static void unzip(File zip, File to) {
-        if (zip.exists()) copyInnerFiles(zip, to);
+        if (isFileExist(zip)) copyInnerFiles(zip, to);
     }
 
     public static boolean hasChilds(File dir) {
@@ -86,7 +87,7 @@ public final class FileManager {
     }
 
     public static void renameFile(File file, String newName) {
-        if (!file.exists())
+        if (!isFileExist(file))
             return;
 
         File destination = new File(file.getParent(), newName);
@@ -96,6 +97,10 @@ public final class FileManager {
 
     public static boolean isFolderEmpty(File file) {
         return file.isDirectory() && (!hasChilds(file));
+    }
+
+    public static boolean isFileExist(File file) {
+        return file.exists();
     }
 }
 
