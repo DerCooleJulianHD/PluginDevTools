@@ -28,12 +28,12 @@ public abstract class Bundle<T> {
             return; // if it's already in this bundle we aren't going to add it.
 
         actives.put(k, t); // storing it.
-        register(t); // enabling it.
+        onRegisterObject(t); // enabling it.
     }
 
-    protected abstract void register(T t);
+    protected abstract void onRegisterObject(T t);
 
-    protected abstract void unregister(T t);
+    protected abstract void onUnregisterObject(T t);
 
     // removes and disables the object from key
     public final void remove(Class<?> k) {
@@ -45,8 +45,8 @@ public abstract class Bundle<T> {
         if (t == null)
             return; // cancel if the object on key 'k' does not exist or has a null value.
 
+        onUnregisterObject(t); // disabling it
         actives.remove(k); // removing it from the map.
-        unregister(t); // disabling it
     }
 
     // returns the object of type T
@@ -87,9 +87,9 @@ public abstract class Bundle<T> {
         return actives.isEmpty();
     }
 
-    // unregister all objects without removing it from the map
-    public final void unregisterAll() {
-        if (!isEmpty()) actives.values().forEach(this::unregister);
+    // removes all objects without removing it from the map
+    public final void removeAll() {
+        if (!isEmpty()) actives.keySet().forEach(this::remove);
     }
 
     // loop
@@ -105,7 +105,7 @@ public abstract class Bundle<T> {
 
     // unregisters and removes each object
     public final void clear() {
-        unregisterAll();
+        removeAll();
         actives.clear();
     }
 
@@ -115,7 +115,7 @@ public abstract class Bundle<T> {
     }
 
     // returns the name for exact identify
-    public String name() {
+    public final String name() {
         return name;
     }
 }
