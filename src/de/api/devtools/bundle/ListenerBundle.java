@@ -1,6 +1,5 @@
-package de.api.devtools.bundle.listener;
+package de.api.devtools.bundle;
 
-import de.api.devtools.bundle.Bundle;
 import org.bukkit.Bukkit;
 import org.bukkit.event.HandlerList;
 import org.bukkit.event.Listener;
