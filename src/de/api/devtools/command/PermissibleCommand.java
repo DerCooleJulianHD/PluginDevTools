@@ -1,6 +1,6 @@
 package de.api.devtools.command;
 
-public interface Permissible {
+public interface PermissibleCommand {
 
     String getPermission();
 

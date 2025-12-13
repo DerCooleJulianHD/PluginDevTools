@@ -4,9 +4,7 @@ import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import java.util.Objects;
-
-public interface Command extends Permissible {
+public interface Command extends PermissibleCommand {
 
     default String getNoPermissionMessage() {
         return ChatColor.RED + "Sorry! but you don't have the Permission to run this command!";
