@@ -1,5 +1,6 @@
 package de.api.devtools.bundle;
 
+import de.api.devtools.plugin.SpigotPlugin;
 import org.bukkit.Bukkit;
 import org.bukkit.event.HandlerList;
 import org.bukkit.event.Listener;
@@ -10,10 +11,13 @@ import java.util.ArrayList;
 
 public class ListenerBundle extends Bundle<Listener> {
 
+    protected final SpigotPlugin plugin = SpigotPlugin.getInstance();
     private final PluginManager pluginManager = Bukkit.getPluginManager();
 
     public ListenerBundle(final String name) {
         super(name);
+
+        plugin.addListeners(this);
     }
 
     @Override

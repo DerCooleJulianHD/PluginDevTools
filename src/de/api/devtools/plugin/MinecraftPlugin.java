@@ -73,8 +73,10 @@ public interface MinecraftPlugin extends Prefixable {
 
         final List<Bundle<?>> bundles = getRegisteredBundles("listeners");
 
-        if (bundles.contains(bundle))
+        if (bundles.contains(bundle)) {
+            bundles.set(bundles.indexOf(bundle), bundle);
             return;
+        }
 
         bundles.add(bundle);
     }
