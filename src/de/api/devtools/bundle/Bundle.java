@@ -6,6 +6,7 @@ import org.jetbrains.annotations.Nullable;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.function.BiConsumer;
+import java.util.function.Consumer;
 
 public abstract class Bundle<T> {
 
@@ -14,7 +15,7 @@ public abstract class Bundle<T> {
     protected final SpigotPlugin plugin = SpigotPlugin.getInstance();
 
     // this is the map, all objects of type T will be stored in.
-    protected final Map<Class<?>, T> actives = new HashMap<>();
+    protected final Map<String, T> actives = new HashMap<>();
 
     public Bundle(String name) {
         this.name = name;
@@ -27,13 +28,20 @@ public abstract class Bundle<T> {
         if (contains(k))
             return; // if it's already in this bundle we aren't going to add it.
 
-        actives.put(k, t); // storing it.
+        actives.put(k.getName().toLowerCase(), t); // storing it.
         onRegisterObject(t); // enabling it.
     }
 
-    protected abstract void onRegisterObject(T t);
+    public final void add(T t, Consumer<T> action) {
+        this.add(t);
 
-    protected abstract void onUnregisterObject(T t);
+        if (action != null)
+            action.accept(t);
+    }
+
+    protected void onRegisterObject(T t) {}
+
+    protected void onUnregisterObject(T t) {}
 
     // removes and disables the object from key
     public final void remove(Class<?> k) {
@@ -46,12 +54,24 @@ public abstract class Bundle<T> {
             return; // cancel if the object on key 'k' does not exist or has a null value.
 
         onUnregisterObject(t); // disabling it
-        actives.remove(k); // removing it from the map.
+        actives.remove(k.getName().toLowerCase()); // removing it from the map.
+    }
+
+    public final void remove(Class<?> k, Consumer<T> action) {
+        this.remove(k);
+
+        if (action == null)
+            return;
+
+        final T t = get(k);
+
+        if (t != null)
+            action.accept(t);
     }
 
     // returns the object of type T
     public final T get(Class<?> k) {
-        return actives.get(k);
+        return actives.get(k.getName().toLowerCase());
     }
 
     // returns true when object does contain in the map.
@@ -65,20 +85,22 @@ public abstract class Bundle<T> {
         if (isEmpty())
             return null;
 
-        for (Class<?> entry : actives.keySet()) {
+        for (String entry : actives.keySet()) {
             if (entry == null)
                 continue;
 
-            if (!name.equals(entry.getSimpleName()))
+            final String key = entry.toLowerCase();
+
+            if (!name.equals(key))
                 continue;
 
-            return get(entry);
+            return actives.get(key);
         }
 
         return null;
     }
 
-    public final Map<Class<?>, T> getActives() {
+    public final Map<String, T> getActives() {
         return actives;
     }
 
@@ -89,11 +111,34 @@ public abstract class Bundle<T> {
 
     // removes all objects without removing it from the map
     public final void removeAll() {
-        if (!isEmpty()) actives.keySet().forEach(this::remove);
+        if (!isEmpty()) actives.keySet().forEach(entry -> {
+            final String key = entry.toLowerCase();
+            final T t = actives.get(key);
+
+            if (t != null) {
+                onUnregisterObject(t); // disabling it
+                actives.remove(key); // removing it from the map.
+            }
+        });
+    }
+
+    public final void removeAll(Consumer<T> action) {
+        if (!isEmpty()) actives.keySet().forEach(entry -> {
+            final String key = entry.toLowerCase();
+            final T t = actives.get(key);
+
+            if (t != null) {
+                onUnregisterObject(t); // disabling it
+                actives.remove(key); // removing it from the map.
+            }
+
+            if (t != null)
+                action.accept(t);
+        });
     }
 
     // loop
-    public final void forEach(BiConsumer<Class<?>, ? super T> action) {
+    public final void forEach(BiConsumer<String, ? super T> action) {
         if (isEmpty())
             return;
 
