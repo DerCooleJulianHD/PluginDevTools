@@ -65,13 +65,11 @@ public interface MinecraftPlugin extends Prefixable {
     // returns the simple plugin name from the plugin description file.
     String getPluginName();
 
-    // adds a new listener bundle to the server.
-    default void addListeners(ListenerBundle bundle) {
-        if (getRegisteredBundles("listeners") == null)
-            // put the map for holding listener bundles if it doesn't exist yet.
-            getRegisteredBundles().put("listeners", new ArrayList<>());
+    default void addBundle(String k, Bundle<?> bundle) {
+        if (getRegisteredBundles(k) == null)
+            getRegisteredBundles().put(k, new ArrayList<>());
 
-        final List<Bundle<?>> bundles = getRegisteredBundles("listeners");
+        final List<Bundle<?>> bundles = getRegisteredBundles(k);
 
         if (bundles.contains(bundle)) {
             bundles.set(bundles.indexOf(bundle), bundle);
@@ -79,6 +77,11 @@ public interface MinecraftPlugin extends Prefixable {
         }
 
         bundles.add(bundle);
+    }
+
+    // adds a new listener bundle to the server.
+    default void addListeners(ListenerBundle bundle) {
+        addBundle("listeners", bundle);
     }
 
     // removes a listener bundle from the server.
@@ -92,6 +95,18 @@ public interface MinecraftPlugin extends Prefixable {
 
         final List<Bundle<?>> listeners = getRegisteredBundles("listeners");
         listeners.remove(bundle);
+    }
+
+    default void removeBundle(String k, Bundle<?> bundle) {
+        if (getRegisteredBundles(k) == null)
+            return;
+
+        final List<Bundle<?>> bundles = getRegisteredBundles(k);
+
+        if (bundle != null)
+            bundle.clear();
+
+        bundles.remove(bundle);
     }
 
     // returns a listener bundle which is registered on the server.
