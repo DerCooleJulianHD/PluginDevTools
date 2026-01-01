@@ -1,7 +1,7 @@
 package de.api.devtools.plugin;
 
 import de.api.devtools.bundle.Bundle;
-import de.api.devtools.command.SimpleCommand;
+import de.api.devtools.command.PluginCommandExecutor;
 import de.api.devtools.bundle.ListenerBundle;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -124,10 +124,10 @@ public interface MinecraftPlugin extends Prefixable {
         return getRegisteredBundles().get(id);
     }
 
-    default void registerCommand(SimpleCommand simpleCommand) {
-        final PluginCommand pluginCommand = SpigotPlugin.getInstance().getCommand(simpleCommand.getName());
+    default void registerCommand(PluginCommandExecutor<?> executor) {
+        final PluginCommand pluginCommand = SpigotPlugin.getInstance().getCommand(executor.getName());
         Objects.requireNonNull(pluginCommand, "No such Command found. do you forgot to register it in the plugin.yml ?");
-        pluginCommand.setExecutor(simpleCommand);
+        pluginCommand.setExecutor(executor);
     }
 
     default MinecraftPlugin getSubType() {

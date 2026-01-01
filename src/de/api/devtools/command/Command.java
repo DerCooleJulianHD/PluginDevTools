@@ -6,14 +6,12 @@ import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-public interface Command extends AutoTabComplete {
+public interface Command<T> extends Executor<T>, AutoTabComplete {
 
     String getName();
 
     default String getPermission() {
-        final Class<? extends Command> clazz = getClass();
-
-        return clazz.isAnnotationPresent(PermissionRequired.class) ? clazz.getDeclaredAnnotation(PermissionRequired.class).value() : null;
+        return getClass().isAnnotationPresent(PermissionRequired.class) ? getClass().getDeclaredAnnotation(PermissionRequired.class).value() : "";
     }
 
     default String getNoPermissionMessage() {
@@ -25,12 +23,10 @@ public interface Command extends AutoTabComplete {
     }
 
     default boolean isPlayer(CommandSender sender) {
-        return sender instanceof Player player;
+        return sender instanceof Player;
     }
 
-    default boolean requiresPlayer() {
-        return getClass().isAnnotationPresent(PlayerRequired.class);
-    }
+    boolean requiresPlayer();
 
     default boolean hasPermission() {
         return getPermission() != null && !getPermission().isEmpty();
