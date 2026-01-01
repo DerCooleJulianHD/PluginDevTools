@@ -11,32 +11,36 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.logging.Level;
 
-interface JsonConfigurationBuilder {
-    static Gson build(JsonProperties properties) {
-        final GsonBuilder builder = new GsonBuilder();
-
-        if (properties.prettyPrinting())
-            builder.setPrettyPrinting();
-
-        if (!properties.htmlEscaping())
-            builder.disableHtmlEscaping();
-
-        if (!properties.innerClassSerialisation())
-            builder.disableInnerClassSerialization();
-
-        return builder.create();
-    }
-}
-
 @JsonProperties() /* <-- by default */
 public class JsonConfigFile extends Document {
+
+   public interface JsonConfigurationBuilder {
+        static Gson build(JsonProperties properties) {
+            final GsonBuilder builder = new GsonBuilder();
+
+            if (properties.prettyPrinting())
+                builder.setPrettyPrinting();
+
+            if (!properties.htmlEscaping())
+                builder.disableHtmlEscaping();
+
+            if (!properties.innerClassSerialisation())
+                builder.disableInnerClassSerialization();
+
+            return builder.create();
+        }
+    }
 
     private final SpigotPlugin plugin = SpigotPlugin.getInstance();
     private final Gson gson;
 
-    public JsonConfigFile(File dir, String fileName) {
-        super(DocumentType.JSON, dir, fileName);
+    public JsonConfigFile(File dir, String fileName, boolean def) {
+        super(DocumentType.JSON, dir, fileName, def);
         this.gson = JsonConfigurationBuilder.build(getClass().getDeclaredAnnotation(JsonProperties.class));
+    }
+
+    public JsonConfigFile(String dir, String fileName, boolean def) {
+        this(new File(dir), fileName, def);
     }
 
     // writes an object to a Json-Configuration.
@@ -81,7 +85,7 @@ public class JsonConfigFile extends Document {
     public final void load() {
         try {
             if (!exists())
-                createFiles(false);
+                createFiles();
 
             this.setLoaded(true);
         } catch (Exception ex) {

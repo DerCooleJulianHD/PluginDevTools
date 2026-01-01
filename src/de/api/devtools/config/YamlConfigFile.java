@@ -20,8 +20,12 @@ public class YamlConfigFile extends Document {
 
     private final FileConfiguration config = new YamlConfiguration();
 
-    public YamlConfigFile(@Nullable File dir, String fileName) {
-        super(DocumentType.YAML, dir, fileName);
+    public YamlConfigFile(File dir, String fileName, boolean def) {
+        super(DocumentType.YAML, dir, fileName, def);
+    }
+
+    public YamlConfigFile(String dir, String fileName, boolean def) {
+        this(new File(dir), fileName, def);
     }
 
     @Override
@@ -31,7 +35,7 @@ public class YamlConfigFile extends Document {
                 return;
 
             if (!exists())
-                createFiles(false);
+                createFiles();
 
             config.load(file);
             setLoaded(true);

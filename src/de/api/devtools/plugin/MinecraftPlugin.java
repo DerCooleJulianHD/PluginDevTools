@@ -38,20 +38,10 @@ public interface MinecraftPlugin extends Prefixable {
     }
 
     // the 'config.yml' file in the main plugin data folder.
-    PluginConfigFile getConfiguration();
+    PluginConfigFile getPluginConfig();
 
     // loads or creates a new instance of the 'config.yml' file.
-    default PluginConfigFile loadConfiguration() {
-        PluginConfigFile config = getConfiguration();
-
-        if (config == null)
-            config = new PluginConfigFile(SpigotPlugin.getInstance());
-
-        if (!config.isLoaded())
-            config.load();
-
-        return config;
-    }
+    void loadPluginConfig(boolean def);
 
     /* returns the plugin name in this format: '$plugin_name$[from: plugin.yml]-v.$version$'
     example: yourplugin-v.1.0 */

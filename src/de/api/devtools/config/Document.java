@@ -5,7 +5,7 @@ import de.api.devtools.plugin.SpigotPlugin;
 import de.api.devtools.utils.FileManager;
 import de.api.devtools.utils.functionals.Loadable;
 import org.apache.commons.lang3.Validate;
-import org.jetbrains.annotations.NotNull;
+import org.bukkit.Bukkit;
 
 import javax.annotation.Nullable;
 import java.io.File;
@@ -16,47 +16,39 @@ public abstract class Document implements Loadable {
 
     protected final SpigotPlugin plugin = SpigotPlugin.getInstance();
     protected final DocumentType type;
-    @Nullable protected final File dir;
-    protected final File file;
-
+    protected final File dir, file;
+    private final boolean defResource;
     private boolean loaded = false;
 
-    public Document(DocumentType type, @Nullable File dir, String fileName) {
+    public Document(DocumentType type, File dir, String fileName, boolean defResource) {
         this.dir = dir;
         this.type = type;
         this.file = new File(dir, fileName);
+        this.defResource = defResource;
 
         Validate.isTrue(isTypeOf(type), "file must be correct type.");
 
-        if (getClass().isAnnotationPresent(AutoLoad.class))
-            load();
-    }
-
-    public Document(DocumentType type, @NotNull String dir, String fileName) {
-        this(type, new File(dir), fileName);
+        if (isAutoLoad() && !isLoaded()) load();
     }
 
     public abstract void setDefaults();
 
     // creates the directory if it doesn't exist and the file in it.
-    public final void createFiles(boolean defaultResource) {
-        if (dir != null && !dir.exists())
+    public final void createFiles() {
+        try {
             FileManager.mkdirIfNotExists(dir);
 
-        if (defaultResource)
-            saveDefaultResource(file.getName());
-
-        if (!file.exists()) {
-            try {
-                file.createNewFile();
-
-                if (!isLoaded())
-                    load();
-
-                setDefaults();
-            } catch (IOException ex) {
-                plugin.getLogger().log(Level.SEVERE, "Unable to create: " + file.getName(), ex);
+            if (defResource) {
+                saveDefaultResource();
+                return;
             }
+
+            if (!FileManager.isFileExist(file)) file.createNewFile();
+
+            if (isAutoLoad() && isLoaded())
+                setDefaults();
+        } catch (IOException ex) {
+            Bukkit.getLogger().log(Level.SEVERE, "Unable to create: " + file.getName(), ex);
         }
     }
 
@@ -82,8 +74,8 @@ public abstract class Document implements Loadable {
         return hasEnding(type.ending());
     }
 
-    public final void saveDefaultResource(String fileName) {
-        if (!exists()) plugin.saveResource(fileName, false);
+    public final void saveDefaultResource() {
+        if (!exists()) plugin.saveResource(file.getName(), false);
     }
 
     @Override
@@ -111,6 +103,10 @@ public abstract class Document implements Loadable {
     // returns the config file.
     public final File getFile() {
         return file;
+    }
+
+    public final boolean isAutoLoad() {
+        return getClass().isAnnotationPresent(AutoLoad.class);
     }
 }
 

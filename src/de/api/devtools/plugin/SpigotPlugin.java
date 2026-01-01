@@ -1,6 +1,7 @@
 package de.api.devtools.plugin;
 
 import de.api.devtools.bundle.Bundle;
+import org.apache.commons.lang.Validate;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Server;
@@ -11,37 +12,45 @@ import org.bukkit.plugin.java.JavaPlugin;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 public abstract class SpigotPlugin extends JavaPlugin implements MinecraftPlugin {
 
-    private static SpigotPlugin instance;
-    private final Map<String, List<Bundle<?>>> bundles = new HashMap<>();
-    private PluginConfigFile config;
+    protected static SpigotPlugin plugin;
+    protected final Map<String, List<Bundle<?>>> bundles = new HashMap<>();
+
+    protected PluginConfigFile config;
 
     @Deprecated
-    @Override public void onLoad() {
+    @Override public final void onLoad() {
         // init the instance of the plugin
-        instance = this;
-        // creating the config file and load it.
-        config = new PluginConfigFile(this);
+        plugin = this;
+
         onPluginInit();
     }
 
     @Deprecated
-    @Override public void onEnable() {
+    @Override public final void onEnable() {
         onPluginStart();
         sendStartMessage();
     }
 
     @Deprecated
-    @Override public void onDisable() {
+    @Override public final void onDisable() {
         onPluginStop();
         sendStopMessage();
     }
 
     @Override
-    public PluginConfigFile getConfiguration() {
-        return config;
+    public final PluginConfigFile getPluginConfig() {
+        return Objects.requireNonNull(config, "Plugin Config is not Loaded!");
+    }
+
+    public final void loadPluginConfig(boolean def) {
+        config = new PluginConfigFile(this, def);
+
+        if (!config.isLoaded())
+            config.load();
     }
 
     @Override
@@ -84,6 +93,6 @@ public abstract class SpigotPlugin extends JavaPlugin implements MinecraftPlugin
     }
 
     public static SpigotPlugin getInstance() {
-        return instance;
+        return plugin;
     }
 }
