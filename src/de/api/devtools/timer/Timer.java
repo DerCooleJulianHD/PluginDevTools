@@ -1,5 +1,7 @@
 package de.api.devtools.timer;
 
+import de.api.devtools.utils.Runnable;
+
 public abstract class Timer extends Runnable {
 
     protected final long delay;

@@ -1,4 +1,4 @@
-package de.api.devtools.timer;
+package de.api.devtools.utils;
 
 import de.api.devtools.plugin.SpigotPlugin;
 import org.bukkit.Bukkit;
