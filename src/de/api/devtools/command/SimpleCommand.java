@@ -13,7 +13,7 @@ public abstract class SimpleCommand implements Command, CommandExecutor, AutoTab
 
     public SimpleCommand(String name) {
         this.name = name;
-        if (getClass().isAnnotationPresent(AutoLoad.class))
+        if (isAutoLoad())
             SpigotPlugin.getInstance().registerCommand(this);
     }
 
@@ -26,7 +26,7 @@ public abstract class SimpleCommand implements Command, CommandExecutor, AutoTab
 
         if (requiresPlayer()) {
             if (!isPlayer(sender)) {
-                sender.sendMessage(getNoPermissionMessage());
+                sender.sendMessage(getWrongSenderMessage());
                 return true;
             }
 
@@ -48,4 +48,8 @@ public abstract class SimpleCommand implements Command, CommandExecutor, AutoTab
     public void execute(CommandSender sender, String[] args) {}
 
     public void execute(Player player, String[] args) {}
+
+    public final boolean isAutoLoad() {
+        return getClass().isAnnotationPresent(AutoLoad.class);
+    }
 }
