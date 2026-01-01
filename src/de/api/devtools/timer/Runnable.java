@@ -1,11 +1,11 @@
 package de.api.devtools.timer;
 
-import de.api.devtools.utils.Executable;
+import de.api.devtools.utils.Executor;
 import de.api.devtools.plugin.SpigotPlugin;
 import org.bukkit.Bukkit;
 import org.bukkit.scheduler.BukkitTask;
 
-public interface Runnable extends Executable {
+public interface Runnable extends Executor {
 
     default void cancel() {
         Bukkit.getScheduler().cancelTask(getTaskID());

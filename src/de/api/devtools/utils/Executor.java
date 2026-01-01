@@ -1,5 +1,5 @@
 package de.api.devtools.utils;
 
-public interface Executable {
+public interface Executor {
     void execute();
 }
