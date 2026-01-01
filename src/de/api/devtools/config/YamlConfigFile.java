@@ -280,4 +280,7 @@ public class YamlConfigFile extends Document {
     public final FileConfiguration getConfig() {
         return config;
     }
+
+    @Override
+    public void setDefaults() {}
 }

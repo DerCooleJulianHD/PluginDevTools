@@ -88,4 +88,7 @@ public class JsonConfigFile extends Document {
             plugin.getLogger().log(Level.SEVERE, "Unable to load: " + file.getName(), ex);
         }
     }
+
+    @Override
+    public void setDefaults() {}
 }

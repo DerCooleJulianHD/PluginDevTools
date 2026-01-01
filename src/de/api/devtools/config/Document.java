@@ -36,6 +36,8 @@ public abstract class Document implements Loadable {
         this(type, new File(dir), fileName);
     }
 
+    public abstract void setDefaults();
+
     // creates the directory if it doesn't exist and the file in it.
     public final void createFiles(boolean defaultResource) {
         if (dir != null && !dir.exists())
@@ -47,6 +49,11 @@ public abstract class Document implements Loadable {
         if (!file.exists()) {
             try {
                 file.createNewFile();
+
+                if (!isLoaded())
+                    load();
+
+                setDefaults();
             } catch (IOException ex) {
                 plugin.getLogger().log(Level.SEVERE, "Unable to create: " + file.getName(), ex);
             }
