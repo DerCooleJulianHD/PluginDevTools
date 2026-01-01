@@ -76,7 +76,7 @@ public abstract class Bundle<T> {
 
     // returns true when object does contain in the map.
     public final boolean contains(Class<?> k) {
-        return actives.containsKey(k);
+        return actives.containsKey(k.getName().toLowerCase());
     }
 
     @Nullable
