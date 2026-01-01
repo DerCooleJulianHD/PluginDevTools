@@ -3,22 +3,29 @@ package de.api.devtools.run;
 //: type of scheduler to count time and execute code on time change
 public class Timer extends Scheduler {
 
-    public enum TimerTask {
+    public enum Action {
         INCREASE_VALUE,
         DECREASE_VALUE;
     }
 
-    protected final TimerTask task;
+    protected final Action task;
     protected int time;
 
-    public Timer(TimerTask task, int value, long delay, long period) {
+    protected int end;
+
+    public Timer(Action task, int value, int end, long delay, long period) {
         super(delay, period);
         this.task = task;
         this.time = value;
+        this.end = end;
     }
 
-    public Timer(TimerTask task, int value, long period) {
-        this(task, value, 0, period);
+    public Timer(Action task, int value, int end, long period) {
+        this(task, value, end, 0, period);
+    }
+
+    public Timer(Action task, int value, long period) {
+        this(task, value, task == Action.DECREASE_VALUE ? (-Integer.MAX_VALUE) : Integer.MAX_VALUE, period);
     }
 
     @Override
@@ -28,7 +35,7 @@ public class Timer extends Scheduler {
             case DECREASE_VALUE -> time--;
         });
 
-        if (task == TimerTask.DECREASE_VALUE && time <= 0)
+        if (time == end)
             cancel();
     }
 
