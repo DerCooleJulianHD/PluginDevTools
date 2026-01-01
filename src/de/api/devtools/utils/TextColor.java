@@ -8,11 +8,11 @@ public class TextColor {
 
     public static char ALTERNATE_COLOR_CHAR = '&';
 
-    public static String colorize(String string) {
-        return ChatColor.translateAlternateColorCodes(ALTERNATE_COLOR_CHAR, string);
+    public static String colorize(String v) {
+        return ChatColor.translateAlternateColorCodes(ALTERNATE_COLOR_CHAR, v);
     }
 
-    public static String stripColor(String string) {
-        return ChatColor.stripColor(string);
+    public static String stripColor(String v) {
+        return ChatColor.stripColor(v);
     }
 }
