@@ -8,7 +8,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 public interface AutoTabComplete extends TabCompleter {
-    List<String> onAutoTabComplete(CommandSender sender, String[] args, int index);
+
+    default List<String> onAutoTabComplete(CommandSender sender, String[] args, int index) {
+        return List.of();
+    }
 
     @Deprecated
     @Override default List<String> onTabComplete(CommandSender sender, Command command, String s, String[] args) {
