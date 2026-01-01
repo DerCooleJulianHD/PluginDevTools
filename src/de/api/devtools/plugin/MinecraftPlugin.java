@@ -1,18 +1,15 @@
 package de.api.devtools.plugin;
 
 import de.api.devtools.bundle.Bundle;
-import de.api.devtools.command.PluginCommandExecutor;
 import de.api.devtools.bundle.ListenerBundle;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.ConsoleCommandSender;
-import org.bukkit.command.PluginCommand;
 
 import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 
 public interface MinecraftPlugin extends Prefixable {
 

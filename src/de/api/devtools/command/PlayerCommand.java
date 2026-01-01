@@ -4,7 +4,7 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-public abstract class PlayerCommand extends PluginCommandExecutor<Player> {
+public abstract class PlayerCommand extends CommandExecutor<Player> {
 
     public PlayerCommand(String name) {
         super(name);

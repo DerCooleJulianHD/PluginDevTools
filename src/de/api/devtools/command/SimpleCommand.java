@@ -2,7 +2,7 @@ package de.api.devtools.command;
 
 import org.bukkit.command.CommandSender;
 
-public abstract class SimpleCommand extends PluginCommandExecutor<CommandSender> {
+public abstract class SimpleCommand extends CommandExecutor<CommandSender> {
 
     public SimpleCommand(String name) {
         super(name);

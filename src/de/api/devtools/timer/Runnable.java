@@ -1,43 +1,39 @@
 package de.api.devtools.timer;
 
-import de.api.devtools.utils.Executor;
 import de.api.devtools.plugin.SpigotPlugin;
 import org.bukkit.Bukkit;
 import org.bukkit.scheduler.BukkitTask;
 
-public interface Runnable extends Executor {
+public abstract class Runnable {
 
-    default void cancel() {
-        Bukkit.getScheduler().cancelTask(getTaskID());
+    private int runningState = -1;
+
+    private final SpigotPlugin plugin = SpigotPlugin.getInstance();
+
+    public Runnable() {
     }
 
-    int getTaskID();
+    protected abstract void run();
 
-    default void runTaskTimer(long delay, long period) {
-        checkState();
-        setState(Bukkit.getScheduler().runTaskTimer(SpigotPlugin.getInstance(), this::execute, delay, period));
+    public final void cancel() {
+        Bukkit.getScheduler().cancelTask(runningState);
     }
 
-    default void runTaskLater(long delay) {
-        checkState();
-        setState(Bukkit.getScheduler().runTaskLater(SpigotPlugin.getInstance(), this::execute, delay));
+    public final void runTaskTimer(long delay, long period) {
+        runTask(Bukkit.getScheduler().runTaskTimer(plugin, this::run, delay, period));
     }
 
-    default void checkState() {
-        if (getTaskID() == -1) throw new IllegalStateException("Already scheduled as " + getTaskID());
+    public final void runTaskLater(long delay) {
+        runTask(Bukkit.getScheduler().runTaskLater(plugin, this::run, delay));
     }
 
-    void setState(BukkitTask task);
+    private void runTask(BukkitTask task) {
+        if (isRunning()) throw new IllegalStateException("Already Running as: " + task.getTaskId());
 
-    boolean isRunning();
-
-    void setRunning(boolean running);
-
-    default void start() {
-        if (!isRunning()) setRunning(true);
+        this.runningState = task.getTaskId();
     }
 
-    default void stop() {
-        if (isRunning()) setRunning(false);
+    public final boolean isRunning() {
+        return runningState != -1;
     }
 }

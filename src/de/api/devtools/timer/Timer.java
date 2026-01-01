@@ -1,6 +1,6 @@
 package de.api.devtools.timer;
 
-public abstract class Timer extends Scheduler {
+public abstract class Timer extends Runnable {
 
     protected final long delay;
     protected final long period;

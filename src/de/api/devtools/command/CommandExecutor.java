@@ -7,7 +7,7 @@ import org.bukkit.command.PluginCommand;
 
 import java.util.Objects;
 
-public abstract class PluginCommandExecutor<T> implements Executor<T>, AutoTabComplete {
+public abstract class CommandExecutor<T> implements org.bukkit.command.CommandExecutor, AutoTabComplete {
 
     public final String MESSAGE_NO_PERMISSION = ChatColor.RED + "Sorry! but you don't have the Permission to run this command!";
     public final String MESSAGE_INVALID_SENDER = ChatColor.RED + "Sorry! but only players are allowed to run this command!";
@@ -16,11 +16,13 @@ public abstract class PluginCommandExecutor<T> implements Executor<T>, AutoTabCo
     private final PluginCommand bukkitPluginCommand;
     private final String name;
 
-    public PluginCommandExecutor(String name) {
+    public CommandExecutor(String name) {
         this.name = name;
         this.bukkitPluginCommand = Objects.requireNonNull(plugin.getCommand(name), "No such Command found. do you forgot to register it in the plugin.yml ?"); ;
         if (isAutoLoad()) bukkitPluginCommand.setExecutor(this);
     }
+
+    public abstract void execute(T sender, String[] args);
 
     public final String getName() {
         return name;
