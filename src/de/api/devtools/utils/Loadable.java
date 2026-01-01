@@ -1,4 +1,4 @@
-package de.api.devtools.utils.functionals;
+package de.api.devtools.utils;
 
 public interface Loadable {
 

@@ -1,7 +1,7 @@
 package de.api.devtools.command;
 
 import de.api.devtools.plugin.SpigotPlugin;
-import de.api.devtools.utils.functionals.AutoLoad;
+import de.api.devtools.utils.AutoLoad;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;

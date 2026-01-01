@@ -1,5 +1,6 @@
-package de.api.devtools.utils.functionals;
+package de.api.devtools.timer;
 
+import de.api.devtools.utils.Executable;
 import de.api.devtools.plugin.SpigotPlugin;
 import org.bukkit.Bukkit;
 import org.bukkit.scheduler.BukkitTask;

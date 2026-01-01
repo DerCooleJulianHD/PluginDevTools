@@ -1,9 +1,9 @@
 package de.api.devtools.config;
 
-import de.api.devtools.utils.functionals.AutoLoad;
+import de.api.devtools.utils.AutoLoad;
 import de.api.devtools.plugin.SpigotPlugin;
 import de.api.devtools.utils.FileManager;
-import de.api.devtools.utils.functionals.Loadable;
+import de.api.devtools.utils.Loadable;
 import org.apache.commons.lang3.Validate;
 import org.bukkit.Bukkit;
 

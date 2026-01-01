@@ -1,4 +1,4 @@
-package de.api.devtools.utils.functionals;
+package de.api.devtools.timer;
 
 import org.bukkit.scheduler.BukkitTask;
 

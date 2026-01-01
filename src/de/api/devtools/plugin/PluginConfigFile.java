@@ -1,6 +1,6 @@
 package de.api.devtools.plugin;
 
-import de.api.devtools.utils.functionals.AutoLoad;
+import de.api.devtools.utils.AutoLoad;
 import de.api.devtools.config.YamlConfigFile;
 
 @AutoLoad
