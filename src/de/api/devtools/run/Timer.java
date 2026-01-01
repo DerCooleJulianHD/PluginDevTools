@@ -1,6 +1,6 @@
 package de.api.devtools.run;
 
-//: type of scheduler to count time and execute code on time changes.
+//: type of scheduler to count time and execute code on time change.
 public class Timer extends Scheduler {
 
     public enum TimerTask {
@@ -9,8 +9,6 @@ public class Timer extends Scheduler {
     }
 
     protected final TimerTask task;
-
-
     protected int time;
 
     public Timer(TimerTask task, int value, long delay, long period) {
@@ -26,8 +24,8 @@ public class Timer extends Scheduler {
     @Override
     protected void run() {
         setTime(switch (task) {
-            case INCREASE_VALUE -> time + 1;
-            case DECREASE_VALUE -> time - 1;
+            case INCREASE_VALUE -> time++;
+            case DECREASE_VALUE -> time--;
         });
 
         if (task == TimerTask.DECREASE_VALUE && time <= 0)
