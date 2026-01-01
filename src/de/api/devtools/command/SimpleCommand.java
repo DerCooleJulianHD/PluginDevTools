@@ -8,10 +8,11 @@ public abstract class SimpleCommand extends PluginCommandExecutor<CommandSender>
         super(name);
     }
 
+    @Override
     @Deprecated
-    @Override public final boolean onCommand(CommandSender sender, org.bukkit.command.Command command, String label, String[] args) {
+    public final boolean onCommand(CommandSender sender, org.bukkit.command.Command command, String label, String[] args) {
         if (hasPermission() && !sender.hasPermission(getPermission())) {
-            sender.sendMessage(getNoPermissionMessage());
+            sender.sendMessage(MESSAGE_NO_PERMISSION);
             return false;
         }
 

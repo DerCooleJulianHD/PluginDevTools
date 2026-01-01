@@ -1,33 +1,57 @@
 package de.api.devtools.command;
 
 import de.api.devtools.plugin.SpigotPlugin;
+import de.api.devtools.utils.AutoLoad;
+import org.bukkit.ChatColor;
 import org.bukkit.command.PluginCommand;
 
-public abstract class PluginCommandExecutor<T> implements Command<T> {
+import java.util.Objects;
+
+public abstract class PluginCommandExecutor<T> implements Executor<T>, AutoTabComplete {
+
+    public final String MESSAGE_NO_PERMISSION = ChatColor.RED + "Sorry! but you don't have the Permission to run this command!";
+    public final String MESSAGE_INVALID_SENDER = ChatColor.RED + "Sorry! but only players are allowed to run this command!";
 
     private final SpigotPlugin plugin = SpigotPlugin.getInstance();
-
     private final PluginCommand bukkitPluginCommand;
-
     private final String name;
 
     public PluginCommandExecutor(String name) {
         this.name = name;
-        this.bukkitPluginCommand = plugin.getCommand(name);
-        if (isAutoLoad())
-            SpigotPlugin.getInstance().registerCommand(this);
+        this.bukkitPluginCommand = Objects.requireNonNull(plugin.getCommand(name), "No such Command found. do you forgot to register it in the plugin.yml ?"); ;
+        if (isAutoLoad()) bukkitPluginCommand.setExecutor(this);
     }
 
-    @Override
-    public String getName() {
+    public final String getName() {
         return name;
     }
 
-    public PluginCommand getPluginCommand() {
+    public final PluginCommand getPluginCommand() {
         return bukkitPluginCommand;
     }
 
-    public SpigotPlugin getPlugin() {
+    public final SpigotPlugin getPlugin() {
         return plugin;
+    }
+
+    //@Overrideable
+    public String getPermission() {
+        return getClass().isAnnotationPresent(PermissionRequired.class) ? getClass().getDeclaredAnnotation(PermissionRequired.class).value() : "";
+    }
+
+    //@Overrideable
+    public abstract boolean requiresPlayer();
+
+    public final boolean hasPermission() {
+        return getPermission() != null && !getPermission().isEmpty();
+    }
+
+    public final boolean isAutoLoad() {
+        return getClass().isAnnotationPresent(AutoLoad.class);
+    }
+
+    //@Overrideable
+    public String getDescription() {
+        return bukkitPluginCommand.getDescription();
     }
 }

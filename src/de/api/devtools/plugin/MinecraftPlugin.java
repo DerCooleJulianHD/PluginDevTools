@@ -124,12 +124,6 @@ public interface MinecraftPlugin extends Prefixable {
         return getRegisteredBundles().get(id);
     }
 
-    default void registerCommand(PluginCommandExecutor<?> executor) {
-        final PluginCommand pluginCommand = SpigotPlugin.getInstance().getCommand(executor.getName());
-        Objects.requireNonNull(pluginCommand, "No such Command found. do you forgot to register it in the plugin.yml ?");
-        pluginCommand.setExecutor(executor);
-    }
-
     default MinecraftPlugin getSubType() {
         return this;
     }
