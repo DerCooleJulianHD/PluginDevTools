@@ -4,7 +4,7 @@ import de.api.devtools.utils.AutoLoad;
 import de.api.devtools.config.YamlConfigFile;
 
 @AutoLoad
-// the config.yml file from the plugin
+//: the config.yml file from the plugin
 public final class PluginConfigFile extends YamlConfigFile implements Prefixable {
 
     public PluginConfigFile(SpigotPlugin plugin, boolean def) {
