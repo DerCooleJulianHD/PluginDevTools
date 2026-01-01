@@ -67,6 +67,7 @@ public interface MinecraftPlugin extends Prefixable {
     }
 
     // adds a new listener bundle to the server.
+    @Deprecated
     default void addListeners(ListenerBundle bundle) {
         addBundle("listeners", bundle);
     }
