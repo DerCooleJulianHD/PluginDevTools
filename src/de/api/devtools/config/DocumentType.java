@@ -1,5 +1,6 @@
 package de.api.devtools.config;
 
+//: which type of file our file has to be
 public enum DocumentType {
 
     JSON(new String[]{".json"}),

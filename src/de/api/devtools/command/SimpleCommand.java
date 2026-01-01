@@ -2,6 +2,7 @@ package de.api.devtools.command;
 
 import org.bukkit.command.CommandSender;
 
+//: type of command that all commandSender instances can execute
 public abstract class SimpleCommand extends CommandExecutor<CommandSender> {
 
     public SimpleCommand(String name) {

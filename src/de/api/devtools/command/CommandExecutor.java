@@ -4,10 +4,10 @@ import de.api.devtools.plugin.SpigotPlugin;
 import de.api.devtools.utils.AutoLoad;
 import org.bukkit.ChatColor;
 import org.bukkit.command.PluginCommand;
-import org.bukkit.command.TabCompleter;
 
 import java.util.Objects;
 
+//: base class for any type of custom command
 public abstract class CommandExecutor<T> implements org.bukkit.command.CommandExecutor {
 
     public final String MESSAGE_NO_PERMISSION = ChatColor.RED + "Sorry! but you don't have the Permission to run this command!";

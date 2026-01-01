@@ -12,6 +12,7 @@ import java.io.IOException;
 import java.util.logging.Level;
 
 @JsonProperties() /* <-- by default */
+//: type of document where you can read and write JSON data
 public class JsonConfigFile extends Document {
 
    public interface JsonConfigurationBuilder {

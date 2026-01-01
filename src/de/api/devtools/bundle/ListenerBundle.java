@@ -9,6 +9,7 @@ import org.bukkit.plugin.RegisteredListener;
 
 import java.util.ArrayList;
 
+//: type of bundle to store and manage listener objects
 public class ListenerBundle extends Bundle<Listener> {
 
     protected final SpigotPlugin plugin = SpigotPlugin.getInstance();

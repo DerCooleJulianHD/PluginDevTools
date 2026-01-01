@@ -1,5 +1,6 @@
 package de.api.devtools.run;
 
+//: to calculate into ticks for runnable
 public final class TimerUtil {
     public static long ofSeconds(int v) {
         return v * 20L;

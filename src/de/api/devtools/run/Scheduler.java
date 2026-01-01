@@ -3,7 +3,7 @@ package de.api.devtools.run;
 import de.api.devtools.utils.TextColor;
 import org.bukkit.Bukkit;
 
-//: type of runnable that executes code within periods.
+//: type of runnable that executes code within periods
 public abstract class Scheduler extends Runnable {
 
     protected final long delay;

@@ -4,6 +4,7 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+//: type of command that only players can execute
 public abstract class PlayerCommand extends CommandExecutor<Player> {
 
     public PlayerCommand(String name) {

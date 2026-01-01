@@ -7,8 +7,8 @@ import java.lang.annotation.Target;
 
 @Target({ElementType.TYPE, ElementType.FIELD})
 @Retention(RetentionPolicy.RUNTIME)
+//: settings on how the JSON config writes the data
 public @interface JsonProperties {
-
     boolean prettyPrinting() default false;
 
     boolean htmlEscaping() default true;

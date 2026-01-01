@@ -16,6 +16,7 @@ import java.util.Objects;
 import java.util.Set;
 import java.util.logging.Level;
 
+//: type of document to read and write values in keys from a config file
 public class YamlConfigFile extends Document {
 
     private final FileConfiguration config = new YamlConfiguration();

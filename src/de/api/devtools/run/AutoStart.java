@@ -7,5 +7,6 @@ import java.lang.annotation.Target;
 
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
+//: for runnable that needs to auto start the schedule
 public @interface AutoStart {
 }

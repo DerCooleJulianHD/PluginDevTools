@@ -8,6 +8,7 @@ import java.util.Map;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 
+//: object to store other objects by type
 public abstract class Bundle<T> {
 
     protected final String name;

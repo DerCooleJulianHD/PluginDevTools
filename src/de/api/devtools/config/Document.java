@@ -12,6 +12,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.logging.Level;
 
+//: base class for files to work with: especially config files
 public abstract class Document implements Loadable {
 
     protected final SpigotPlugin plugin = SpigotPlugin.getInstance();

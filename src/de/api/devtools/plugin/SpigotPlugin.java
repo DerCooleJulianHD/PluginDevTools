@@ -14,6 +14,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
+//: base class for every plugin
 public abstract class SpigotPlugin extends JavaPlugin implements MinecraftPlugin {
 
     protected static SpigotPlugin plugin;
