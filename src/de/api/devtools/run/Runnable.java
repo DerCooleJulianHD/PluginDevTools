@@ -5,6 +5,7 @@ import de.api.devtools.utils.TextColor;
 import org.bukkit.Bukkit;
 import org.bukkit.scheduler.BukkitTask;
 
+//: base class for all timed actions
 public abstract class Runnable {
 
     private int runningState = -1;
@@ -32,8 +33,8 @@ public abstract class Runnable {
         runTask(Bukkit.getScheduler().runTaskTimer(plugin, this::run, delay, period));
     }
 
-    protected final void runTaskLater(long delay) {
-        runTask(Bukkit.getScheduler().runTaskLater(plugin, this::run, delay));
+    public static void runTaskLater(SpigotPlugin plugin, long delay, java.lang.Runnable run) {
+        Bukkit.getScheduler().runTaskLater(plugin, run, delay);
     }
 
     private void runTask(BukkitTask task) {
