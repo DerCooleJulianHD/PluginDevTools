@@ -8,4 +8,4 @@ api-version: 1.8.8
 description: Custom Library for Minecraft Plugin Programming using Spigot/Bukkit API. I upload code Files for my Plugins you can copy and use it in your Plugin!
 author: _XCuzImSmart_
 
-main: de.api.plugins.MinecraftDevToolPlugin
+main: de.api.devtools.MinecraftDevToolPlugin
