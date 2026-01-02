@@ -1,13 +1,19 @@
 package de.api.devtools;
 
+import de.api.devtools.plugin.SpigotPlugin;
+import de.api.devtools.utils.TextColor;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
-import org.bukkit.plugin.java.JavaPlugin;
 
-public final class MinecraftDevToolPlugin extends JavaPlugin {
+public final class MinecraftDevToolPlugin extends SpigotPlugin {
 
     @Override
-    public void onEnable() {
-        Bukkit.getConsoleSender().sendMessage(ChatColor.GREEN + "Successfully Enabled :D");
+    public void onPluginStart() {
+        Bukkit.getConsoleSender().sendMessage(getPrefix() + ChatColor.GREEN + "Successfully Enabled :D");
+    }
+
+    @Override
+    public String getPrefix() {
+        return TextColor.colorize("&8[&cPluginDevTools&8] &r");
     }
 }
