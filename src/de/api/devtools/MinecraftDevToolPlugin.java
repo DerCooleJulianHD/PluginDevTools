@@ -1,11 +1,13 @@
 package de.api.devtools;
 
+import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public final class MinecraftDevToolPlugin extends JavaPlugin {
 
     @Override
     public void onEnable() {
-        getLogger().info("Successfully Enabled :D");
+        Bukkit.getConsoleSender().sendMessage(ChatColor.GREEN + "Successfully Enabled :D");
     }
 }
