@@ -33,13 +33,11 @@ public abstract class SpigotPlugin extends JavaPlugin implements MinecraftPlugin
     @Deprecated
     @Override public final void onEnable() {
         onPluginStart();
-        sendStartMessage();
     }
 
     @Deprecated
     @Override public final void onDisable() {
         onPluginStop();
-        sendStopMessage();
     }
 
     @Override
