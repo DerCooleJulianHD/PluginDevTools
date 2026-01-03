@@ -2,6 +2,7 @@ package de.api.devtools.plugin;
 
 import de.api.devtools.bundle.Bundle;
 import de.api.devtools.bundle.ListenerBundle;
+import de.api.devtools.utils.Console;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.ConsoleCommandSender;
@@ -14,9 +15,7 @@ import java.util.Map;
 public interface MinecraftPlugin extends Prefixable {
 
     // this is the [bukkit] console sender.
-    default ConsoleCommandSender getConsole() {
-        return Bukkit.getConsoleSender();
-    }
+    Console getConsole();
 
     default void onPluginInit() {} // plugin load logic
 
