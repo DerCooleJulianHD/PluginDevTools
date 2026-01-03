@@ -18,7 +18,7 @@ public final class PluginConfigFile extends YamlConfigFile implements Prefixable
     @Override
     // returns the String that is set in plugin config.
     public String getPrefix() {
-        return readString("prefix");
+        return readString("prefix") != null ? readString("prefix") : "";
     }
 
     @Override
