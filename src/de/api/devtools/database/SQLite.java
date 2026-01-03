@@ -1,6 +1,7 @@
 package de.api.devtools.database;
 
 import de.api.devtools.plugin.SpigotPlugin;
+import de.api.devtools.utils.FileManager;
 import org.sqlite.JDBC;
 
 import java.io.File;
@@ -17,11 +18,18 @@ public final class SQLite implements SQLDatabase {
     private final File file;
 
     public SQLite(File file) {
+        if (!file.getName().endsWith(".db")) {
+            throw new IllegalStateException("Database Files need to end with '.db'");
+        }
+
         this.file = file;
 
         final JDBC jdbc = new JDBC();
         final Properties properties = new Properties();
-        final String url = JDBC.PREFIX + (file.getName().endsWith(".db") ? file : file.getName() + ".db");
+
+        FileManager.create(file);
+
+        final String url = JDBC.PREFIX + file;
 
         try {
             this.connection = jdbc.connect(url, properties);
