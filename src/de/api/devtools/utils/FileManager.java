@@ -13,22 +13,15 @@ public final class FileManager {
     }
 
     public static void copyDir(File dir, File to) {
-        if (!isFileExist(dir))
-            return;
-
-        if (!dir.isDirectory())
-            return;
+        if (!isFileExist(dir)) return;
+        if (!dir.isDirectory()) return;
 
         mkdirIfNotExists(to);
 
         final File copy = new File(to, dir.getName());
 
-        if (!copy.isDirectory())
-            return;
-
-        if (!isFileExist(copy))
-            copy.mkdirs();
-
+        if (!copy.isDirectory()) return;
+        if (!isFileExist(copy)) copy.mkdirs();
         copyInnerFiles(dir, copy);
     }
 
@@ -49,6 +42,7 @@ public final class FileManager {
         file.delete();
     }
 
+    @Deprecated
     public static void mkdir(File file) {
         file.mkdirs();
     }
@@ -101,6 +95,16 @@ public final class FileManager {
 
     public static boolean isFileExist(File file) {
         return file.exists();
+    }
+
+    public static void create(File file) {
+        if (file.isDirectory()) FileManager.mkdir(file);
+
+        try {
+            file.createNewFile();
+        } catch (IOException e) {
+            throw new RuntimeException("Unable to create file: " + file.getName());
+        }
     }
 }
 
