@@ -1,4 +1,4 @@
-package de.api.devtools.run;
+package de.api.devtools.timer;
 
 //: to calculate into ticks for runnable
 public final class TimerUtil {

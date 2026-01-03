@@ -1,8 +1,5 @@
 package de.api.devtools.run;
 
-import de.api.devtools.utils.TextColor;
-import org.bukkit.Bukkit;
-
 //: type of runnable that executes code within periods
 public abstract class Scheduler extends Runnable {
 
@@ -12,34 +9,32 @@ public abstract class Scheduler extends Runnable {
     public Scheduler(long delay, long period) {
         this.delay = delay;
         this.period = period;
-        if (isAutoStart()) this.start();
+
+        if (isAutoStart()) {
+            this.runTaskTimer(delay, period);
+            this.onStart();
+        }
     }
 
     public Scheduler(long period) {
         this(0, period);
     }
 
-    public void onStartTask() {}
+    public void onStart() {}
 
-    public long getDelay() {
+    public final long getDelay() {
         return delay;
     }
 
-    public long getPeriod() {
+    public final long getPeriod() {
         return period;
+    }
+
+    public final boolean isDelayed() {
+        return getDelay() > 0;
     }
 
     public final boolean isAutoStart() {
         return getClass().isAnnotationPresent(AutoStart.class);
-    }
-
-    public final void start() {
-        this.runTaskTimer(delay, period);
-        onStartTask();
-    }
-
-    public final void start(String message) {
-        start();
-        Bukkit.broadcastMessage(TextColor.colorize(message));
     }
 }
