@@ -53,21 +53,10 @@ public interface MinecraftPlugin extends Prefixable {
     String getPluginName();
 
     default void addBundle(String k, Bundle<?> bundle) {
-        if (getRegisteredBundles(k) == null)
-            getRegisteredBundles().put(k, new ArrayList<>());
-
-        final List<Bundle<?>> bundles = getRegisteredBundles(k);
-
-        if (bundles.contains(bundle)) {
-            bundles.set(bundles.indexOf(bundle), bundle);
-            return;
-        }
-
-        bundles.add(bundle);
+        getRegisteredBundles(k).add(bundle);
     }
 
     // adds a new listener bundle to the server.
-    @Deprecated
     default void addListeners(ListenerBundle bundle) {
         addBundle("listeners", bundle);
     }
@@ -97,8 +86,9 @@ public interface MinecraftPlugin extends Prefixable {
         bundles.remove(bundle);
     }
 
+    @Nullable
     // returns a listener bundle which is registered on the server.
-    @Nullable default ListenerBundle getListeners(String name) {
+    default ListenerBundle getListeners(String name) {
         if (getRegisteredBundles("listeners") == null)
             return null;
 
@@ -119,7 +109,7 @@ public interface MinecraftPlugin extends Prefixable {
     Map<String, List<Bundle<?>>> getRegisteredBundles();
 
     default List<Bundle<?>> getRegisteredBundles(String id) {
-        return getRegisteredBundles().get(id);
+        return getRegisteredBundles().get(id) != null ? getRegisteredBundles().get(id) : new ArrayList<>();
     }
 
     default MinecraftPlugin getSubType() {

@@ -23,13 +23,13 @@ public class ListenerBundle extends Bundle<Listener> {
 
     @Override
     // enables the listener on the server.
-    protected final void onRegisterObject(Listener listener) {
+    protected final void onPostObjectRegister(Listener listener) {
         pluginManager.registerEvents(listener, plugin);
     }
 
     @Override
     // disables ist from the server.
-    protected final void onUnregisterObject(Listener listener) {
+    protected final void onPostObjectRemove(Listener listener) {
         HandlerList.unregisterAll(listener);
     }
 

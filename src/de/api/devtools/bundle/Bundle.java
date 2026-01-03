@@ -1,6 +1,7 @@
 package de.api.devtools.bundle;
 
 import de.api.devtools.plugin.SpigotPlugin;
+import org.bukkit.event.Listener;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.HashMap;
@@ -24,28 +25,35 @@ public abstract class Bundle<T> {
 
     // adds a new object to the bundle and enables it on the server
     public final void add(T t) {
+        this.add(t, this::onPostObjectRegister);
+    }
+
+    public final void set(Class<Listener> k, T t) {
+        this.actives.put(k.getName(), t);
+    }
+
+    public final void add(T t, Consumer<T> action) {
         final Class<?> k = t.getClass();
 
         if (contains(k))
             return; // if it's already in this bundle we aren't going to add it.
 
         actives.put(k.getName().toLowerCase(), t); // storing it.
-        onRegisterObject(t); // enabling it.
-    }
-
-    public final void add(T t, Consumer<T> action) {
-        this.add(t);
 
         if (action != null)
             action.accept(t);
     }
 
-    protected void onRegisterObject(T t) {}
+    protected void onPostObjectRegister(T t) {}
 
-    protected void onUnregisterObject(T t) {}
+    protected void onPostObjectRemove(T t) {}
 
     // removes and disables the object from key
     public final void remove(Class<?> k) {
+        this.remove(k, this::onPostObjectRemove);
+    }
+
+    public final void remove(Class<?> k, Consumer<T> action) {
         if (!contains(k))
             return; // if it's not in this bundle, then stop any execution of code here.
 
@@ -54,20 +62,10 @@ public abstract class Bundle<T> {
         if (t == null)
             return; // cancel if the object on key 'k' does not exist or has a null value.
 
-        onUnregisterObject(t); // disabling it
         actives.remove(k.getName().toLowerCase()); // removing it from the map.
-    }
 
-    public final void remove(Class<?> k, Consumer<T> action) {
-        this.remove(k);
-
-        if (action == null)
-            return;
-
-        final T t = get(k);
-
-        if (t != null)
-            action.accept(t);
+        if (action != null)
+            action.accept(t); // executing the action that will happen on remove
     }
 
     // returns the object of type T
@@ -112,15 +110,7 @@ public abstract class Bundle<T> {
 
     // removes all objects without removing it from the map
     public final void removeAll() {
-        if (!isEmpty()) actives.keySet().forEach(entry -> {
-            final String key = entry.toLowerCase();
-            final T t = actives.get(key);
-
-            if (t != null) {
-                onUnregisterObject(t); // disabling it
-                actives.remove(key); // removing it from the map.
-            }
-        });
+        this.removeAll(this::onPostObjectRemove);
     }
 
     public final void removeAll(Consumer<T> action) {
@@ -128,12 +118,12 @@ public abstract class Bundle<T> {
             final String key = entry.toLowerCase();
             final T t = actives.get(key);
 
-            if (t != null) {
-                onUnregisterObject(t); // disabling it
-                actives.remove(key); // removing it from the map.
-            }
+            if (t == null)
+                return;
 
-            if (t != null)
+            actives.remove(key); // removing it from the map.
+
+            if (action != null)
                 action.accept(t);
         });
     }
@@ -152,7 +142,8 @@ public abstract class Bundle<T> {
     // unregisters and removes each object
     public final void clear() {
         removeAll();
-        actives.clear();
+
+        if (!actives.isEmpty()) actives.clear();
     }
 
     // returns how many objects of type T the bundle is holding.
