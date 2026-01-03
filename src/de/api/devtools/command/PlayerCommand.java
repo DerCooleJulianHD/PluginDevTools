@@ -13,7 +13,7 @@ public abstract class PlayerCommand extends CommandExecutor<Player> {
 
     @Override
     @Deprecated
-    public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
+    public final boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if (hasPermission() && !sender.hasPermission(getPermission())) {
             sender.sendMessage(MESSAGE_NO_PERMISSION);
             return false;
