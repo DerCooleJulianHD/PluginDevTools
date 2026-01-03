@@ -5,12 +5,16 @@ import de.api.devtools.run.Scheduler;
 //: type of timer that counts down to zero and end
 public class Countdown extends Scheduler implements TimeState {
 
+    private final Countdown instance;
+
     protected int timeLeft;
     protected final int end = 0;
 
     public Countdown(int start, long delay, long period) {
         super(delay, period);
         this.timeLeft = start;
+
+        instance = this;
     }
 
     public Countdown(int start, long period) {
@@ -38,5 +42,9 @@ public class Countdown extends Scheduler implements TimeState {
         this.timeLeft = time;
 
         this.onTimeChange();
+    }
+
+    public Countdown getInstance() {
+        return instance;
     }
 }

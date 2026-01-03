@@ -15,6 +15,6 @@ public final class TimerUtil {
     }
 
     public static long ofMilliSeconds(int v) {
-        return ofSeconds(v) * 1000;
+        return ofSeconds(v) / 1000;
     }
 }

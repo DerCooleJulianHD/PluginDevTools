@@ -105,10 +105,6 @@ public abstract class Document implements Loadable {
     public final File getFile() {
         return file;
     }
-
-    public final boolean isAutoLoad() {
-        return getClass().isAnnotationPresent(AutoLoad.class);
-    }
 }
 
 

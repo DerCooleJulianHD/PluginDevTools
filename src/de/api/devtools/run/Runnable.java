@@ -20,7 +20,7 @@ public abstract class Runnable {
     public final void cancel() {
         Bukkit.getScheduler().cancelTask(state);
 
-        this.onCancelTask();
+        this.onStop();
     }
 
     public final void cancel(String broadcast) {
@@ -37,7 +37,7 @@ public abstract class Runnable {
         Bukkit.getScheduler().runTaskLater(plugin, run, delay);
     }
 
-    private void runTask(BukkitTask task) {
+    protected void runTask(BukkitTask task) {
         if (isRunning()) throw new IllegalStateException("Already Running as: " + task.getTaskId());
 
         this.state = task.getTaskId();
@@ -47,5 +47,9 @@ public abstract class Runnable {
         return state != -1;
     }
 
-    public void onCancelTask() {}
+    public void onStop() {}
+
+    public final boolean isAutoStart() {
+        return getClass().isAnnotationPresent(AutoStart.class);
+    }
 }

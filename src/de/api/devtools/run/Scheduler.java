@@ -33,8 +33,4 @@ public abstract class Scheduler extends Runnable {
     public final boolean isDelayed() {
         return getDelay() > 0;
     }
-
-    public final boolean isAutoStart() {
-        return getClass().isAnnotationPresent(AutoStart.class);
-    }
 }
