@@ -8,7 +8,7 @@ public final class MinecraftDevToolPlugin extends SpigotPlugin {
 
     @Override
     public void onPluginStart() {
-        getConsole().sendMessage(getPrefix() + ChatColor.GREEN + "Successfully Enabled :D");
+        console.sendMessage(ChatColor.GREEN + "Successfully Enabled :D");
     }
 
     @Override

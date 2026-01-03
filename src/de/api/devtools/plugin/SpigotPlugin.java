@@ -1,6 +1,7 @@
 package de.api.devtools.plugin;
 
 import de.api.devtools.bundle.Bundle;
+import de.api.devtools.utils.Console;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Server;
@@ -16,6 +17,8 @@ import java.util.Objects;
 //: base class for every plugin
 public abstract class SpigotPlugin extends JavaPlugin implements MinecraftPlugin {
 
+    protected Console console;
+
     protected static SpigotPlugin plugin;
     protected final Map<String, List<Bundle<?>>> bundles = new HashMap<>();
 
@@ -25,6 +28,7 @@ public abstract class SpigotPlugin extends JavaPlugin implements MinecraftPlugin
     @Override public final void onLoad() {
         // init the instance of the plugin
         plugin = this;
+        console = new Console(plugin);
 
         onPluginInit();
     }
@@ -83,6 +87,11 @@ public abstract class SpigotPlugin extends JavaPlugin implements MinecraftPlugin
 
         if (using.isEnabled())
             manager.disablePlugin(using);
+    }
+
+    @Override
+    public Console getConsole() {
+        return console;
     }
 
     @Override
