@@ -1,13 +1,16 @@
 package de.api.devtools.schedules;
 
-public class Countdown extends Timer {
+public class Countdown extends Runnable implements TimeState {
 
-    public Countdown(int start, long delay) {
-        super(start, delay, TimeUtil.ofSeconds(1));
+    private int timeLeft;
+
+    public Countdown(int start, long period) {
+        super(period);
+        this.timeLeft = start;
     }
 
     public Countdown(int start) {
-        this(start, 0L);
+        this(start, TimeUtil.ofSeconds(1));
     }
 
     @Override
@@ -16,4 +19,23 @@ public class Countdown extends Timer {
         this.setTime(getTime() - 1);
         this.cancelIf(getTime() <= 0);
     }
+
+    @Override
+    public int getTime() {
+        return timeLeft;
+    }
+
+    @Override
+    public void setTime(int time) {
+        this.timeLeft = time;
+    }
+
+    @Override
+    public void onTimeChange() {}
+
+    @Override
+    public void onStop() {}
+
+    @Override
+    public void onStart() {}
 }

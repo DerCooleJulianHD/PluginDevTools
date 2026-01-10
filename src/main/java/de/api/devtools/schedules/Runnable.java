@@ -4,60 +4,85 @@ import de.api.devtools.plugin.SpigotPlugin;
 import org.bukkit.Bukkit;
 import org.bukkit.scheduler.BukkitTask;
 
-public interface Runnable {
+public abstract class Runnable {
 
-    long getDelay();
+    private static Runnable instance;
 
-    long getPeriod();
+    private final long delay;
+    private final long period;
 
-    default boolean isDelayed() {
+    private boolean autoStart = getClass().isAnnotationPresent(AutoStart.class);
+
+    private BukkitTask task;
+
+    public Runnable(long delay, long period) {
+        instance = this;
+        this.delay = delay;
+        this.period = period;
+        if (getAutoStart()) runTask();
+    }
+
+    public Runnable(long period) {
+        this(0L, period);
+    }
+
+    public abstract void run();
+
+    public static Runnable getInstance() {
+        return instance;
+    }
+
+    public final long getPeriod() {
+        return period;
+    }
+
+    public final long getDelay() {
+        return delay;
+    }
+
+    public final boolean isDelayed() {
         return getDelay() > 0;
     }
 
-    default boolean isRunning() {
-        return getTaskId() != -1;
+    public final boolean isRunning() {
+        return task != null && (!task.isCancelled());
     }
 
-    default void cancel() {
-        if (!isRunning())
-            return;
+    public void runTask() {
+        if (this.task != null)
+            throw new IllegalStateException("Already scheduled as " + this.task.getTaskId() + "!");
 
-        Bukkit.getScheduler().cancelTask(getTaskId());
+        final BukkitTask task = Bukkit.getScheduler().runTaskTimer(SpigotPlugin.getInstance(), this::run, delay, period);
 
-        setTaskId(-1);
-        onStop();
+        this.setTask(task);
     }
 
-    default void cancelIf(boolean expression) {
+    private void setTask(BukkitTask task) {
+        this.task = task;
+    }
+
+    public void cancel() {
+        if (task == null)
+            throw new IllegalStateException("Not scheduled yet!");
+
+        Bukkit.getScheduler().cancelTask(task.getTaskId());
+
+        setTask(null);
+    }
+
+    public final void cancelIf(boolean expression) {
         if (expression) cancel();
     }
 
-    void onStop();
+    public abstract void onStop();
 
-    void onStart();
+    public abstract void onStart();
 
-    default void start() {
-        if (isRunning())
-            throw new IllegalStateException("Already running as " + getTaskId());
-
-        final BukkitTask task = Bukkit.getScheduler().runTaskTimer(
-                SpigotPlugin.getInstance(),
-                this::run,
-                getDelay(),
-                getPeriod()
-        );
-
-        setTaskId(task.getTaskId());
-        onStart();
+    public final boolean getAutoStart() {
+        return autoStart;
     }
 
-    void run();
-
-    default boolean getAutoStart() {
-        return getClass().isAnnotationPresent(AutoStart.class);
+    public void setAutoStart(boolean b) {
+        this.autoStart = b;
     }
-
-    int getTaskId();
-
-    void setTaskId(int id);
 }

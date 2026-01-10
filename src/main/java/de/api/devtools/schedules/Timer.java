@@ -1,10 +1,10 @@
 package de.api.devtools.schedules;
 
-public class Timer extends Scheduler implements TimeState {
+public class Timer extends Runnable implements TimeState {
 
     private int time;
 
-    protected Timer(int start, long delay, long period) {
+    public Timer(int start, long delay, long period) {
         super(delay, period);
         this.time = start;
     }
