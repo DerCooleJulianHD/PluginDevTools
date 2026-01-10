@@ -1,0 +1,9 @@
+name: PluginDevTools
+version: '1.0-SNAPSHOT'
+
+main: de.api.devtools.MinecraftDevToolPlugin
+
+api-version: '1.21'
+load: STARTUP
+authors: [_XCuzImSmart_]
+description:
