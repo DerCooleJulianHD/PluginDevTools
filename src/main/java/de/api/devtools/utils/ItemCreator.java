@@ -29,7 +29,7 @@ public final class ItemCreator {
     }
 
     public ItemCreator glow() {
-        meta.addEnchant(Enchantment.ARROW_INFINITE, 1, false);
+        meta.addEnchant(Enchantment.INFINITY, 1, false);
         meta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
         return this;
     }
