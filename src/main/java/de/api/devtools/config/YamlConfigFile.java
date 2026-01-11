@@ -251,7 +251,6 @@ public class YamlConfigFile extends Document {
         return ChatColor.valueOf(readString(k).toUpperCase());
     }
 
-    @Deprecated(since = "1.4.2")
     // returns a Serialized Location from bukkit.
     public final Location readSerializedLocation(String k) {
         return (Location) read(k);
