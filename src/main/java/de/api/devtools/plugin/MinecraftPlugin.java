@@ -5,9 +5,12 @@ import de.api.devtools.bundle.ListenerBundle;
 import de.api.devtools.utils.Console;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
-import org.bukkit.command.ConsoleCommandSender;
+import org.bukkit.Server;
+import org.bukkit.plugin.Plugin;
+import org.bukkit.plugin.PluginManager;
 
 import javax.annotation.Nullable;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -113,5 +116,22 @@ public interface MinecraftPlugin extends Prefixable {
 
     default MinecraftPlugin getSubType() {
         return this;
+    }
+
+    default void loadPluginsFromFile(File dir) {
+        final Server server = Bukkit.getServer();
+        final PluginManager manager = server.getPluginManager();
+
+        final Plugin[] plugins = manager.loadPlugins(dir);
+
+        if (plugins.length > 0) {
+            server.getConsoleSender().sendMessage(ChatColor.GREEN + "found some plugins in: " + dir.getName());
+
+            for (Plugin target : plugins) {
+                manager.enablePlugin(target);
+            }
+        }
+
+        server.getConsoleSender().sendMessage(ChatColor.GREEN + "all plugins from: " + dir.getName() + " has been loaded and enabled on the server!");
     }
 }

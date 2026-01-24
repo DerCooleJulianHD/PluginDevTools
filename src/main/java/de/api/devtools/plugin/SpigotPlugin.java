@@ -71,7 +71,7 @@ public abstract class SpigotPlugin extends JavaPlugin implements MinecraftPlugin
     }
 
     // does check if a plugin, which is using a dependency, also has the dependency plugin installed on the server.
-    public static void checkForDependencyPlugin(Plugin using, String pluginNameOfDepend) {
+    public static boolean checkForDependencyPlugin(Plugin using, String pluginNameOfDepend) {
         final Server server = using.getServer();
         final PluginManager manager = server.getPluginManager();
 
@@ -80,13 +80,38 @@ public abstract class SpigotPlugin extends JavaPlugin implements MinecraftPlugin
 
         // when dependency is installed and works fine.
         if (depend != null)
-            return;
+            return false;
 
         // here when dependency-plugin is not installed:
         Bukkit.getConsoleSender().sendMessage(ChatColor.RED + "'" + pluginNameOfDepend + "' plugin not found, please install it before continue.");
 
         if (using.isEnabled())
             manager.disablePlugin(using);
+
+        return true;
+    }
+
+    public static Plugin hookDependency(String name) {
+        if (!checkForDependencyPlugin(plugin, name))
+            return null;
+
+        final long start = System.currentTimeMillis();
+        final Server server = plugin.getServer();
+        final PluginManager manager = server.getPluginManager();
+
+        // dependency-plugin which will be hooked.
+        final Plugin depend = manager.getPlugin(name);
+
+        // when dependency could not be found
+        if (depend == null)
+            return null;
+
+        if (!depend.isEnabled())
+            manager.enablePlugin(depend);
+
+        final long end = System.currentTimeMillis();
+        Bukkit.getConsoleSender().sendMessage(depend.getName() + " was found and has been hooked. (took: " + (end - start) + "ms)");
+        return depend;
     }
 
     @Override
