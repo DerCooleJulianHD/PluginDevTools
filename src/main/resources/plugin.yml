@@ -1,5 +1,5 @@
 name: PluginDevTools
-version: '1.0-SNAPSHOT'
+version: '{$project_version§}'
 
 main: de.api.devtools.MinecraftDevToolPlugin
 
