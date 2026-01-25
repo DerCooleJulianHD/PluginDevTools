@@ -5,17 +5,19 @@ import org.bukkit.entity.Player;
 import org.bukkit.scoreboard.Objective;
 import org.bukkit.scoreboard.Scoreboard;
 
+import java.util.Objects;
+
 public abstract class PerPlayerScoreboard implements ScoreboardBuilder {
 
-    private final Scoreboard scoreboard;
-    private final Objective objective;
+    protected final Scoreboard scoreboard;
+    protected final Objective objective;
 
-    private final Player owner;
+    protected final Player owner;
 
     public PerPlayerScoreboard(Player owner, String displayName, boolean override) {
         this.owner = owner;
 
-        if (owner.getScoreboard().equals(Bukkit.getScoreboardManager().getMainScoreboard())) {
+        if (owner.getScoreboard().equals(Objects.requireNonNull(Bukkit.getScoreboardManager()).getMainScoreboard())) {
             owner.setScoreboard(Bukkit.getScoreboardManager().getNewScoreboard());
         }
 

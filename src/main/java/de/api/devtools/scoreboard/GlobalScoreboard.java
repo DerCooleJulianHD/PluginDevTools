@@ -4,11 +4,13 @@ import org.bukkit.Bukkit;
 import org.bukkit.scoreboard.Objective;
 import org.bukkit.scoreboard.Scoreboard;
 
+import java.util.Objects;
+
 public abstract class GlobalScoreboard implements ScoreboardBuilder {
 
-    private final Scoreboard scoreboard = Bukkit.getScoreboardManager().getNewScoreboard();
+    protected final Scoreboard scoreboard = Objects.requireNonNull(Bukkit.getScoreboardManager()).getNewScoreboard();
 
-    private final Objective objective;
+    protected final Objective objective;
 
     public GlobalScoreboard(String displayName, boolean override) {
         this.objective = registerObjective("main", override, displayName);
@@ -24,5 +26,9 @@ public abstract class GlobalScoreboard implements ScoreboardBuilder {
     @Override
     public Objective getObjective() {
         return objective;
+    }
+
+    public void addPlayers() {
+        Bukkit.getOnlinePlayers().forEach(player -> player.setScoreboard(this.scoreboard));
     }
 }

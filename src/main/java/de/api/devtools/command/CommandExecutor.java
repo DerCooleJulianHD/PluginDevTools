@@ -1,5 +1,6 @@
 package de.api.devtools.command;
 
+import de.api.devtools.common.Validate;
 import de.api.devtools.plugin.SpigotPlugin;
 import de.api.devtools.utils.AutoLoad;
 import org.bukkit.ChatColor;
@@ -13,13 +14,13 @@ public abstract class CommandExecutor<T> implements org.bukkit.command.CommandEx
     public final String MESSAGE_NO_PERMISSION = ChatColor.RED + "Sorry! but you don't have the Permission to run this command!";
     public final String MESSAGE_INVALID_SENDER = ChatColor.RED + "Sorry! but only players are allowed to run this command!";
 
-    private final SpigotPlugin plugin = SpigotPlugin.getInstance();
+    protected final SpigotPlugin plugin = SpigotPlugin.getInstance();
     private final PluginCommand bukkitPluginCommand;
-    private final String name;
+    protected final String name;
 
     public CommandExecutor(String name) {
         this.name = name;
-        this.bukkitPluginCommand = Objects.requireNonNull(plugin.getCommand(name), "No such Command found. do you forgot to register it in the plugin.yml ?"); ;
+        this.bukkitPluginCommand = Validate.nonNull(plugin.getCommand(name), "No such Command found. do you forgot to register it in the plugin.yml ?"); ;
         if (isAutoLoad()) bukkitPluginCommand.setExecutor(this);
     }
 

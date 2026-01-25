@@ -6,7 +6,7 @@ public class Validate {
         if (!expression) throw new IllegalStateException(message);
     }
 
-    public static Object nonNull(Object object, String message) {
+    public static <T> T nonNull(T object, String message) {
         if (object == null) {
             throw new IllegalStateException(message);
         }
