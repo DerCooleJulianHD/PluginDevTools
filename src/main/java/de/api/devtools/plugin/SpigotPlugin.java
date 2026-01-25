@@ -80,7 +80,7 @@ public abstract class SpigotPlugin extends JavaPlugin implements MinecraftPlugin
 
         // when dependency is installed and works fine.
         if (depend != null)
-            return false;
+            return true;
 
         // here when dependency-plugin is not installed:
         Bukkit.getConsoleSender().sendMessage(ChatColor.RED + "'" + pluginNameOfDepend + "' plugin not found, please install it before continue.");
@@ -88,7 +88,7 @@ public abstract class SpigotPlugin extends JavaPlugin implements MinecraftPlugin
         if (using.isEnabled())
             manager.disablePlugin(using);
 
-        return true;
+        return false;
     }
 
     public static Plugin hookDependency(String name) {
