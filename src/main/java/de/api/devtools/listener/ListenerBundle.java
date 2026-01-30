@@ -11,12 +11,9 @@ import java.util.ArrayList;
 public class ListenerBundle extends KeyObjectBundle<KeyListener> {
 
     protected final SpigotPlugin plugin = SpigotPlugin.getInstance();
-    protected final ListenerManager manager = plugin.getListenerManager();
 
     public ListenerBundle(final String name) {
         super(name);
-
-        manager.addListeners(this);
     }
 
     // returns true when it's enabled on the server.
