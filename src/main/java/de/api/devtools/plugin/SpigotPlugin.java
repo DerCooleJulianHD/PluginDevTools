@@ -30,7 +30,7 @@ public abstract class SpigotPlugin extends JavaPlugin implements MinecraftPlugin
         plugin = this;
         console = new Console(plugin);
 
-        onPluginInit();
+        init();
     }
 
     @Deprecated
@@ -89,29 +89,6 @@ public abstract class SpigotPlugin extends JavaPlugin implements MinecraftPlugin
             manager.disablePlugin(using);
 
         return false;
-    }
-
-    public static Plugin hookDependency(String name) {
-        if (!checkForDependencyPlugin(plugin, name))
-            return null;
-
-        final long start = System.currentTimeMillis();
-        final Server server = plugin.getServer();
-        final PluginManager manager = server.getPluginManager();
-
-        // dependency-plugin which will be hooked.
-        final Plugin depend = manager.getPlugin(name);
-
-        // when dependency could not be found
-        if (depend == null)
-            return null;
-
-        if (!depend.isEnabled())
-            manager.enablePlugin(depend);
-
-        final long end = System.currentTimeMillis();
-        Bukkit.getConsoleSender().sendMessage(depend.getName() + " was found and has been hooked. (took: " + (end - start) + "ms)");
-        return depend;
     }
 
     @Override

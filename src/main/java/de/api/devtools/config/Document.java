@@ -3,7 +3,7 @@ package de.api.devtools.config;
 import de.api.devtools.common.Validate;
 import de.api.devtools.plugin.SpigotPlugin;
 import de.api.devtools.utils.FileManager;
-import de.api.devtools.utils.Loadable;
+import de.api.devtools.utils.load.Loadable;
 import org.bukkit.Bukkit;
 
 import javax.annotation.Nullable;
@@ -28,7 +28,7 @@ public abstract class Document implements Loadable {
 
         Validate.isTrue(isTypeOf(type), "file must be correct type.");
 
-        if (isAutoLoad() && !isLoaded()) load();
+        if (getAutoLoad() && !isLoaded()) load();
     }
 
     public abstract void setDefaults();
@@ -45,7 +45,7 @@ public abstract class Document implements Loadable {
 
             if (!FileManager.isFileExist(file)) file.createNewFile();
 
-            if (isAutoLoad() && isLoaded())
+            if (getAutoLoad() && isLoaded())
                 setDefaults();
         } catch (IOException ex) {
             Bukkit.getLogger().log(Level.SEVERE, "Unable to create: " + file.getName(), ex);

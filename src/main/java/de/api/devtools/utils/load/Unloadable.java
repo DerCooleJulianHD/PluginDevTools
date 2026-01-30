@@ -1,4 +1,4 @@
-package de.api.devtools.utils;
+package de.api.devtools.utils.load;
 
 public interface Unloadable {
 

@@ -1,7 +1,7 @@
 package de.api.devtools.plugin;
 
 import de.api.devtools.config.YamlConfigFile;
-import de.api.devtools.utils.AutoLoad;
+import de.api.devtools.utils.load.AutoLoad;
 
 @AutoLoad
 //: the config.yml file from the plugin

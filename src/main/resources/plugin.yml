@@ -6,4 +6,7 @@ main: de.api.devtools.MinecraftDevToolPlugin
 api-version: '1.21'
 load: STARTUP
 authors: [_XCuzImSmart_]
-description:
+
+commands:
+  bedwars:
+    aliases: [bw]

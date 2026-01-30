@@ -20,7 +20,7 @@ public interface MinecraftPlugin extends Prefixable {
     // this is the [bukkit] console sender.
     Console getConsole();
 
-    default void onPluginInit() {} // plugin load logic
+    default void init() {} // plugin load logic
 
     void onPluginStart(); // plugin enable logic
 
