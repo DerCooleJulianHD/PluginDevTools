@@ -27,29 +27,11 @@ public abstract class Bundle<T> {
 
     // adds a new object to the bundle and enables it on the server
     public final void add(String k, T t) {
-        this.add(k, t, this::onPostObjectRegister);
+        if (!contains(k)) set(k, t); // storing it.
     }
-
-    public final void add(String k, T t, Consumer<T> action) {
-        if (contains(k))
-            return;
-
-        set(k, t); // storing it.
-
-        if (action != null)
-            action.accept(t);
-    }
-
-    protected abstract void onPostObjectRegister(T t);
-
-    protected abstract void onPostObjectRemove(T t);
 
     // removes and disables the object from key
     public final void remove(String k) {
-        this.remove(k, this::onPostObjectRemove);
-    }
-
-    public final void remove(String k, Consumer<T> action) {
         if (!contains(k))
             return; // if it's not in this bundle, then stop any execution of code here.
 
@@ -59,9 +41,6 @@ public abstract class Bundle<T> {
             return; // cancel if the object on key 'k' does not exist or has a null value.
 
         actives.remove(k); // removing it from the map.
-
-        if (action != null)
-            action.accept(t); // executing the action that will happen on remove
     }
 
     // returns the object of type T
@@ -85,11 +64,7 @@ public abstract class Bundle<T> {
 
     // removes all objects without removing it from the map
     public final void removeAll() {
-        this.removeAll(this::onPostObjectRemove);
-    }
-
-    public final void removeAll(Consumer<T> action) {
-        if (!isEmpty()) actives.keySet().forEach(k -> this.remove(k, action));
+        this.actives.keySet().forEach(this::remove);
     }
 
     // loop

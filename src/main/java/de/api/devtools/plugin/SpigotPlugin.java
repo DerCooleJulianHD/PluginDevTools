@@ -1,6 +1,7 @@
 package de.api.devtools.plugin;
 
 import de.api.devtools.bundle.Bundle;
+import de.api.devtools.listener.ListenerManager;
 import de.api.devtools.utils.Console;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -17,12 +18,11 @@ import java.util.Objects;
 //: base class for every plugin
 public abstract class SpigotPlugin extends JavaPlugin implements MinecraftPlugin {
 
-    protected Console console;
-
     protected static SpigotPlugin plugin;
-    protected final Map<String, List<Bundle<?>>> bundles = new HashMap<>();
 
+    protected Console console;
     protected PluginConfigFile config;
+    protected ListenerManager listenerManager;
 
     @Deprecated
     @Override public final void onLoad() {
@@ -35,12 +35,18 @@ public abstract class SpigotPlugin extends JavaPlugin implements MinecraftPlugin
 
     @Deprecated
     @Override public final void onEnable() {
+        listenerManager = new ListenerManager();
         onPluginStart();
     }
 
     @Deprecated
     @Override public final void onDisable() {
         onPluginStop();
+    }
+
+    @Override
+    public ListenerManager getListenerManager() {
+        return listenerManager;
     }
 
     @Override
@@ -63,11 +69,6 @@ public abstract class SpigotPlugin extends JavaPlugin implements MinecraftPlugin
     @Override
     public String getPluginName() {
         return getDescription().getName();
-    }
-
-    @Override
-    public Map<String, List<Bundle<?>>> getRegisteredBundles() {
-        return bundles;
     }
 
     // does check if a plugin, which is using a dependency, also has the dependency plugin installed on the server.
