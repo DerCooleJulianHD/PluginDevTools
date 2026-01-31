@@ -36,7 +36,7 @@ public abstract class ScoreboardBuilder implements IScoreboard {
     }
 
     @Override
-    public Objective getObjective(String id) {
+    public Objective getObjective() {
         return objective;
     }
 
