@@ -10,12 +10,12 @@ public abstract class SimpleScoreboard extends ScoreboardBuilder {
 
     private final Map<Integer, String> scores = new HashMap<>();
 
-    public SimpleScoreboard(Player player, boolean replace) {
-        super(player, replace);
+    public SimpleScoreboard(Player player, String displayname, boolean replace) {
+        super(player, displayname, replace);
     }
 
-    public SimpleScoreboard(boolean replace) {
-        super(replace);
+    public SimpleScoreboard(String displayname, boolean replace) {
+        super(displayname, replace);
     }
 
     @Override

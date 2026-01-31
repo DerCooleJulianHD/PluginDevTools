@@ -23,7 +23,7 @@ public interface IScoreboard {
 
     void addPlayer(Player player);
 
-    default Objective registerObjective(String id, Criteria criteria, boolean replace) {
+    default Objective registerObjective(String id, Criteria criteria, String displayname, boolean replace) {
         if (getObjective(id) != null) {
             if (!replace) {
                 return getObjective(id);
@@ -34,6 +34,7 @@ public interface IScoreboard {
 
         final Objective objective = getBoard().registerNewObjective(id, criteria.getId());
 
+        objective.setDisplayName(displayname);
         objective.setDisplaySlot(DisplaySlot.SIDEBAR);
         return objective;
     }

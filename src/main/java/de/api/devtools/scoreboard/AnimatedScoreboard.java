@@ -2,20 +2,18 @@ package de.api.devtools.scoreboard;
 
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
-import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scoreboard.Team;
 
 import javax.annotation.Nullable;
-import java.util.function.Consumer;
 
 public abstract class AnimatedScoreboard extends ScoreboardBuilder {
 
-    public AnimatedScoreboard(boolean replace) {
-        super(replace);
+    public AnimatedScoreboard(String displayname, boolean replace) {
+        super(displayname, replace);
     }
 
-    public AnimatedScoreboard(Player player, boolean replace) {
-        super(player, replace);
+    public AnimatedScoreboard(Player player, String displayname, boolean replace) {
+        super(player, displayname, replace);
     }
 
     public abstract void update();

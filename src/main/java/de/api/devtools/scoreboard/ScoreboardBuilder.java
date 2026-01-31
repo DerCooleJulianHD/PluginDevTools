@@ -14,25 +14,19 @@ public abstract class ScoreboardBuilder implements IScoreboard {
     protected final Scoreboard scoreboard;
     protected final Objective objective;
 
-    public ScoreboardBuilder(boolean replace) {
+    public ScoreboardBuilder(String displayname, boolean replace) {
         this.scoreboard = Objects.requireNonNull(Bukkit.getScoreboardManager()).getNewScoreboard();
-        this.objective = registerObjective("main", Criteria.DUMMY, replace);
-
-        createScoreboard();
+        this.objective = registerObjective("main", Criteria.DUMMY, displayname, replace);
     }
 
-    public ScoreboardBuilder(Player player, boolean replace) {
+    public ScoreboardBuilder(Player player, String displayname, boolean replace) {
         if (player.getScoreboard().equals(Objects.requireNonNull(Bukkit.getScoreboardManager()).getMainScoreboard()))
             player.setScoreboard(Bukkit.getScoreboardManager().getNewScoreboard());
 
         this.scoreboard = player.getScoreboard();
 
-        this.objective = registerObjective("main", Criteria.DUMMY, replace);
-
-        createScoreboard();
+        this.objective = registerObjective("main", Criteria.DUMMY, displayname, replace);
     }
-
-    protected abstract void createScoreboard();
 
     @Override
     public Scoreboard getBoard() {
