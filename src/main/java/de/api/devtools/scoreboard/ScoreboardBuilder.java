@@ -1,46 +1,51 @@
 package de.api.devtools.scoreboard;
 
-import de.api.devtools.utils.TextUtil;
-import org.bukkit.scoreboard.DisplaySlot;
+import de.api.devtools.plugin.SpigotPlugin;
+import org.bukkit.Bukkit;
+import org.bukkit.entity.Player;
 import org.bukkit.scoreboard.Objective;
 import org.bukkit.scoreboard.Scoreboard;
 
-public interface ScoreboardBuilder {
+import java.util.Objects;
 
-    Scoreboard getScoreboard();
+public abstract class ScoreboardBuilder implements IScoreboard {
 
-    Objective getObjective();
+    protected final SpigotPlugin plugin = SpigotPlugin.getInstance();
+    protected final Scoreboard scoreboard;
+    protected final Objective objective;
 
-    default void setDisplayName(String displayName) {
-        this.getObjective().setDisplayName(TextUtil.colorize(displayName));
+    public ScoreboardBuilder(boolean replace) {
+        this.scoreboard = Objects.requireNonNull(Bukkit.getScoreboardManager()).getNewScoreboard();
+        this.objective = registerObjective("main", Criteria.DUMMY, replace);
     }
 
-    void createScoreboard();
+    public ScoreboardBuilder(Player player, boolean replace) {
+        if (player.getScoreboard().equals(Objects.requireNonNull(Bukkit.getScoreboardManager()).getMainScoreboard()))
+            player.setScoreboard(Bukkit.getScoreboardManager().getNewScoreboard());
 
-    default Objective registerObjective(String id, boolean override, String displayName) {
+        this.scoreboard = player.getScoreboard();
 
-        if (getScoreboard().getObjective(id) != null) {
-            if (!override) return getScoreboard().getObjective(id);
-            getScoreboard().getObjective(id).unregister();
-        }
-
-        final Objective obj = getScoreboard().registerNewObjective(id, "dummy");
-
-        obj.setDisplayName(TextUtil.colorize(displayName));
-        obj.setDisplaySlot(DisplaySlot.SIDEBAR);
-
-        return obj;
+        this.objective = registerObjective("main", Criteria.DUMMY, replace);
     }
 
-    default void unregisterObjective(String id) {
-        getScoreboard().getObjective(id).unregister();
+    protected abstract void createScoreboard();
+
+    @Override
+    public Scoreboard getBoard() {
+        return scoreboard;
     }
 
-    default void setScore(String content, int score) {
-        getObjective().getScore(TextUtil.colorize(content)).setScore(score);
+    @Override
+    public Objective getObjective(String id) {
+        return objective;
     }
 
-    default void removeScore(String content) {
-        getScoreboard().resetScores(content);
+    public SpigotPlugin getPlugin() {
+        return plugin;
+    }
+
+    @Override
+    public void addPlayer(Player player) {
+        player.setScoreboard(scoreboard);
     }
 }
