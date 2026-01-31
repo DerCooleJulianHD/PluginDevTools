@@ -52,4 +52,9 @@ public abstract class ScoreboardBuilder implements IScoreboard {
     public void addPlayer(Player player) {
         player.setScoreboard(scoreboard);
     }
+
+    @Override
+    public void setTitle(String s) {
+        objective.setDisplayName(s);
+    }
 }

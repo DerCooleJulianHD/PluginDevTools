@@ -19,9 +19,7 @@ public interface IScoreboard {
 
     void removeScore(int score);
 
-    default void setTitle(String s) {
-        getObjective().setDisplayName(s);
-    }
+    void setTitle(String s);
 
     void addPlayer(Player player);
 
