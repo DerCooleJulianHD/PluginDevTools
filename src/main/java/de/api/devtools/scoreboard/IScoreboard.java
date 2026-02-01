@@ -12,6 +12,7 @@ import org.bukkit.scoreboard.Scoreboard;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.function.Consumer;
@@ -44,21 +45,19 @@ public interface IScoreboard {
 
     void setSimpleScore(@NonNull String content, int id);
 
-    default void setSimpleScore(@NonNull String prefix, @NonNull String content, int id) {
-        setSimpleScore((prefix + content), id);
-    }
-
-    void setAnimatedScore(long ticks, @NonNull String content, int id, Consumer<AnimatedScore> update);
-
-    default void setAnimatedScore(long ticks, @NonNull String prefix, @NonNull String content, int id, Consumer<AnimatedScore> update) {
-        setAnimatedScore(ticks, (prefix + content), id, update);
-    }
+    void setAnimatedScore(long ticks, @NonNull List<String> content, int id);
 
     default void removeScore(int id) {
+        final IScore<?> score = getScore(id);
+
+        if (score == null)
+            return;
+
+        score.hideScore();
         getScores().remove(id);
     }
 
-    default @Nullable IScore getScore(int id) {
+    default @Nullable IScore<?> getScore(int id) {
         return getScores().get(id);
     }
 

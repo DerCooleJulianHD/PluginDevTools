@@ -10,72 +10,68 @@ import org.bukkit.scoreboard.Team;
 import org.checkerframework.checker.nullness.qual.NonNull;
 
 import javax.annotation.Nullable;
-import java.util.function.Consumer;
+import java.util.List;
 
-public final class AnimatedScore implements IScore {
+public class AnimatedScore implements IScore<List<String>> {
 
     private final ScoreboardBuilder builder;
 
     private final int id;
-    private String content;
+    private List<String> content;
 
     private final long ticks;
 
-    private final Consumer<AnimatedScore> update;
-
-    public AnimatedScore(ScoreboardBuilder builder, long ticks, String content, int id, Consumer<AnimatedScore> update) {
+    public AnimatedScore(ScoreboardBuilder builder, long ticks, @NonNull List<String> content, int id) {
         this.builder = builder;
-        this.content = content;
         this.id = id;
+        this.content = content;
         this.ticks = ticks;
-        this.update = update;
         run(ticks);
     }
 
-    public long getTicks() {
+    public final long getTicks() {
         return ticks;
     }
 
     @Override
-    public int getScore() {
+    public final int getScore() {
         return id;
     }
 
     @Override
-    public void setContent(String content) {
+    public final void setContent(List<String> content) {
         this.content = content;
+    }
 
-        final Team team = getScoreTeam();
+    public final void addLine(String s) {
+        content.add(s);
+    }
 
-        if (team == null)
-            return;
+    public final void setLine(int id, String s) {
+        final int index = content.indexOf(s);
 
-        team.setPrefix(getPrefix());
-        team.setSuffix(getContent());
+        if (index < 0)
+            addLine(s);
 
-        showScore();
+        content.set(index, s);
     }
 
     @Override
-    public @NonNull String getPrefix() {
-        final String prefix = content;
-        return prefix.substring(0, 16);
-    }
-
-    @Override
-    public String getContent() {
-        final String suffix = content;
-        return suffix.substring(16, suffix.length() -1);
-    }
-
-    @Override
-    public @NonNull String getFullContent() {
+    public final List<String> getContent() {
         return content;
     }
 
     @Override
-    public @NonNull ScoreboardBuilder getScoreboardBuilder() {
+    public final @NonNull ScoreboardBuilder getScoreboardBuilder() {
         return builder;
+    }
+
+    public final String getPrefix(String line) {
+        return line.substring(0, 24);
+    }
+
+    public final String getSuffix(String line) {
+        return line.substring(24, line.length() - 1);
     }
 
     @Nullable
@@ -107,7 +103,7 @@ public final class AnimatedScore implements IScore {
     }
 
     @Override
-    public void showScore() {
+    public final void showScore() {
         final Objective objective = builder.getMainObjective();
         final EntryName name = getEntryName();
 
@@ -121,7 +117,7 @@ public final class AnimatedScore implements IScore {
     }
 
     @Override
-    public void hideScore() {
+    public final void hideScore() {
         final Scoreboard scoreboard = builder.getBoard();
         final Objective objective = builder.getMainObjective();
         final EntryName name = getEntryName();
@@ -135,15 +131,21 @@ public final class AnimatedScore implements IScore {
         scoreboard.resetScores(name.getEntryName());
     }
 
-    private void update() {
-        if (update != null) update.accept(this);
-    }
-
     private void run(long period) {
         new BukkitRunnable() {
             @Override
             public void run() {
-                update();
+                content.forEach((line) -> {
+                    final Team team = getScoreTeam();
+
+                    if (team == null)
+                        return;
+
+                    team.setPrefix(getPrefix(line));
+                    team.setSuffix(getSuffix(line));
+
+                    showScore();
+                });
             }
         }.runTaskTimer(SpigotPlugin.getInstance(), 0, period);
     }

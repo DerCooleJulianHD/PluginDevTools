@@ -5,7 +5,7 @@ import org.bukkit.scoreboard.Objective;
 import org.bukkit.scoreboard.Scoreboard;
 import org.checkerframework.checker.nullness.qual.NonNull;
 
-public final class SimpleScore implements IScore {
+public final class SimpleScore implements IScore<String> {
 
     private final ScoreboardBuilder builder;
 
@@ -16,6 +16,7 @@ public final class SimpleScore implements IScore {
         this.builder = builder;
         this.content = content;
         this.id = id;
+        showScore();
     }
 
     @Override
@@ -29,19 +30,7 @@ public final class SimpleScore implements IScore {
     }
 
     @Override
-    public @NonNull String getPrefix() {
-        final String prefix = content;
-        return prefix.substring(0, 16);
-    }
-
-    @Override
     public String getContent() {
-        final String suffix = content;
-        return suffix.substring(16, suffix.length() -1);
-    }
-
-    @Override
-    public @NonNull String getFullContent() {
         return content;
     }
 
@@ -54,10 +43,10 @@ public final class SimpleScore implements IScore {
     public void showScore() {
         final Objective objective = builder.getMainObjective();
 
-        if (objective.getScore(getFullContent()).isScoreSet())
+        if (objective.getScore(content).isScoreSet())
             return;
 
-        objective.getScore(getFullContent()).setScore(id);
+        objective.getScore(content).setScore(id);
     }
 
     @Override
@@ -65,9 +54,9 @@ public final class SimpleScore implements IScore {
         final Scoreboard scoreboard = builder.getBoard();
         final Objective objective = builder.getMainObjective();
 
-        if (!objective.getScore(getFullContent()).isScoreSet())
+        if (!objective.getScore(content).isScoreSet())
             return;
 
-        scoreboard.resetScores(getFullContent());
+        scoreboard.resetScores(content);
     }
 }

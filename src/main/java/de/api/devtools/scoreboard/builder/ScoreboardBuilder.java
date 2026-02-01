@@ -15,6 +15,7 @@ import org.bukkit.scoreboard.Scoreboard;
 import org.checkerframework.checker.nullness.qual.NonNull;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.function.Consumer;
@@ -72,10 +73,8 @@ public class ScoreboardBuilder implements IScoreboard {
         return mainObjective;
     }
 
-    private void setScore(@NonNull IScore score) {
+    private void setScore(@NonNull IScore<?> score) {
         getScores().put(score.getScore(), score);
-
-        score.showScore();
     }
 
     @Override
@@ -84,8 +83,8 @@ public class ScoreboardBuilder implements IScoreboard {
     }
 
     @Override
-    public void setAnimatedScore(long ticks, @NonNull String content, int id, Consumer<AnimatedScore> update) {
-        this.setScore(new AnimatedScore(this, ticks, content, id, update));
+    public void setAnimatedScore(long ticks, @NonNull List<String> content, int id) {
+        this.setScore(new AnimatedScore(this, ticks, content, id));
     }
 
     public final SpigotPlugin getPlugin() {

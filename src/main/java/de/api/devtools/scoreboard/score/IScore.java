@@ -3,16 +3,12 @@ package de.api.devtools.scoreboard.score;
 import de.api.devtools.scoreboard.builder.ScoreboardBuilder;
 import org.checkerframework.checker.nullness.qual.NonNull;
 
-public interface IScore {
+public interface IScore<T> {
     int getScore();
 
-    void setContent(String content);
+    void setContent(T content);
 
-    @NonNull String getPrefix();
-
-    String getContent();
-
-    @NonNull String getFullContent();
+    T getContent();
 
     @NonNull ScoreboardBuilder getScoreboardBuilder();
 
