@@ -6,8 +6,8 @@ public class SimplePlayerScoreboard extends SimpleScoreboard {
 
     protected final Player player;
 
-    public SimplePlayerScoreboard(Player player, String displayname, boolean replace) {
-        super(player, displayname, replace);
+    public SimplePlayerScoreboard(Player player, String displayname) {
+        super(player, displayname ,true);
         this.player = player;
     }
 
