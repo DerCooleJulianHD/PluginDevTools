@@ -10,8 +10,9 @@ import org.bukkit.scoreboard.Team;
 import org.checkerframework.checker.nullness.qual.NonNull;
 
 import javax.annotation.Nullable;
+import java.util.function.Consumer;
 
-public abstract class AnimatedScore implements IScore {
+public final class AnimatedScore implements IScore {
 
     private final ScoreboardBuilder builder;
 
@@ -20,31 +21,28 @@ public abstract class AnimatedScore implements IScore {
 
     private final long ticks;
 
-    public AnimatedScore(ScoreboardBuilder builder, String content, int id, long ticks) {
+    private final Consumer<AnimatedScore> update;
+
+    public AnimatedScore(ScoreboardBuilder builder, long ticks, String content, int id, Consumer<AnimatedScore> update) {
         this.builder = builder;
         this.content = content;
         this.id = id;
         this.ticks = ticks;
+        this.update = update;
         run(ticks);
     }
 
-    public AnimatedScore(ScoreboardBuilder builder, String prefix, String content, int id, long ticks) {
-        this(builder, (prefix + content), id, ticks);
-    }
-
-    public abstract void update();
-
-    public final long getTicks() {
+    public long getTicks() {
         return ticks;
     }
 
     @Override
-    public final int getScore() {
+    public int getScore() {
         return id;
     }
 
     @Override
-    public final void setContent(String content) {
+    public void setContent(String content) {
         this.content = content;
 
         final Team team = getScoreTeam();
@@ -59,24 +57,24 @@ public abstract class AnimatedScore implements IScore {
     }
 
     @Override
-    public final @NonNull String getPrefix() {
+    public @NonNull String getPrefix() {
         final String prefix = content;
         return prefix.substring(0, 16);
     }
 
     @Override
-    public final String getContent() {
+    public String getContent() {
         final String suffix = content;
         return suffix.substring(16, suffix.length() -1);
     }
 
     @Override
-    public final @NonNull String getFullContent() {
+    public @NonNull String getFullContent() {
         return content;
     }
 
     @Override
-    public final @NonNull ScoreboardBuilder getScoreboardBuilder() {
+    public @NonNull ScoreboardBuilder getScoreboardBuilder() {
         return builder;
     }
 
@@ -109,7 +107,7 @@ public abstract class AnimatedScore implements IScore {
     }
 
     @Override
-    public final void showScore() {
+    public void showScore() {
         final Objective objective = builder.getMainObjective();
         final EntryName name = getEntryName();
 
@@ -123,7 +121,7 @@ public abstract class AnimatedScore implements IScore {
     }
 
     @Override
-    public final void hideScore() {
+    public void hideScore() {
         final Scoreboard scoreboard = builder.getBoard();
         final Objective objective = builder.getMainObjective();
         final EntryName name = getEntryName();
@@ -135,6 +133,10 @@ public abstract class AnimatedScore implements IScore {
             return;
 
         scoreboard.resetScores(name.getEntryName());
+    }
+
+    private void update() {
+        if (update != null) update.accept(this);
     }
 
     private void run(long period) {

@@ -1,6 +1,8 @@
 package de.api.devtools.scoreboard;
 
+import de.api.devtools.scoreboard.score.AnimatedScore;
 import de.api.devtools.scoreboard.score.IScore;
+import de.api.devtools.scoreboard.score.SimpleScore;
 import de.api.devtools.scoreboard.util.Criteria;
 import de.api.devtools.utils.TextUtil;
 import org.bukkit.entity.Player;
@@ -12,6 +14,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
 
 import java.util.Map;
 import java.util.Objects;
+import java.util.function.Consumer;
 
 public interface IScoreboard {
 
@@ -39,8 +42,16 @@ public interface IScoreboard {
         if (getObjective(id) != null) Objects.requireNonNull(getObjective(id)).unregister();
     }
 
-    default void setScore(IScore score) {
-        getScores().put(score.getScore(), score);
+    void setSimpleScore(@NonNull String content, int id);
+
+    default void setSimpleScore(@NonNull String prefix, @NonNull String content, int id) {
+        setSimpleScore((prefix + content), id);
+    }
+
+    void setAnimatedScore(long ticks, @NonNull String content, int id, Consumer<AnimatedScore> update);
+
+    default void setAnimatedScore(long ticks, @NonNull String prefix, @NonNull String content, int id, Consumer<AnimatedScore> update) {
+        setAnimatedScore(ticks, (prefix + content), id, update);
     }
 
     default void removeScore(int id) {
@@ -54,4 +65,5 @@ public interface IScoreboard {
     default void set(Player player) {
         player.setScoreboard(getBoard());
     }
+
 }

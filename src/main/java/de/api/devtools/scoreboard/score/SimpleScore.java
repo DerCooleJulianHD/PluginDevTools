@@ -12,14 +12,10 @@ public final class SimpleScore implements IScore {
     private final int id;
     private String content;
 
-    public SimpleScore(ScoreboardBuilder builder, String content, int id) {
+    public SimpleScore(@NonNull ScoreboardBuilder builder, @NonNull String content, int id) {
         this.builder = builder;
         this.content = content;
         this.id = id;
-    }
-
-    public SimpleScore(ScoreboardBuilder builder, String prefix, String content, int id) {
-        this(builder, prefix + content, id);
     }
 
     @Override
@@ -30,8 +26,6 @@ public final class SimpleScore implements IScore {
     @Override
     public void setContent(String content) {
         this.content = content;
-
-        showScore();
     }
 
     @Override

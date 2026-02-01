@@ -1,9 +1,10 @@
 package de.api.devtools.scoreboard.builder;
 
-import de.api.devtools.common.Validate;
 import de.api.devtools.plugin.SpigotPlugin;
 import de.api.devtools.scoreboard.IScoreboard;
+import de.api.devtools.scoreboard.score.AnimatedScore;
 import de.api.devtools.scoreboard.score.IScore;
+import de.api.devtools.scoreboard.score.SimpleScore;
 import de.api.devtools.scoreboard.util.Criteria;
 import de.api.devtools.utils.TextUtil;
 import org.bukkit.Bukkit;
@@ -16,6 +17,7 @@ import org.checkerframework.checker.nullness.qual.NonNull;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
+import java.util.function.Consumer;
 
 public class ScoreboardBuilder implements IScoreboard {
 
@@ -68,6 +70,22 @@ public class ScoreboardBuilder implements IScoreboard {
     @Override
     public final @NonNull Objective getMainObjective() {
         return mainObjective;
+    }
+
+    private void setScore(@NonNull IScore score) {
+        getScores().put(score.getScore(), score);
+
+        score.showScore();
+    }
+
+    @Override
+    public void setSimpleScore(@NonNull String content, int id) {
+        this.setScore(new SimpleScore(this, content, id));
+    }
+
+    @Override
+    public void setAnimatedScore(long ticks, @NonNull String content, int id, Consumer<AnimatedScore> update) {
+        this.setScore(new AnimatedScore(this, ticks, content, id, update));
     }
 
     public final SpigotPlugin getPlugin() {
