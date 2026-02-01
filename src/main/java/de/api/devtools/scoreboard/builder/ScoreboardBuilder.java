@@ -18,7 +18,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
-import java.util.function.Consumer;
 
 public class ScoreboardBuilder implements IScoreboard {
 
@@ -47,8 +46,6 @@ public class ScoreboardBuilder implements IScoreboard {
         if (objective != null) {
             if (!replace) return objective; //: and won't be replaced.
             objective.unregister(); //: and will be removed for replacing it
-        } else {
-            throw new IllegalStateException("Objective:" + id + " was not found.");
         }
 
         // here when the objective is not exist or will be created after replace.
