@@ -137,7 +137,7 @@ public class AnimatedScore extends BukkitRunnable implements IScore<List<String>
         team.setPrefix(getPrefix(line));
         team.setSuffix(getSuffix(line));
         setIndex(index + 1);
-        if (index >= content.size() - 1) index = 0;
+        if (index >= content.size()) index = 0;
     }
 
     public void setIndex(int index) {
