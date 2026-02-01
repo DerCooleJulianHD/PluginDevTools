@@ -23,9 +23,10 @@ public class AnimatedScore implements IScore<List<String>> {
 
     public AnimatedScore(ScoreboardBuilder builder, long ticks, @NonNull List<String> content, int id) {
         this.builder = builder;
-        this.id = id;
         this.content = content;
+        this.id = id;
         this.ticks = ticks;
+        showScore();
         run(ticks);
     }
 
@@ -141,7 +142,6 @@ public class AnimatedScore implements IScore<List<String>> {
                 if (team == null) return;
                 team.setPrefix(getPrefix(line));
                 team.setSuffix(getSuffix(line));
-                showScore();
                 index++;
                 if (index >= content.size() - 1) index = 0;
             }
