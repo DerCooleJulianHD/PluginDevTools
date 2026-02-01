@@ -1,6 +1,5 @@
 package de.api.devtools.plugin;
 import de.api.devtools.listener.ListenerManager;
-import de.api.devtools.utils.Console;
 import org.bukkit.ChatColor;
 import org.checkerframework.checker.nullness.qual.NonNull;
 

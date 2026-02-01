@@ -2,7 +2,7 @@ package de.api.devtools.command;
 
 import de.api.devtools.common.Validate;
 import de.api.devtools.utils.Messages;
-import de.api.devtools.utils.load.AutoLoadable;
+import de.api.devtools.load.AutoLoadable;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;

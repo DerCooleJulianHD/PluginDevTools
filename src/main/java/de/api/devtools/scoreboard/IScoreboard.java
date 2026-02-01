@@ -28,8 +28,8 @@ public interface IScoreboard {
 
     default void setFooter(Objective objective, String s) {
         final int titleLength = objective.getDisplayName().length();
-        final int diffToCenter = (s.length() / 2) - (titleLength / 2);
-        String footer= " ".repeat(Math.max(0, diffToCenter)) + TextUtil.colorize(s);
+        final int diffToCenter =  (titleLength / 2) - (s.length() / 2);
+        String footer = " ".repeat(Math.max(0, diffToCenter)) + TextUtil.colorize(s);
         objective.getScore(footer).setScore(0);
     }
 

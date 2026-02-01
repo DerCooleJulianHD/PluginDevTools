@@ -1,7 +1,7 @@
 package de.api.devtools.plugin;
 
 import de.api.devtools.config.YamlConfigFile;
-import de.api.devtools.utils.load.AutoLoad;
+import de.api.devtools.load.AutoLoad;
 import org.checkerframework.checker.nullness.qual.NonNull;
 
 @AutoLoad

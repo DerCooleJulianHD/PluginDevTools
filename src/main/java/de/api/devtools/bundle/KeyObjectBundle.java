@@ -1,7 +1,5 @@
 package de.api.devtools.bundle;
 
-import de.api.devtools.utils.KeyObject;
-
 public abstract class KeyObjectBundle<T extends KeyObject> extends Bundle<T> {
 
     public KeyObjectBundle(String name) {

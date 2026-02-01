@@ -1,4 +1,4 @@
-package de.api.devtools.utils.load;
+package de.api.devtools.load;
 
 public interface Loadable extends AutoLoadable{
 

@@ -1,4 +1,4 @@
-package de.api.devtools.utils;
+package de.api.devtools.bundle;
 
 import org.checkerframework.checker.nullness.qual.NonNull;
 

@@ -1,7 +1,5 @@
-package de.api.devtools.utils;
+package de.api.devtools.plugin;
 
-import de.api.devtools.plugin.MinecraftPlugin;
-import de.api.devtools.plugin.SpigotPlugin;
 import org.bukkit.Bukkit;
 import org.bukkit.command.ConsoleCommandSender;
 

@@ -3,7 +3,7 @@ package de.api.devtools.config;
 import de.api.devtools.common.Validate;
 import de.api.devtools.plugin.SpigotPlugin;
 import de.api.devtools.utils.FileManager;
-import de.api.devtools.utils.load.Loadable;
+import de.api.devtools.load.Loadable;
 import org.bukkit.Bukkit;
 
 import javax.annotation.Nullable;
