@@ -4,18 +4,16 @@ import de.api.devtools.plugin.SpigotPlugin;
 import de.api.devtools.utils.TextUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
-import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scoreboard.DisplaySlot;
 import org.bukkit.scoreboard.Objective;
 import org.bukkit.scoreboard.Scoreboard;
 import org.bukkit.scoreboard.Team;
-import org.checkerframework.checker.nullness.qual.NonNull;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.Objects;
 
-public class ScoreboardBuilder implements IScoreboard {
+public abstract class ScoreboardBuilder implements IScoreboard {
 
     protected final SpigotPlugin plugin = SpigotPlugin.getInstance();
     protected final Scoreboard scoreboard;
@@ -59,8 +57,8 @@ public class ScoreboardBuilder implements IScoreboard {
     }
 
     @Override
-    public final void setScore(@NonNull String prefix, String content, int id) {
-        final Team team = getScoreTeam(id);
+    public final void setScore(@Nonnull String prefix, String content, int score) {
+        final Team team = getScoreTeam(score);
 
         if (team == null)
             return;
@@ -71,11 +69,12 @@ public class ScoreboardBuilder implements IScoreboard {
             return;
 
         team.setSuffix(TextUtil.colorize(content));
+        showScore(score);
     }
 
     @Override
-    public final void removeScore(int id) {
-        final Entry name = getEntry(id);
+    public final void removeScore(int score) {
+        final Entry name = getEntry(score);
 
         if (name == null)
             return;
@@ -87,9 +86,9 @@ public class ScoreboardBuilder implements IScoreboard {
     }
 
     @Nullable
-    private Entry getEntry(int id) {
+    private Entry getEntry(int score) {
         for (Entry name : Entry.values()) {
-            if (id == name.getId()) {
+            if (score == name.getId()) {
                 return name;
             }
         }
@@ -97,11 +96,13 @@ public class ScoreboardBuilder implements IScoreboard {
         return null;
     }
 
-    public final void animate(int id, BukkitRunnable runnable) {}
+    public final void animate(long ticks, @Nonnull ScoreAnimation animation) {
+        animation.runTaskTimer(plugin, 0, ticks);
+    }
 
     @Nullable
-    private Team getScoreTeam(int id) {
-        final Entry name = getEntry(id);
+    private Team getScoreTeam(int score) {
+        final Entry name = getEntry(score);
 
         if (name == null)
             return null;
@@ -112,8 +113,8 @@ public class ScoreboardBuilder implements IScoreboard {
         return team;
     }
 
-    private void showScore(int id) {
-        final Entry name = getEntry(id);
+    private void showScore(int score) {
+        final Entry name = getEntry(score);
 
         if (name == null)
             return;
@@ -121,10 +122,45 @@ public class ScoreboardBuilder implements IScoreboard {
         if (objective.getScore(name.getEntryName()).isScoreSet())
             return;
 
-        objective.getScore(name.getEntryName()).setScore(id);
+        objective.getScore(name.getEntryName()).setScore(score);
     }
 
     public final SpigotPlugin getPlugin() {
         return plugin;
+    }
+
+    private enum Entry {
+        ENTRY_0(0, "§f"),
+        ENTRY_1(1, "§c"),
+        ENTRY_2(2, "§e"),
+        ENTRY_3(3, "§a"),
+        ENTRY_4(4, "§7"),
+        ENTRY_5(5, "§4"),
+        ENTRY_6(6, "§l"),
+        ENTRY_7(7, "§m"),
+        ENTRY_8(8, "§b"),
+        ENTRY_9(9, "§8"),
+        ENTRY_10(10, "§0"),
+        ENTRY_11(11, "§6"),
+        ENTRY_12(12, "§5"),
+        ENTRY_13(13, "§d"),
+        ENTRY_14(14, "§n"),
+        ENTRY_15(15, "§r");
+
+        private final int id;
+        private final String entryName;
+
+        Entry(int id, String entryName) {
+            this.id = id;
+            this.entryName = entryName;
+        }
+
+        public final int getId() {
+            return id;
+        }
+
+        public final String getEntryName() {
+            return entryName;
+        }
     }
 }
