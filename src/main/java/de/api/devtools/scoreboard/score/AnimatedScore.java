@@ -18,7 +18,7 @@ public class AnimatedScore implements IScore<List<String>> {
 
     private final int id;
     private List<String> content;
-
+    protected int index = 0;
     private final long ticks;
 
     public AnimatedScore(ScoreboardBuilder builder, long ticks, @NonNull List<String> content, int id) {
@@ -135,17 +135,15 @@ public class AnimatedScore implements IScore<List<String>> {
         new BukkitRunnable() {
             @Override
             public void run() {
-                content.forEach((line) -> {
-                    final Team team = getScoreTeam();
-
-                    if (team == null)
-                        return;
-
-                    team.setPrefix(getPrefix(line));
-                    team.setSuffix(getSuffix(line));
-
-                    showScore();
-                });
+                final String line = content.get(index);
+                if (line == null) return;
+                final Team team = getScoreTeam();
+                if (team == null) return;
+                team.setPrefix(getPrefix(line));
+                team.setSuffix(getSuffix(line));
+                showScore();
+                index++;
+                if (index >= content.size() - 1) index = 0;
             }
         }.runTaskTimer(SpigotPlugin.getInstance(), 0, period);
     }

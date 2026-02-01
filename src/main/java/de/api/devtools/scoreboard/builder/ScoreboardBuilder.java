@@ -76,7 +76,7 @@ public class ScoreboardBuilder implements IScoreboard {
 
     @Override
     public void setSimpleScore(@NonNull String content, int id) {
-        this.setScore(new SimpleScore(this, content, id));
+        this.setScore(new SimpleScore(this, TextUtil.colorize(content), id));
     }
 
     @Override
