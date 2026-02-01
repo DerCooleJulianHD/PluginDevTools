@@ -1,6 +1,7 @@
 package de.api.devtools.scoreboard.score;
 
 import de.api.devtools.scoreboard.builder.ScoreboardBuilder;
+import de.api.devtools.utils.TextUtil;
 import org.bukkit.scoreboard.Objective;
 import org.bukkit.scoreboard.Scoreboard;
 import org.checkerframework.checker.nullness.qual.NonNull;
@@ -31,7 +32,7 @@ public final class SimpleScore implements IScore<String> {
 
     @Override
     public String getContent() {
-        return content;
+        return TextUtil.colorize(content);
     }
 
     @Override
@@ -43,10 +44,10 @@ public final class SimpleScore implements IScore<String> {
     public void showScore() {
         final Objective objective = builder.getMainObjective();
 
-        if (objective.getScore(content).isScoreSet())
+        if (objective.getScore(getContent()).isScoreSet())
             return;
 
-        objective.getScore(content).setScore(id);
+        objective.getScore(getContent()).setScore(id);
     }
 
     @Override
@@ -54,9 +55,9 @@ public final class SimpleScore implements IScore<String> {
         final Scoreboard scoreboard = builder.getBoard();
         final Objective objective = builder.getMainObjective();
 
-        if (!objective.getScore(content).isScoreSet())
+        if (!objective.getScore(getContent()).isScoreSet())
             return;
 
-        scoreboard.resetScores(content);
+        scoreboard.resetScores(getContent());
     }
 }

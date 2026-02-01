@@ -2,6 +2,7 @@ package de.api.devtools.scoreboard.score;
 
 import de.api.devtools.plugin.SpigotPlugin;
 import de.api.devtools.scoreboard.builder.ScoreboardBuilder;
+import de.api.devtools.utils.TextUtil;
 import org.bukkit.ChatColor;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scoreboard.Objective;
@@ -68,11 +69,11 @@ public class AnimatedScore implements IScore<List<String>> {
     }
 
     public final String getPrefix(String line) {
-        return line.substring(0, 24);
+        return TextUtil.colorize(line.substring(0, 24));
     }
 
     public final String getSuffix(String line) {
-        return line.substring(24, line.length() - 1);
+        return TextUtil.colorize(line.substring(24, line.length() - 1));
     }
 
     @Nullable
