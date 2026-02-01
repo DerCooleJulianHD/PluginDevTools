@@ -1,15 +1,13 @@
-package de.api.devtools.utils;
+package de.api.devtools.item;
 
+import de.api.devtools.utils.TextUtil;
 import org.bukkit.Material;
-import org.bukkit.configuration.serialization.ConfigurationSerializable;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
 
 public final class ItemCreator {
 
