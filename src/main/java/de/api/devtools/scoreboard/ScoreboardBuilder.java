@@ -1,6 +1,7 @@
 package de.api.devtools.scoreboard;
 
 import de.api.devtools.plugin.SpigotPlugin;
+import de.api.devtools.utils.TextUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.scoreboard.Objective;
@@ -49,6 +50,6 @@ public abstract class ScoreboardBuilder implements IScoreboard {
 
     @Override
     public void setTitle(String s) {
-        objective.setDisplayName(s);
+        objective.setDisplayName(TextUtil.colorize(s));
     }
 }

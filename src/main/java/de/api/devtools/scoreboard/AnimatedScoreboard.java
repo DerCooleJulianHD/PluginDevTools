@@ -1,5 +1,6 @@
 package de.api.devtools.scoreboard;
 
+import de.api.devtools.utils.TextUtil;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.scoreboard.Team;
@@ -30,10 +31,10 @@ public abstract class AnimatedScoreboard extends ScoreboardBuilder {
             return;
 
         if (prefix != null)
-            team.setPrefix(prefix);
+            team.setPrefix(TextUtil.colorize(prefix));
 
         if (suffix != null)
-            team.setSuffix(suffix);
+            team.setSuffix(TextUtil.colorize(suffix));
 
         showScore(score);
     }

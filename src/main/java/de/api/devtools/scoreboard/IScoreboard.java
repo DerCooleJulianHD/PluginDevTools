@@ -17,6 +17,8 @@ public interface IScoreboard {
 
     void setScore(String content, int score);
 
+    void setScore(String prefix, String suffix, int score);
+
     void removeScore(int score);
 
     void setTitle(String s);

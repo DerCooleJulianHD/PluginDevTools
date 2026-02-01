@@ -1,6 +1,7 @@
 package de.api.devtools.scoreboard;
 
 
+import de.api.devtools.utils.TextUtil;
 import org.bukkit.entity.Player;
 
 import java.util.HashMap;
@@ -20,7 +21,13 @@ public abstract class SimpleScoreboard extends ScoreboardBuilder {
 
     @Override
     public void setScore(String content, int score) {
+        setScore(content, null, score);
+    }
+
+    @Override
+    public void setScore(String prefix, String suffix, int score) {
         if (objective == null) return;
+        final String content = TextUtil.colorize(prefix + (suffix != null ? suffix : ""));
         objective.getScore(content).setScore(score);
         scores.put(score, content);
     }
