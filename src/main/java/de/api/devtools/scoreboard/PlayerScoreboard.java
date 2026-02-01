@@ -9,7 +9,6 @@ public abstract class PlayerScoreboard extends ScoreboardBuilder {
     public PlayerScoreboard(Player player, String displayname) {
         super(player, displayname, true);
         this.player = player;
-        this.set(player);
     }
 
     public Player getPlayer() {

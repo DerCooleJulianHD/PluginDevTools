@@ -3,7 +3,6 @@ package de.api.devtools.scoreboard.builder;
 import de.api.devtools.plugin.SpigotPlugin;
 import de.api.devtools.scoreboard.IScoreboard;
 import de.api.devtools.scoreboard.score.AnimatedScore;
-import de.api.devtools.scoreboard.score.IScore;
 import de.api.devtools.scoreboard.score.SimpleScore;
 import de.api.devtools.scoreboard.util.Criteria;
 import de.api.devtools.utils.TextUtil;
@@ -12,8 +11,8 @@ import org.bukkit.entity.Player;
 import org.bukkit.scoreboard.DisplaySlot;
 import org.bukkit.scoreboard.Objective;
 import org.bukkit.scoreboard.Scoreboard;
-import org.checkerframework.checker.nullness.qual.NonNull;
 
+import javax.annotation.Nonnull;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -25,7 +24,8 @@ public class ScoreboardBuilder implements IScoreboard {
     protected final Scoreboard scoreboard;
     protected final Objective mainObjective;
 
-    protected final Map<Integer, IScore> scores = new HashMap<>();
+    protected final Map<Integer, SimpleScore> simpleScores = new HashMap<>();
+    protected final Map<Integer, AnimatedScore> animatedScores = new HashMap<>();
 
     protected ScoreboardBuilder(String displayname, boolean replace) {
         this.scoreboard = Objects.requireNonNull(Bukkit.getScoreboardManager()).getNewScoreboard();
@@ -39,7 +39,7 @@ public class ScoreboardBuilder implements IScoreboard {
     }
 
     @Override
-    public final @NonNull Objective registerObjective(String id, Criteria criteria, String displayname, boolean replace) {
+    public final @Nonnull Objective registerObjective(String id, Criteria criteria, String displayname, boolean replace) {
         Objective objective = getObjective(id);
 
         // here when the old objective is exists.
@@ -56,32 +56,33 @@ public class ScoreboardBuilder implements IScoreboard {
     }
 
     @Override
-    public final @NonNull Map<Integer, IScore> getScores() {
-        return scores;
-    }
-
-    @Override
-    public final @NonNull Scoreboard getBoard() {
+    public final @Nonnull Scoreboard getBoard() {
         return scoreboard;
     }
 
     @Override
-    public final @NonNull Objective getMainObjective() {
+    public final @Nonnull Objective getMainObjective() {
         return mainObjective;
     }
 
-    private void setScore(@NonNull IScore<?> score) {
-        getScores().put(score.getScore(), score);
+    @Override
+    public @Nonnull Map<Integer, SimpleScore> getSimpleScores() {
+        return simpleScores;
     }
 
     @Override
-    public void setSimpleScore(@NonNull String content, int id) {
-        this.setScore(new SimpleScore(this, TextUtil.colorize(content), id));
+    public @Nonnull Map<Integer, AnimatedScore> getAnimatedScores() {
+        return animatedScores;
     }
 
     @Override
-    public void setAnimatedScore(long ticks, @NonNull List<String> content, int id) {
-        this.setScore(new AnimatedScore(this, ticks, content, id));
+    public void setSimpleScore(@Nonnull String content, int id) {
+        simpleScores.put(id, new SimpleScore(this, content, id));
+    }
+
+    @Override
+    public void setAnimatedScore(long ticks, @Nonnull List<String> content, int id) {
+        animatedScores.put(id, new AnimatedScore(this, ticks, content, id));
     }
 
     public final SpigotPlugin getPlugin() {

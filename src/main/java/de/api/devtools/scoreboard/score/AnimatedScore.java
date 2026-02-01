@@ -1,9 +1,7 @@
 package de.api.devtools.scoreboard.score;
 
-import de.api.devtools.plugin.SpigotPlugin;
 import de.api.devtools.scoreboard.builder.ScoreboardBuilder;
 import de.api.devtools.utils.TextUtil;
-import org.bukkit.ChatColor;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scoreboard.Objective;
 import org.bukkit.scoreboard.Scoreboard;
@@ -13,7 +11,7 @@ import org.checkerframework.checker.nullness.qual.NonNull;
 import javax.annotation.Nullable;
 import java.util.List;
 
-public class AnimatedScore implements IScore<List<String>> {
+public class AnimatedScore extends BukkitRunnable implements IScore<List<String>> {
 
     private final ScoreboardBuilder builder;
 
@@ -28,7 +26,7 @@ public class AnimatedScore implements IScore<List<String>> {
         this.id = id;
         this.ticks = ticks;
         showScore();
-        run(ticks);
+        runTaskTimer(builder.getPlugin(), 0, ticks);
     }
 
     public final long getTicks() {
@@ -77,9 +75,9 @@ public class AnimatedScore implements IScore<List<String>> {
     }
 
     @Nullable
-    private EntryName getEntryName() {
-        for (EntryName name : EntryName.values()) {
-            if (id == name.getEntry()) {
+    private Entry getEntry() {
+        for (Entry name : Entry.values()) {
+            if (id == name.getId()) {
                 return name;
             }
         }
@@ -90,16 +88,13 @@ public class AnimatedScore implements IScore<List<String>> {
     @Nullable
     private Team getScoreTeam() {
         final Scoreboard scoreboard = builder.getBoard();
-        final EntryName name = getEntryName();
+        final Entry name = getEntry();
 
         if (name == null)
             return null;
 
         Team team = scoreboard.getEntryTeam(name.getEntryName());
-
-        if (team == null)
-            team = scoreboard.registerNewTeam(name.name());
-
+        if (team == null) team = scoreboard.registerNewTeam(name.name());
         team.addEntry(name.getEntryName());
         return team;
     }
@@ -107,7 +102,7 @@ public class AnimatedScore implements IScore<List<String>> {
     @Override
     public final void showScore() {
         final Objective objective = builder.getMainObjective();
-        final EntryName name = getEntryName();
+        final Entry name = getEntry();
 
         if (name == null)
             return;
@@ -122,7 +117,7 @@ public class AnimatedScore implements IScore<List<String>> {
     public final void hideScore() {
         final Scoreboard scoreboard = builder.getBoard();
         final Objective objective = builder.getMainObjective();
-        final EntryName name = getEntryName();
+        final Entry name = getEntry();
 
         if (name == null)
             return;
@@ -133,51 +128,50 @@ public class AnimatedScore implements IScore<List<String>> {
         scoreboard.resetScores(name.getEntryName());
     }
 
-    private void run(long period) {
-        new BukkitRunnable() {
-            @Override
-            public void run() {
-                final String line = content.get(index);
-                if (line == null) return;
-                final Team team = getScoreTeam();
-                if (team == null) return;
-                team.setPrefix(getPrefix(line));
-                team.setSuffix(getSuffix(line));
-                index++;
-                if (index >= content.size() - 1) index = 0;
-            }
-        }.runTaskTimer(SpigotPlugin.getInstance(), 0, period);
+    @Override
+    public void run() {
+        final String line = content.get(index);
+        if (line == null) return;
+        final Team team = getScoreTeam();
+        if (team == null) return;
+        team.setPrefix(getPrefix(line));
+        team.setSuffix(getSuffix(line));
+        setIndex(index + 1);
+        if (index >= content.size() - 1) index = 0;
     }
 
-    private enum EntryName {
+    public void setIndex(int index) {
+        this.index = index;
+    }
 
-        ENTRY_0(0, ChatColor.WHITE.toString()),
-        ENTRY_1(1, ChatColor.RED.toString()),
-        ENTRY_2(2, ChatColor.YELLOW.toString()),
-        ENTRY_3(3, ChatColor.GREEN.toString()),
-        ENTRY_4(4, ChatColor.GRAY.toString()),
-        ENTRY_5(5, ChatColor.DARK_RED.toString()),
-        ENTRY_6(6, ChatColor.BOLD.toString()),
-        ENTRY_7(7, ChatColor.UNDERLINE.toString()),
-        ENTRY_8(8, ChatColor.AQUA.toString()),
-        ENTRY_9(9, ChatColor.DARK_GRAY.toString()),
-        ENTRY_10(10, ChatColor.BLACK.toString()),
-        ENTRY_11(11, ChatColor.GOLD.toString()),
-        ENTRY_12(12, ChatColor.DARK_PURPLE.toString()),
-        ENTRY_13(13, ChatColor.LIGHT_PURPLE.toString()),
-        ENTRY_14(14, ChatColor.STRIKETHROUGH.toString()),
-        ENTRY_15(15, ChatColor.RESET.toString());
+    private enum Entry {
+        ENTRY_0(0, "§f"),
+        ENTRY_1(1, "§c"),
+        ENTRY_2(2, "§e"),
+        ENTRY_3(3, "§a"),
+        ENTRY_4(4, "§7"),
+        ENTRY_5(5, "§4"),
+        ENTRY_6(6, "§l"),
+        ENTRY_7(7, "§m"),
+        ENTRY_8(8, "§b"),
+        ENTRY_9(9, "§8"),
+        ENTRY_10(10, "§0"),
+        ENTRY_11(11, "§6"),
+        ENTRY_12(12, "§5"),
+        ENTRY_13(13, "§d"),
+        ENTRY_14(14, "§n"),
+        ENTRY_15(15, "§r");
 
-        private final int entry;
+        private final int id;
         private final String entryName;
 
-        EntryName(int entry, String entryName) {
-            this.entry = entry;
+        Entry(int id, String entryName) {
+            this.id = id;
             this.entryName = entryName;
         }
 
-        public final int getEntry() {
-            return entry;
+        public final int getId() {
+            return id;
         }
 
         public final String getEntryName() {
