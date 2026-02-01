@@ -64,11 +64,8 @@ public abstract class ScoreboardBuilder implements IScoreboard {
             return;
 
         team.setPrefix(TextUtil.colorize(prefix));
+        if (content != null) team.setSuffix(TextUtil.colorize(content));
 
-        if (content == null)
-            return;
-
-        team.setSuffix(TextUtil.colorize(content));
         showScore(score);
     }
 
