@@ -6,6 +6,7 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
 import org.checkerframework.checker.nullness.qual.NonNull;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 import java.util.HashMap;
 import java.util.List;
@@ -46,7 +47,7 @@ public abstract class CommandGroup extends SimpleCommand implements TabCompleter
         this.commands.remove(name.toLowerCase());
     }
 
-    public final PluginCommand getCommand(String name) {
+    public final @Nullable PluginCommand getCommand(String name) {
         return this.commands.get(name.toLowerCase());
     }
 
@@ -70,7 +71,7 @@ public abstract class CommandGroup extends SimpleCommand implements TabCompleter
         final StringBuilder format = new StringBuilder(ChatColor.GOLD  + " Help Info: \n");
 
         commands.forEach((name, command) -> {
-            final String line = ChatColor.GRAY + "- /" + ChatColor.YELLOW + name + ChatColor.GRAY + ": " + ChatColor.WHITE + command.getDescription();
+            final String line = ChatColor.DARK_GRAY + "- " +  ChatColor.YELLOW + "/" + name + ChatColor.DARK_GRAY + ": " + ChatColor.GRAY + command.getDescription();
 
             format.append(line);
             format.append("\n");

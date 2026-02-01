@@ -1,20 +1,15 @@
 package de.api.devtools.plugin;
-
-import de.api.devtools.bundle.Bundle;
 import de.api.devtools.listener.ListenerManager;
 import de.api.devtools.utils.Console;
-import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
-import org.bukkit.Server;
-import org.bukkit.plugin.Plugin;
-import org.bukkit.plugin.PluginManager;
+import org.checkerframework.checker.nullness.qual.NonNull;
 
 import java.io.File;
 
 public interface MinecraftPlugin extends Prefixable {
 
     // this is the [bukkit] console sender.
-    Console getConsole();
+    @NonNull Console getConsole();
 
     default void init() {} // plugin load logic
 
@@ -22,7 +17,7 @@ public interface MinecraftPlugin extends Prefixable {
 
     default void onPluginStop() {} // plugin disable logic
 
-    ListenerManager getListenerManager();
+    @NonNull ListenerManager getListenerManager();
 
     // printing out to console, that the plugin has been enabled.
     default void sendStartMessage() {
@@ -35,7 +30,7 @@ public interface MinecraftPlugin extends Prefixable {
     }
 
     // the 'config.yml' file in the main plugin data folder.
-    PluginConfigFile getPluginConfig();
+    @NonNull PluginConfigFile getPluginConfig();
 
     // loads or creates a new instance of the 'config.yml' file.
     void loadPluginConfig(boolean def);
@@ -47,29 +42,14 @@ public interface MinecraftPlugin extends Prefixable {
     }
 
     // returns the version string from the plugin description file.
-    String getPluginVersion();
+    @NonNull String getPluginVersion();
 
     // returns the simple plugin name from the plugin description file.
-    String getPluginName();
+    @NonNull String getPluginName();
 
-    default MinecraftPlugin getSubType() {
+    default @NonNull MinecraftPlugin getSubType() {
         return this;
     }
 
-    default void loadPluginsFromFile(File dir) {
-        final Server server = Bukkit.getServer();
-        final PluginManager manager = server.getPluginManager();
-
-        final Plugin[] plugins = manager.loadPlugins(dir);
-
-        if (plugins.length > 0) {
-            server.getConsoleSender().sendMessage(ChatColor.GREEN + "found some plugins in: " + dir.getName());
-
-            for (Plugin target : plugins) {
-                manager.enablePlugin(target);
-            }
-        }
-
-        server.getConsoleSender().sendMessage(ChatColor.GREEN + "all plugins from: " + dir.getName() + " has been loaded and enabled on the server!");
-    }
+    void loadPluginsFromFile(File dir);
 }

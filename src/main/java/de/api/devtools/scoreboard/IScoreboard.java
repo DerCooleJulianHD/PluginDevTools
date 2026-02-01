@@ -1,47 +1,57 @@
 package de.api.devtools.scoreboard;
 
+import de.api.devtools.scoreboard.score.IScore;
+import de.api.devtools.scoreboard.util.Criteria;
+import de.api.devtools.utils.TextUtil;
 import org.bukkit.entity.Player;
 import org.bukkit.scoreboard.DisplaySlot;
 import org.bukkit.scoreboard.Objective;
 import org.bukkit.scoreboard.Scoreboard;
+import org.checkerframework.checker.nullness.qual.NonNull;
+import org.checkerframework.checker.nullness.qual.Nullable;
+
+import java.util.Map;
+import java.util.Objects;
 
 public interface IScoreboard {
 
-    Scoreboard getBoard();
+    @NonNull Map<Integer, IScore> getScores();
 
-    Objective getObjective();
+    @NonNull Scoreboard getBoard();
 
-    default Objective getObjective(String id) {
+    default void setTitle(String s) {
+        this.setTitle(getMainObjective(), s);
+    }
+
+    default void setTitle(Objective objective, String s) {
+        if (objective != null) Objects.requireNonNull(objective).setDisplayName(TextUtil.colorize(s));
+    }
+
+    @NonNull Objective registerObjective(String id, Criteria criteria, String displayname, boolean replace);
+
+    @NonNull Objective getMainObjective();
+
+    default @Nullable Objective getObjective(String id) {
         return getBoard().getObjective(id);
     }
 
-    void setScore(String content, int score);
-
-    void setScore(String prefix, String suffix, int score);
-
-    void removeScore(int score);
-
-    void setTitle(String s);
-
-    void addPlayer(Player player);
-
-    default Objective registerObjective(String id, Criteria criteria, String displayname, boolean replace) {
-        if (getObjective(id) != null) {
-            if (!replace) {
-                return getObjective(id);
-            }
-
-            getObjective(id).unregister();
-        }
-
-        final Objective objective = getBoard().registerNewObjective(id, criteria.getId());
-
-        objective.setDisplayName(displayname);
-        objective.setDisplaySlot(DisplaySlot.SIDEBAR);
-        return objective;
+    default void removeObjective(String id) {
+        if (getObjective(id) != null) Objects.requireNonNull(getObjective(id)).unregister();
     }
 
-    default void removeObjective(String id) {
-        if (getObjective(id) != null) getObjective(id).unregister();
+    default void setScore(IScore score) {
+        getScores().put(score.getScore(), score);
+    }
+
+    default void removeScore(int id) {
+        getScores().remove(id);
+    }
+
+    default @Nullable IScore getScore(int id) {
+        return getScores().get(id);
+    }
+
+    default void set(Player player) {
+        player.setScoreboard(getBoard());
     }
 }

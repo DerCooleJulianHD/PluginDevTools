@@ -8,6 +8,7 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.checkerframework.checker.nullness.qual.NonNull;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 //: base object for any type of command
 public abstract class SimpleCommand extends PluginCommand implements CommandExecutor, AutoLoadable {
@@ -39,7 +40,7 @@ public abstract class SimpleCommand extends PluginCommand implements CommandExec
     }
 
     @Override
-    public String getDescription() {
+    public @Nullable String getDescription() {
         return getPluginCommand().getDescription();
     }
 

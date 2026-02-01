@@ -2,6 +2,7 @@ package de.api.devtools.plugin;
 
 import de.api.devtools.config.YamlConfigFile;
 import de.api.devtools.utils.load.AutoLoad;
+import org.checkerframework.checker.nullness.qual.NonNull;
 
 @AutoLoad
 //: the config.yml file from the plugin
@@ -17,7 +18,7 @@ public final class PluginConfigFile extends YamlConfigFile implements Prefixable
 
     @Override
     // returns the String that is set in plugin config.
-    public String getPrefix() {
+    public @NonNull String getPrefix() {
         return readString("prefix") != null ? readString("prefix") : "";
     }
 

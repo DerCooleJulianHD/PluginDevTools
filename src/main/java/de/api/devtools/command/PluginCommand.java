@@ -2,6 +2,8 @@ package de.api.devtools.command;
 
 import de.api.devtools.plugin.SpigotPlugin;
 import de.api.devtools.utils.Permissible;
+import org.checkerframework.checker.nullness.qual.NonNull;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 public abstract class PluginCommand implements Permissible, ICommandExecutor {
 
@@ -19,7 +21,7 @@ public abstract class PluginCommand implements Permissible, ICommandExecutor {
     }
 
     @Override
-    public final String getPermission() {
+    public final @NonNull String getPermission() {
         return permission;
     }
 
@@ -37,7 +39,7 @@ public abstract class PluginCommand implements Permissible, ICommandExecutor {
         return name;
     }
 
-    public abstract String getDescription();
+    public abstract @Nullable String getDescription();
 
     public static PluginCommand getInstance() {
         return instance;

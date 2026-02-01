@@ -1,4 +1,4 @@
-package de.api.devtools.scoreboard;
+package de.api.devtools.scoreboard.util;
 
 public enum Criteria {
 
@@ -10,7 +10,7 @@ public enum Criteria {
         this.id = id;
     }
 
-    public String getId() {
+    public final String getId() {
         return id;
     }
 }

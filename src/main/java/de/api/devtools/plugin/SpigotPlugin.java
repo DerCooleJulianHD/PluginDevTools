@@ -1,6 +1,5 @@
 package de.api.devtools.plugin;
 
-import de.api.devtools.bundle.Bundle;
 import de.api.devtools.listener.ListenerManager;
 import de.api.devtools.utils.Console;
 import org.bukkit.Bukkit;
@@ -9,10 +8,9 @@ import org.bukkit.Server;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.checkerframework.checker.nullness.qual.NonNull;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.io.File;
 import java.util.Objects;
 
 //: base class for every plugin
@@ -45,12 +43,12 @@ public abstract class SpigotPlugin extends JavaPlugin implements MinecraftPlugin
     }
 
     @Override
-    public ListenerManager getListenerManager() {
+    public @NonNull ListenerManager getListenerManager() {
         return listenerManager;
     }
 
     @Override
-    public final PluginConfigFile getPluginConfig() {
+    public final @NonNull PluginConfigFile getPluginConfig() {
         return Objects.requireNonNull(config, "Plugin Config is not Loaded!");
     }
 
@@ -62,12 +60,12 @@ public abstract class SpigotPlugin extends JavaPlugin implements MinecraftPlugin
     }
 
     @Override
-    public String getPluginVersion() {
+    public @NonNull String getPluginVersion() {
         return getDescription().getVersion();
     }
 
     @Override
-    public String getPluginName() {
+    public @NonNull String getPluginName() {
         return getDescription().getName();
     }
 
@@ -93,7 +91,25 @@ public abstract class SpigotPlugin extends JavaPlugin implements MinecraftPlugin
     }
 
     @Override
-    public Console getConsole() {
+    public void loadPluginsFromFile(File dir) {
+        final Server server = Bukkit.getServer();
+        final PluginManager manager = server.getPluginManager();
+
+        final Plugin[] plugins = manager.loadPlugins(dir);
+
+        if (plugins.length > 0) {
+            server.getConsoleSender().sendMessage(ChatColor.GREEN + "found some plugins in: " + dir.getName());
+
+            for (Plugin target : plugins) {
+                manager.enablePlugin(target);
+            }
+        }
+
+        server.getConsoleSender().sendMessage(ChatColor.GREEN + "all plugins from: " + dir.getName() + " has been loaded and enabled on the server!");
+    }
+
+    @Override
+    public @NonNull Console getConsole() {
         return console;
     }
 

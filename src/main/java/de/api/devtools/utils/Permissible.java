@@ -1,8 +1,10 @@
 package de.api.devtools.utils;
 
+import javax.annotation.Nullable;
+
 public interface Permissible {
 
-    String getPermission();
+    @Nullable String getPermission();
 
     void setPermission(String value);
 
