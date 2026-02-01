@@ -1,8 +1,5 @@
 package de.api.devtools.scoreboard;
 
-import de.api.devtools.scoreboard.score.AnimatedScore;
-import de.api.devtools.scoreboard.score.SimpleScore;
-import de.api.devtools.scoreboard.util.Criteria;
 import de.api.devtools.utils.TextUtil;
 import org.bukkit.entity.Player;
 import org.bukkit.scoreboard.Objective;
@@ -10,29 +7,23 @@ import org.bukkit.scoreboard.Scoreboard;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-import java.util.List;
-import java.util.Map;
 import java.util.Objects;
 
 public interface IScoreboard {
 
-    @Nonnull Map<Integer, SimpleScore> getSimpleScores();
-
-    @Nonnull Map<Integer, AnimatedScore> getAnimatedScores();
-
     @Nonnull Scoreboard getBoard();
 
     default void setTitle(String s) {
-        this.setTitle(getMainObjective(), s);
+        this.setTitle(getObjective(), s);
     }
 
     default void setTitle(Objective objective, String s) {
         if (objective != null) Objects.requireNonNull(objective).setDisplayName(TextUtil.colorize(s));
     }
 
-    @Nonnull Objective registerObjective(String id, Criteria criteria, String displayname, boolean replace);
+    @Nonnull Objective registerObjective(boolean replace);
 
-    @Nonnull Objective getMainObjective();
+    @Nonnull Objective getObjective();
 
     default @Nullable Objective getObjective(String id) {
         return getBoard().getObjective(id);
@@ -42,34 +33,50 @@ public interface IScoreboard {
         if (getObjective(id) != null) Objects.requireNonNull(getObjective(id)).unregister();
     }
 
-    void setSimpleScore(@Nonnull String content, int id);
-
-    void setAnimatedScore(long ticks, @Nonnull List<String> content, int id);
-
-    default void removeSimpleScore(int id) {
-        final SimpleScore score = getSimpleScore(id);
-        if (score == null) return;
-        score.hideScore();
-        getSimpleScores().remove(id);
+    default void setScore(@Nonnull String content, int id) {
+        setScore(content, null, id);
     }
 
-    default void removeAnimatedScore(int id) {
-        final AnimatedScore score = getAnimatedScore(id);
-        if (score == null) return;
-        score.hideScore();
-        getAnimatedScores().remove(id);
-    }
+    void setScore(@Nonnull String prefix, String content, int id);
 
-    default @Nullable SimpleScore getSimpleScore(int id) {
-        return getSimpleScores().get(id);
-    }
-
-    default @Nullable AnimatedScore getAnimatedScore(int id) {
-        return getAnimatedScores().get(id);
-    }
+    void removeScore(int id);
 
     default void set(Player player) {
         player.setScoreboard(getBoard());
     }
 
+    enum Entry {
+        ENTRY_0(0, "§f"),
+        ENTRY_1(1, "§c"),
+        ENTRY_2(2, "§e"),
+        ENTRY_3(3, "§a"),
+        ENTRY_4(4, "§7"),
+        ENTRY_5(5, "§4"),
+        ENTRY_6(6, "§l"),
+        ENTRY_7(7, "§m"),
+        ENTRY_8(8, "§b"),
+        ENTRY_9(9, "§8"),
+        ENTRY_10(10, "§0"),
+        ENTRY_11(11, "§6"),
+        ENTRY_12(12, "§5"),
+        ENTRY_13(13, "§d"),
+        ENTRY_14(14, "§n"),
+        ENTRY_15(15, "§r");
+
+        private final int id;
+        private final String entryName;
+
+        Entry(int id, String entryName) {
+            this.id = id;
+            this.entryName = entryName;
+        }
+
+        public final int getId() {
+            return id;
+        }
+
+        public final String getEntryName() {
+            return entryName;
+        }
+    }
 }

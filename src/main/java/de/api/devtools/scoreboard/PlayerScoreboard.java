@@ -1,6 +1,5 @@
 package de.api.devtools.scoreboard;
 
-import de.api.devtools.scoreboard.builder.ScoreboardBuilder;
 import org.bukkit.entity.Player;
 
 public abstract class PlayerScoreboard extends ScoreboardBuilder {

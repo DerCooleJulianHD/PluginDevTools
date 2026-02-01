@@ -1,4 +1,4 @@
-package de.api.devtools.scoreboard.util;
+package de.api.devtools.scoreboard;
 
 public enum Criteria {
 
