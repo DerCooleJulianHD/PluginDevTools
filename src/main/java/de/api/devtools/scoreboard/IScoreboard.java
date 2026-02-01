@@ -1,6 +1,7 @@
 package de.api.devtools.scoreboard;
 
 import de.api.devtools.utils.TextUtil;
+import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.scoreboard.Objective;
 import org.bukkit.scoreboard.Scoreboard;
@@ -19,6 +20,17 @@ public interface IScoreboard {
 
     default void setTitle(Objective objective, String s) {
         if (objective != null) Objects.requireNonNull(objective).setDisplayName(TextUtil.colorize(s));
+    }
+
+    default void setFooter(String s) {
+        this.setFooter(getObjective(), s);
+    }
+
+    default void setFooter(Objective objective, String s) {
+        final int titleLength = objective.getDisplayName().length();
+        final int diffToCenter = (s.length() / 2) - (titleLength / 2);
+        String footer= " ".repeat(Math.max(0, diffToCenter)) + TextUtil.colorize(s);
+        objective.getScore(footer).setScore(0);
     }
 
     @Nonnull Objective registerObjective(boolean replace);

@@ -58,6 +58,10 @@ public abstract class ScoreboardBuilder implements IScoreboard {
 
     @Override
     public final void setScore(@Nonnull String prefix, String content, int score) {
+        if (score == 0) {
+            return;
+        }
+
         final Team team = getScoreTeam(score);
 
         if (team == null)
@@ -71,6 +75,10 @@ public abstract class ScoreboardBuilder implements IScoreboard {
 
     @Override
     public final void removeScore(int score) {
+        if (score == 0) {
+            return;
+        }
+
         final Entry name = getEntry(score);
 
         if (name == null)
