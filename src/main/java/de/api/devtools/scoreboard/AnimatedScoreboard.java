@@ -3,18 +3,23 @@ package de.api.devtools.scoreboard;
 import de.api.devtools.utils.TextUtil;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
+import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scoreboard.Team;
 
 import javax.annotation.Nullable;
 
 public abstract class AnimatedScoreboard extends ScoreboardBuilder {
 
-    public AnimatedScoreboard(String displayname, boolean replace) {
+    public AnimatedScoreboard(String displayname, long ticks, boolean replace) {
         super(displayname, replace);
+
+        run(ticks);
     }
 
-    public AnimatedScoreboard(Player player, String displayname, boolean replace) {
+    public AnimatedScoreboard(Player player, String displayname, long ticks, boolean replace) {
         super(player, displayname, replace);
+
+        run(ticks);
     }
 
     public abstract void update();
@@ -91,7 +96,20 @@ public abstract class AnimatedScoreboard extends ScoreboardBuilder {
         objective.getScore(name.getEntryName()).setScore(score);
     }
 
+    protected void run(long period) {
+        new BukkitRunnable() {
+            @Override
+            public void run() {
+                if (scoreboard == null)
+                    return;
 
+                if (objective == null)
+                    return;
+
+                update();
+            }
+        }.runTaskTimer(plugin, 0, period);
+    }
 
     private enum EntryName {
 

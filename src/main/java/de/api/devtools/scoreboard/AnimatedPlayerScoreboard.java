@@ -6,8 +6,8 @@ public abstract class AnimatedPlayerScoreboard extends AnimatedScoreboard {
 
     protected final Player player;
 
-    public AnimatedPlayerScoreboard(Player player, String displayName, boolean replace) {
-        super(player, displayName, replace);
+    public AnimatedPlayerScoreboard(Player player, String displayName) {
+        super(player, displayName, true);
         this.player = player;
     }
 
