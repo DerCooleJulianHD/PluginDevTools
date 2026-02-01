@@ -20,18 +20,20 @@ public abstract class AnimatedScoreboard extends ScoreboardBuilder {
 
     @Override
     public final void setScore(String content, int score) {
+        setScore(content.length() > 16 ? content.substring(0, 16) : content, null, score);
+    }
+
+    public final void setScore(String prefix, String suffix, int score) {
         final Team team = getScoreTeam(score);
 
         if (team == null)
             return;
 
-        team.setPrefix(content.length() > 16 ? content.substring(0, 16) : content);
+        if (prefix != null)
+            team.setPrefix(prefix);
 
-        if (content.length() > 16) {
-            final String suffix = content.substring(17, content.length() - 1);
-
+        if (suffix != null)
             team.setSuffix(suffix);
-        }
 
         showScore(score);
     }
