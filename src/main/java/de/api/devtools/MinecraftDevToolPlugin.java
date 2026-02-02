@@ -25,14 +25,10 @@ public final class MinecraftDevToolPlugin extends JavaPlugin {
         Bukkit.getConsoleSender().sendMessage("&8[&aPluginDevTools&8] " + ChatColor.GREEN + "Successfully Enabled :D");
 
         final PluginManager manager = getServer().getPluginManager();
-        manager.registerEvents(new ItemClickListener(this), this);
+        manager.registerEvents(new ItemClickListener(), this);
     }
 
     private static final class ItemClickListener implements Listener {
-
-        public ItemClickListener(Plugin plugin) {
-            plugin.getServer().getPluginManager().registerEvents(new MenuItemClickListener(), plugin);
-        }
 
         @EventHandler
         public void onItemInteract(PlayerInteractEvent event) {
@@ -48,24 +44,24 @@ public final class MinecraftDevToolPlugin extends JavaPlugin {
             clickable.getAction().accept(clicker);
         }
 
-        public static final class MenuItemClickListener implements Listener {
-            @EventHandler
-            public void onInventoryClick(InventoryClickEvent event) {
-                if (event.getClickedInventory() == null) return;
+        @EventHandler
+        public void onInventoryClick(InventoryClickEvent event) {
+            if (event.getClickedInventory() == null) return;
 
-                //condition to check if inventory was a menu.
-                if (!(event.getClickedInventory().getHolder() instanceof Menu menu)) return;
+            //condition to check if inventory was a menu.
+            if (!(event.getClickedInventory().getHolder() instanceof Menu menu)) return;
 
-                final Inventory inventory = menu.getInventory();
-                final ItemStack item = event.getCurrentItem();
-                final ClickType clickType = event.getClick();
+            final Inventory inventory = menu.getInventory();
+            final ItemStack item = event.getCurrentItem();
+            final ClickType clickType = event.getClick();
 
-                if (item == null) return;
-                if (!(item instanceof Clickable clickable)) return;
-                event.setResult(Event.Result.DENY);
-                if (clickType != clickable.getClickType()) return;
-                clickable.getAction().accept((Player) event.getWhoClicked());
-            }
+            if (item == null) return;
+            if (!(item instanceof Clickable clickable)) return;
+            event.setResult(Event.Result.DENY);
+
+            if (clickType != clickable.getClickType()) return;
+            clickable.getAction().accept((Player) event.getWhoClicked());
+            if (!menu.getKeepOpen()) event.getWhoClicked().closeInventory();
         }
     }
 }

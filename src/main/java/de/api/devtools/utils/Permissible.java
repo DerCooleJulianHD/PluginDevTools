@@ -1,12 +1,13 @@
 package de.api.devtools.utils;
 
+import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 public interface Permissible {
 
     @Nullable String getPermission();
 
-    void setPermission(String value);
+    void setPermission(@Nonnull String value);
 
     default boolean requiresPermission() {
         return getPermission() != null && !getPermission().isEmpty();

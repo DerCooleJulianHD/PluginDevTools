@@ -1,10 +1,6 @@
 package de.api.devtools.menu.inventory;
 
-import org.bukkit.inventory.ItemStack;
-
 import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-import java.util.Map;
 import java.util.Set;
 
 public interface MenuQuantity {
@@ -15,9 +11,7 @@ public interface MenuQuantity {
 
    @Nonnull Set<Integer> getDraggable();
 
-   @Nullable ItemStack getItemAt(int slot);
+   boolean getKeepOpen();
 
-   void setItem(int slot, ItemStack item);
-
-   @Nonnull Map<Integer, ItemStack> getItems();
+   void setKeepOpen(boolean b);
 }

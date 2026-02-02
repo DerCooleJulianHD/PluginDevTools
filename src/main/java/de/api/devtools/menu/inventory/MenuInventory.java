@@ -13,7 +13,7 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-public class MenuInventory implements InventoryHolder, MenuQuantity {
+public abstract class MenuInventory implements InventoryHolder, MenuQuantity {
 
     protected final Inventory inventory;
     protected final Set<Integer> draggable = new HashSet<>();
@@ -42,18 +42,15 @@ public class MenuInventory implements InventoryHolder, MenuQuantity {
         return draggable;
     }
 
-    @Override
     public @Nullable ItemStack getItemAt(int slot) {
         return inventory.getItem(slot);
     }
 
-    @Override
     public void setItem(int slot, ItemStack item) {
         inventory.setItem(slot, item);
         items.put(slot, item);
     }
 
-    @Override
     public @NonNull Map<Integer, ItemStack> getItems() {
         return items;
     }

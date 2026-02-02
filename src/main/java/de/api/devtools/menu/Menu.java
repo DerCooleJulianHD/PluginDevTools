@@ -16,6 +16,7 @@ import javax.annotation.Nullable;
 public abstract class Menu extends MenuInventory implements Viewable {
 
     protected final @Nullable Menu parent;
+    protected boolean keepOpen = false;
 
     protected Player viewer = null;
 
@@ -42,6 +43,16 @@ public abstract class Menu extends MenuInventory implements Viewable {
 
     public final @Nullable Menu getParent() {
         return parent;
+    }
+
+    @Override
+    public final boolean getKeepOpen() {
+        return keepOpen;
+    }
+
+    @Override
+    public void setKeepOpen(boolean b) {
+        this.keepOpen = b;
     }
 
     public final Clickable getButtonReturnBack() {

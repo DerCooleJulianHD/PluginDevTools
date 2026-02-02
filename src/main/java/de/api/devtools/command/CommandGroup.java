@@ -16,8 +16,8 @@ public abstract class CommandGroup extends SimpleCommand implements TabCompleter
 
     protected final Map<String, PluginCommand> commands;
 
-    public CommandGroup(String name, Class<? extends CommandSender> type) {
-        super(name, type);
+    public CommandGroup(@NonNull String name, @Nullable String permission, Class<? extends CommandSender> type) {
+        super(name, permission, type);
         this.commands = new HashMap<>();
     }
 
@@ -36,7 +36,7 @@ public abstract class CommandGroup extends SimpleCommand implements TabCompleter
             return;
         }
 
-        command.execute(sender, args);
+        command.onCommandExecute(sender, args);
     }
 
     public final void addCommand(PluginCommand command) {

@@ -79,22 +79,22 @@ public abstract class ScoreboardBuilder implements IScoreboard {
             return;
         }
 
-        final Entry name = getEntry(score);
+        final Entry entry = getEntry(score);
 
-        if (name == null)
+        if (entry == null)
             return;
 
-        if (!objective.getScore(name.getEntryName()).isScoreSet())
+        if (!objective.getScore(entry.getEntryName()).isScoreSet())
             return;
 
-        scoreboard.resetScores(name.getEntryName());
+        scoreboard.resetScores(entry.getEntryName());
     }
 
     @Nullable
     private Entry getEntry(int score) {
-        for (Entry name : Entry.values()) {
-            if (score == name.getId()) {
-                return name;
+        for (Entry entry : Entry.values()) {
+            if (score == entry.getId()) {
+                return entry;
             }
         }
 
@@ -107,27 +107,31 @@ public abstract class ScoreboardBuilder implements IScoreboard {
 
     @Nullable
     private Team getScoreTeam(int score) {
-        final Entry name = getEntry(score);
+        final Entry entry = getEntry(score);
 
-        if (name == null)
+        if (entry == null)
             return null;
 
-        Team team = scoreboard.getEntryTeam(name.getEntryName());
-        if (team == null) team = scoreboard.registerNewTeam(name.name());
-        team.addEntry(name.getEntryName());
+        Team team = scoreboard.getEntryTeam(entry.getEntryName());
+
+        if (team != null)
+            return team;
+
+        team = scoreboard.registerNewTeam(entry.name());
+        team.addEntry(entry.getEntryName());
         return team;
     }
 
     private void showScore(int score) {
-        final Entry name = getEntry(score);
+        final Entry entry = getEntry(score);
 
-        if (name == null)
+        if (entry == null)
             return;
 
-        if (objective.getScore(name.getEntryName()).isScoreSet())
+        if (objective.getScore(entry.getEntryName()).isScoreSet())
             return;
 
-        objective.getScore(name.getEntryName()).setScore(score);
+        objective.getScore(entry.getEntryName()).setScore(score);
     }
 
     public final SpigotPlugin getPlugin() {
