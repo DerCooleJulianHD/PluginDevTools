@@ -2,6 +2,7 @@ package de.api.devtools;
 
 import de.api.devtools.item.Clickable;
 import de.api.devtools.item.Icon;
+import de.api.devtools.item.ItemCreator;
 import de.api.devtools.menu.Menu;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -9,8 +10,10 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.block.Action;
 import org.bukkit.event.inventory.ClickType;
 import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.PluginManager;
@@ -27,6 +30,21 @@ public final class MinecraftDevToolPlugin extends JavaPlugin {
     }
 
     private static final class ItemClickListener implements Listener {
+
+        @EventHandler
+        public void onInteract(PlayerInteractEvent event) {
+            if (!event.hasItem()) return;
+
+            final Player player = event.getPlayer();
+            final Icon item = (Icon) event.getItem();
+
+            if (item == null) return;
+            if (!(item instanceof Clickable clickable)) return;
+            if (event.getAction() != Action.RIGHT_CLICK_AIR) return;
+
+            clickable.getAction().accept(player);
+        }
+
 
         @EventHandler
         public void onInventoryClick(InventoryClickEvent event) {
