@@ -1,6 +1,7 @@
 package de.api.devtools;
 
 import de.api.devtools.item.Clickable;
+import de.api.devtools.item.HotbarItems;
 import de.api.devtools.item.Icon;
 import de.api.devtools.item.ItemCreator;
 import de.api.devtools.menu.Menu;
@@ -36,12 +37,13 @@ public final class MinecraftDevToolPlugin extends JavaPlugin {
             if (!event.hasItem()) return;
 
             final Player player = event.getPlayer();
-            final Icon item = (Icon) event.getItem();
+            final ItemStack item = event.getItem();
 
             if (item == null) return;
-            if (!(item instanceof Clickable clickable)) return;
             if (event.getAction() != Action.RIGHT_CLICK_AIR) return;
+            if (!HotbarItems.isHotbarItem(item)) return;
 
+            final Clickable clickable = HotbarItems.getItem(item);
             clickable.getAction().accept(player);
         }
 
