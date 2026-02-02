@@ -8,7 +8,7 @@ public final class MenuOption {
 
     public static void fillGlassPanes(Menu menu, GlassColor color) {
         for (int slot = 0; slot < menu.getSize(); slot++) {
-            if (menu.getItemAt(slot) != null) {
+            if (menu.getInventory().getItem(slot) != null) {
                 continue;
             }
 

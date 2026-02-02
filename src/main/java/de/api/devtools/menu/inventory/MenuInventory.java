@@ -1,5 +1,6 @@
 package de.api.devtools.menu.inventory;
 
+import de.api.devtools.item.Icon;
 import org.bukkit.Bukkit;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.InventoryHolder;
@@ -17,7 +18,7 @@ public abstract class MenuInventory implements InventoryHolder, MenuQuantity {
 
     protected final Inventory inventory;
     protected final Set<Integer> draggable = new HashSet<>();
-    protected final Map<Integer, ItemStack> items = new HashMap<>();
+    protected final Map<Integer, Icon> items = new HashMap<>();
     protected final int size;
     protected final String title;
 
@@ -42,16 +43,16 @@ public abstract class MenuInventory implements InventoryHolder, MenuQuantity {
         return draggable;
     }
 
-    public @Nullable ItemStack getItemAt(int slot) {
-        return inventory.getItem(slot);
+    public @Nullable Icon getItemAt(int slot) {
+        return items.get(slot);
     }
 
-    public void setItem(int slot, ItemStack item) {
+    public void setItem(int slot, Icon item) {
         inventory.setItem(slot, item);
         items.put(slot, item);
     }
 
-    public @NonNull Map<Integer, ItemStack> getItems() {
+    public @NonNull Map<Integer, Icon> getItems() {
         return items;
     }
 
