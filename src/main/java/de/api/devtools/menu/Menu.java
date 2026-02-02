@@ -1,6 +1,7 @@
 package de.api.devtools.menu;
 
 import de.api.devtools.item.Clickable;
+import de.api.devtools.item.HotbarItem;
 import de.api.devtools.item.ItemCreator;
 import de.api.devtools.menu.inventory.MenuInventory;
 import de.api.devtools.menu.inventory.Rows;

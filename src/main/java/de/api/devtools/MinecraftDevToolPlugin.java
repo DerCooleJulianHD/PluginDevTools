@@ -1,9 +1,8 @@
 package de.api.devtools;
 
 import de.api.devtools.item.Clickable;
-import de.api.devtools.item.HotbarItems;
+import de.api.devtools.item.HotbarItem;
 import de.api.devtools.item.Icon;
-import de.api.devtools.item.ItemCreator;
 import de.api.devtools.menu.Menu;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -20,14 +19,36 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import javax.annotation.Nullable;
+import java.util.HashSet;
+import java.util.Set;
+
 public final class MinecraftDevToolPlugin extends JavaPlugin {
+
+    private static Set<HotbarItem> hotbarItems;
 
     @Override
     public void onEnable() {
         Bukkit.getConsoleSender().sendMessage("&8[&aPluginDevTools&8] " + ChatColor.GREEN + "Successfully Enabled :D");
 
         final PluginManager manager = getServer().getPluginManager();
+        hotbarItems = new HashSet<>();
         manager.registerEvents(new ItemClickListener(), this);
+    }
+
+    public static void registerHotbarItem(HotbarItem item) {
+        hotbarItems.add(item);
+    }
+
+    @Nullable
+    public static HotbarItem getHotbarItem(ItemStack itemStack) {
+        for (HotbarItem hotbarItem : hotbarItems) {
+            if (itemStack.equals(hotbarItem.getItemStack())) {
+                return hotbarItem;
+            }
+        }
+
+        return null;
     }
 
     private static final class ItemClickListener implements Listener {
@@ -41,12 +62,11 @@ public final class MinecraftDevToolPlugin extends JavaPlugin {
 
             if (item == null) return;
             if (event.getAction() != Action.RIGHT_CLICK_AIR) return;
-            if (!HotbarItems.isHotbarItem(item)) return;
 
-            final Clickable clickable = HotbarItems.getItem(item);
-            clickable.getAction().accept(player);
+            final HotbarItem hotbarItem = getHotbarItem(item);
+            if (hotbarItem == null) return;
+            hotbarItem.getAction().accept(player);
         }
-
 
         @EventHandler
         public void onInventoryClick(InventoryClickEvent event) {
