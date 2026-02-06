@@ -17,7 +17,7 @@ public class ListenerBundle extends KeyObjectBundle<KeyListener> {
     }
 
     // returns true when it's enabled on the server.
-    public final boolean isEnabled(KeyListener listener) {
+    /* public final boolean isEnabled(KeyListener listener) {
         if (!contains(listener))
             return false;
 
@@ -27,5 +27,5 @@ public class ListenerBundle extends KeyObjectBundle<KeyListener> {
             return false;
 
         return list.contains((RegisteredListener) listener);
-    }
+    } */
 }
