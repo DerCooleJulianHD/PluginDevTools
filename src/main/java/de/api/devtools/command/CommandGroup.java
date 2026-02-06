@@ -8,6 +8,7 @@ import org.bukkit.command.TabCompleter;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -16,8 +17,8 @@ public abstract class CommandGroup extends SimpleCommand implements TabCompleter
 
     protected final Map<String, PluginCommand> commands;
 
-    public CommandGroup(@NonNull String name, @Nullable String permission, Class<? extends CommandSender> type) {
-        super(name, permission, type);
+    public CommandGroup(@NonNull String name, @Nullable String permission, boolean requiresPlayer) {
+        super(name, permission, requiresPlayer);
         this.commands = new HashMap<>();
     }
 
@@ -55,11 +56,16 @@ public abstract class CommandGroup extends SimpleCommand implements TabCompleter
     public List<String> onTabComplete(@NonNull CommandSender sender, @NonNull Command command, @NonNull String label, String[] args) {
         final int index = args.length;
 
-        if (index != 1) {
-           return List.of();
+        if (index == 1) {
+           return commands.keySet().stream().toList();
         }
 
-        return commands.keySet().stream().toList();
+        final PluginCommand pluginCommand = getCommand(args[0]);
+
+        if (!(pluginCommand instanceof TabCompleter tabCompleter))
+            return new ArrayList<>();
+
+        return tabCompleter.onTabComplete(sender, command, label, args);
     }
 
     public final void sendHelpInfo(CommandSender sender) {

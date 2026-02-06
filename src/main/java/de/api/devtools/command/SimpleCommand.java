@@ -13,8 +13,8 @@ public abstract class SimpleCommand extends PluginCommand implements CommandExec
 
     protected final org.bukkit.command.PluginCommand bukkitPluginCommand;
 
-    public SimpleCommand(@Nonnull String name, @Nullable String permission, Class<? extends CommandSender> type) {
-        super(name, permission, type);
+    public SimpleCommand(@Nonnull String name, @Nullable String permission, boolean requiresPlayer) {
+        super(name, permission, requiresPlayer);
         this.bukkitPluginCommand = Validate.nonNull(plugin.getCommand(name), "No such Command found. do you forget to register it in the plugin.yml ?");
         if (getAutoLoad()) bukkitPluginCommand.setExecutor(this);
     }

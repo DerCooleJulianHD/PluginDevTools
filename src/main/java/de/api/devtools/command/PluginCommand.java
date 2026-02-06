@@ -19,13 +19,13 @@ public abstract class PluginCommand implements Permissible, ICommandExecutor {
     protected final String name;
     @Nullable protected String permission;
 
-    protected final Class<? extends CommandSender> type;
+    protected final boolean requiresPlayer;
 
-    protected PluginCommand(@Nonnull final String name, @Nullable String permission, @Nonnull Class<? extends CommandSender> type) {
+    protected PluginCommand(@Nonnull final String name, @Nullable String permission, boolean requiresPlayer) {
         instance = this; // static instance for outside access
         this.name = name; // name this command will be registered on
         this.permission = permission; // permission require to execute
-        this.type = type; // instances who are allowed to execute
+        this.requiresPlayer = requiresPlayer; // when only players are allowed to execute
     }
 
     protected boolean onCommandExecute(@Nonnull CommandSender sender, @Nonnull String [] args) {
@@ -67,11 +67,7 @@ public abstract class PluginCommand implements Permissible, ICommandExecutor {
     public abstract @Nullable String getDescription();
 
     public final boolean requiresPlayer() {
-        return getType().equals(Player.class);
-    }
-
-    public final Class<? extends CommandSender> getType() {
-        return type;
+        return requiresPlayer;
     }
 
     public static PluginCommand getInstance() {
