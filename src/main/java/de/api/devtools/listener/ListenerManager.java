@@ -28,7 +28,7 @@ public final class ListenerManager {
         final PluginManager manager = server.getPluginManager();
 
         bundle.getActives().values().forEach((listener) -> {
-            if (bundle.isEnabled(listener)) return;
+            /* if (bundle.isEnabled(listener)) return; */
             // enables the listener on the server.
             manager.registerEvents(listener, plugin);
         });
