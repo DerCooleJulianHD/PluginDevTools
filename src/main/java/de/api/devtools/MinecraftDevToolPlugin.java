@@ -20,7 +20,7 @@ public final class MinecraftDevToolPlugin extends JavaPlugin {
 
     @Override
     public void onEnable() {
-        Bukkit.getConsoleSender().sendMessage("&8[&aPluginDevTools&8] " + ChatColor.GREEN + "Successfully Enabled :D");
+        Bukkit.getConsoleSender().sendMessage("§8[§aPluginDevTools§8] " + ChatColor.GREEN + "Successfully Enabled :D");
 
         final PluginManager manager = getServer().getPluginManager();
         manager.registerEvents(new ItemClickListener(), this);
