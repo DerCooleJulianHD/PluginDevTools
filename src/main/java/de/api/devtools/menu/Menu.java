@@ -1,7 +1,6 @@
 package de.api.devtools.menu;
 
 import de.api.devtools.menu.item.Clickable;
-import de.api.devtools.common.utils.itembuilder.ItemBuilder;
 import de.api.devtools.menu.inventory.MenuInventory;
 import de.api.devtools.menu.inventory.Rows;
 import de.api.devtools.menu.inventory.Viewable;
@@ -10,9 +9,8 @@ import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.ClickType;
 import org.checkerframework.checker.nullness.qual.NonNull;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 import java.util.function.Consumer;
 
 public abstract class Menu extends MenuInventory implements Viewable {
@@ -22,7 +20,7 @@ public abstract class Menu extends MenuInventory implements Viewable {
 
     protected Player viewer = null;
 
-    public Menu(@Nullable Menu parent, @Nonnull Rows rows, @Nonnull String title) {
+    public Menu(@Nullable Menu parent, @NonNull Rows rows, @NonNull String title) {
         super(rows.getSize(), title);
         this.parent = parent;
         if (parent != null) inventory.setItem(getSize() - 1, getButtonReturnBack());

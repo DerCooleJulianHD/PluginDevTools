@@ -5,16 +5,16 @@ import de.api.devtools.common.utils.load.Loadable;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.checkerframework.checker.nullness.qual.NonNull;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 import java.util.Objects;
 
 public abstract class SimpleCommand extends PluginCommand implements CommandExecutor, Loadable {
 
-    @Nullable protected final org.bukkit.command.PluginCommand bukkitPluginCommand;
+    protected final org.bukkit.command.PluginCommand bukkitPluginCommand;
 
-    public SimpleCommand(@Nonnull MinecraftPlugin plugin, @Nonnull String name, @Nullable String permission, boolean requiresPlayer) {
+    public SimpleCommand(@NonNull MinecraftPlugin plugin, @NonNull String name, @Nullable String permission, boolean requiresPlayer) {
         super(plugin, name, permission, requiresPlayer);
         this.bukkitPluginCommand = Objects.requireNonNull(plugin.getCommand(name), "No such Command found. do you forget to register it in the plugin.yml ?!");
         if (getAutoLoad()) load();
@@ -31,7 +31,7 @@ public abstract class SimpleCommand extends PluginCommand implements CommandExec
     }
 
     @Override
-    public final boolean onCommand(@Nonnull CommandSender sender, @Nonnull Command command, @Nonnull String label, @Nonnull String[] args) {
+    public final boolean onCommand(@NonNull CommandSender sender, @NonNull Command command, @NonNull String label, String @NonNull [] args) {
         return onCommandExecute(sender, args);
     }
 
@@ -40,7 +40,7 @@ public abstract class SimpleCommand extends PluginCommand implements CommandExec
         return Objects.requireNonNull(bukkitPluginCommand).getDescription();
     }
 
-    public final @Nullable org.bukkit.command.PluginCommand getBukkitPluginCommand() {
+    public final org.bukkit.command.PluginCommand getBukkitPluginCommand() {
         return bukkitPluginCommand;
     }
 }

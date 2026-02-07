@@ -1,10 +1,10 @@
 package de.api.devtools.common.utils;
 
 
-import javax.annotation.Nonnull;
+import org.checkerframework.checker.nullness.qual.NonNull;
 
 public final class Key {
-    public static @Nonnull String getKeyAsClass(Class<?> clazz) {
+    public static @NonNull String getKeyAsClass(Class<?> clazz) {
         return clazz.getPackageName() + ":" + clazz.getSimpleName().toLowerCase();
     }
 }

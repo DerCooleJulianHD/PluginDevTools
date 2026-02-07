@@ -1,13 +1,14 @@
 package de.api.devtools.common.utils;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
+
+import org.checkerframework.checker.nullness.qual.NonNull;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 public interface Permissible {
 
     @Nullable String getPermission();
 
-    void setPermission(@Nonnull String value);
+    void setPermission(@NonNull String value);
 
     default boolean requiresPermission() {
         return getPermission() != null && !getPermission().isEmpty();

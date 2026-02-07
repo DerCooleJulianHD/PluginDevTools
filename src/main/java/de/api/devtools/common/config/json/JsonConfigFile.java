@@ -5,9 +5,9 @@ import com.google.gson.GsonBuilder;
 import de.api.devtools.common.config.Document;
 import de.api.devtools.common.plugin.MinecraftPlugin;
 import de.api.devtools.common.utils.Validate;
+import org.checkerframework.checker.nullness.qual.NonNull;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
@@ -18,9 +18,9 @@ import java.util.logging.Level;
 //: type of document where you can read and write JSON data
 public class JsonConfigFile extends Document {
 
-    @Nonnull private final Gson gson;
+    @NonNull private final Gson gson;
 
-    public JsonConfigFile(@Nonnull MinecraftPlugin plugin, File dir, String fileName, boolean def) {
+    public JsonConfigFile(@NonNull MinecraftPlugin plugin, File dir, String fileName, boolean def) {
         super(plugin, Type.JSON, dir, fileName, def);
 
         final GsonBuilder builder = new GsonBuilder();

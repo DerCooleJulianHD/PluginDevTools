@@ -9,7 +9,6 @@ import org.bukkit.command.TabCompleter;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
-import javax.annotation.Nonnull;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -17,7 +16,7 @@ import java.util.Map;
 
 public abstract class CommandGroup extends SimpleCommand implements TabCompleter {
 
-    @Nonnull protected final Map<String, PluginCommand> commands = new HashMap<>();
+    @NonNull protected final Map<String, PluginCommand> commands = new HashMap<>();
 
     public CommandGroup(@NonNull MinecraftPlugin plugin, @NonNull String name, @Nullable String permission) {
         super(plugin, name, permission, false);
@@ -87,7 +86,7 @@ public abstract class CommandGroup extends SimpleCommand implements TabCompleter
         return this.commands.get(name.toLowerCase());
     }
 
-    @Nonnull public Map<String, PluginCommand> getCommands() {
+    @NonNull public Map<String, PluginCommand> getCommands() {
         return commands;
     }
 }

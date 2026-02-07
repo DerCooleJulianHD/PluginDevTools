@@ -1,6 +1,7 @@
 package de.api.devtools.menu.inventory;
 
-import javax.annotation.Nonnull;
+import org.checkerframework.checker.nullness.qual.NonNull;
+
 import java.util.Set;
 
 public interface MenuQuantity {
@@ -9,7 +10,7 @@ public interface MenuQuantity {
 
    void setDraggable(int slot);
 
-   @Nonnull Set<Integer> getDraggable();
+   @NonNull Set<Integer> getDraggable();
 
    boolean getKeepOpen();
 

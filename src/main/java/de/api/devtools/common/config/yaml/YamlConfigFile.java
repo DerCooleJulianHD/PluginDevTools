@@ -10,9 +10,8 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.inventory.ItemStack;
 import org.checkerframework.checker.nullness.qual.NonNull;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
@@ -23,9 +22,9 @@ import java.util.logging.Level;
 //: type of document to read and write values in keys from a config file
 public class YamlConfigFile extends Document {
 
-    @Nonnull private final FileConfiguration config = new YamlConfiguration();
+    @NonNull private final FileConfiguration config = new YamlConfiguration();
 
-    public YamlConfigFile(MinecraftPlugin plugin, File dir, String fileName, boolean defResource) {
+    public YamlConfigFile(@NonNull MinecraftPlugin plugin, File dir, String fileName, boolean defResource) {
         super(plugin, Type.YAML, dir, fileName, defResource);
     }
 

@@ -14,7 +14,7 @@ public final class MenuOption {
 
             final Inventory inventory = menu.getInventory();
 
-            inventory.setItem(slot, new ItemBuilder(color.getMaterial(), 1, ChatColor.DARK_GRAY.toString(), null));
+            inventory.setItem(slot, new ItemBuilder(color.getMaterial(), 1, ChatColor.DARK_GRAY.toString(), ""));
         }
     }
 }

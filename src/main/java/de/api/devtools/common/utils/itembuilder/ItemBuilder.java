@@ -4,27 +4,27 @@ import de.api.devtools.common.utils.TextUtil;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.checkerframework.checker.nullness.qual.NonNull;
 
-import javax.annotation.Nonnull;
 import java.util.Arrays;
 import java.util.Objects;
 
 public class ItemBuilder extends ItemStack {
 
-    @Nonnull private final ItemMeta meta;
+    @NonNull private final ItemMeta meta;
 
-    public ItemBuilder(@Nonnull Material material, int id, int amount, String name, String... lore) {
+    public ItemBuilder(@NonNull Material material, int id, int amount, String name, String... lore) {
         super(material, amount, (byte) id); // creating the bukkit itemstack.
         this.meta = Objects.requireNonNull(getItemMeta()); // getting the itemmeta of this itemstack.
         if (name != null) meta.setDisplayName(TextUtil.colorize(name)); // setting the displayname
         if (lore != null) meta.setLore(Arrays.stream(lore).toList()); // setting the lore.
     }
 
-    public ItemBuilder(@Nonnull Material material, int amount, String name, String... lore) {
+    public ItemBuilder(@NonNull Material material, int amount, String name, String... lore) {
         this(material, 0, amount, name, lore);
     }
 
-    @Nonnull public final ItemMeta getMeta() {
+    @NonNull public final ItemMeta getMeta() {
         return meta;
     }
 }

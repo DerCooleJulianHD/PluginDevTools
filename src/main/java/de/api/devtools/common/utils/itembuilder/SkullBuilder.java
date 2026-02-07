@@ -5,14 +5,14 @@ import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.SkullMeta;
+import org.checkerframework.checker.nullness.qual.NonNull;
 
-import javax.annotation.Nonnull;
 import java.util.Arrays;
 import java.util.Objects;
 
 public class SkullBuilder extends ItemStack {
 
-    private final SkullMeta meta;
+    @NonNull private final SkullMeta meta;
 
     public SkullBuilder(int amount, String name, String... lore) {
         super(Material.PLAYER_HEAD, amount); // creating the skull.
@@ -26,7 +26,7 @@ public class SkullBuilder extends ItemStack {
         this.setOwner(owner.getName());
     }
 
-    public final @Nonnull SkullMeta getMeta() {
+    public final @NonNull SkullMeta getMeta() {
         return meta;
     }
 

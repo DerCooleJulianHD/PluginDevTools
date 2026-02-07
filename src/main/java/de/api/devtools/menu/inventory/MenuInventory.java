@@ -5,9 +5,8 @@ import org.bukkit.Bukkit;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.InventoryHolder;
 import org.checkerframework.checker.nullness.qual.NonNull;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -56,11 +55,11 @@ public abstract class MenuInventory implements InventoryHolder, MenuQuantity {
     }
 
     @Override
-    public @Nonnull Inventory getInventory() {
+    public @NonNull Inventory getInventory() {
         return inventory;
     }
 
-    public @Nonnull String getTitle() {
+    public @NonNull String getTitle() {
         return title;
     }
 

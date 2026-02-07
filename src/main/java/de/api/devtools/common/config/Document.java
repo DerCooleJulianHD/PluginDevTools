@@ -5,8 +5,8 @@ import de.api.devtools.common.plugin.MinecraftPlugin;
 import de.api.devtools.common.utils.FileManager;
 import de.api.devtools.common.utils.load.Loadable;
 import org.bukkit.Bukkit;
+import org.checkerframework.checker.nullness.qual.NonNull;
 
-import javax.annotation.Nonnull;
 import java.io.File;
 import java.io.IOException;
 import java.util.logging.Level;
@@ -14,13 +14,13 @@ import java.util.logging.Level;
 //: base class for files to work with: especially config files
 public abstract class Document implements Loadable {
 
-    @Nonnull protected final MinecraftPlugin plugin;
-    @Nonnull protected final Type type;
+    @NonNull protected final MinecraftPlugin plugin;
+    @NonNull protected final Type type;
     protected final File dir, file;
     private final boolean defResource;
     private boolean loaded = false;
 
-    public Document(@Nonnull MinecraftPlugin plugin, @Nonnull Type type, File dir, String fileName, boolean defResource) {
+    public Document(@NonNull MinecraftPlugin plugin, @NonNull Type type, File dir, String fileName, boolean defResource) {
         this.plugin = plugin;
         this.dir = dir;
         this.type = type;
@@ -96,11 +96,11 @@ public abstract class Document implements Loadable {
         return file;
     }
 
-    @Nonnull public final MinecraftPlugin getPlugin() {
+    @NonNull public final MinecraftPlugin getPlugin() {
         return plugin;
     }
 
-    @Nonnull public final Type getType() {
+    @NonNull public final Type getType() {
         return type;
     }
 

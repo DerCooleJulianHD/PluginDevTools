@@ -2,16 +2,16 @@ package de.api.devtools.common.plugin;
 
 import org.bukkit.Bukkit;
 import org.bukkit.command.ConsoleCommandSender;
+import org.checkerframework.checker.nullness.qual.NonNull;
 
-import javax.annotation.Nonnull;
 import java.util.logging.Level;
 
 public final class Console {
 
-    @Nonnull private final MinecraftPlugin plugin;
-    @Nonnull private final ConsoleCommandSender sender = Bukkit.getConsoleSender();
+    @NonNull private final MinecraftPlugin plugin;
+    @NonNull private final ConsoleCommandSender sender = Bukkit.getConsoleSender();
 
-    public Console(@Nonnull MinecraftPlugin plugin) {
+    public Console(@NonNull MinecraftPlugin plugin) {
         this.plugin = plugin;
     }
 
@@ -31,11 +31,11 @@ public final class Console {
         plugin.getLogger().log(level, message);
     }
 
-    public @Nonnull MinecraftPlugin getPlugin() {
+    public @NonNull MinecraftPlugin getPlugin() {
         return plugin;
     }
 
-    public @Nonnull ConsoleCommandSender getSender() {
+    public @NonNull ConsoleCommandSender getSender() {
         return sender;
     }
 }

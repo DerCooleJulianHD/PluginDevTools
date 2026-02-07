@@ -1,12 +1,12 @@
 package de.api.devtools.common.scoreboard;
 
 import de.api.devtools.common.plugin.MinecraftPlugin;
+import org.checkerframework.checker.nullness.qual.NonNull;
 
-import javax.annotation.Nonnull;
 
 public final class GlobalScoreboard extends ScoreboardBuilder {
 
-    public GlobalScoreboard(@Nonnull MinecraftPlugin plugin) {
+    public GlobalScoreboard(@NonNull MinecraftPlugin plugin) {
         super(plugin, false);
     }
 }

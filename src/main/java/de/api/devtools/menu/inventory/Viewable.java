@@ -1,8 +1,7 @@
 package de.api.devtools.menu.inventory;
 
 import org.bukkit.entity.Player;
-
-import javax.annotation.Nullable;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 public interface Viewable {
 

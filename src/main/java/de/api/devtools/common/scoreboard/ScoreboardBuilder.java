@@ -8,32 +8,32 @@ import org.bukkit.scoreboard.DisplaySlot;
 import org.bukkit.scoreboard.Objective;
 import org.bukkit.scoreboard.Scoreboard;
 import org.bukkit.scoreboard.Team;
+import org.checkerframework.checker.nullness.qual.NonNull;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 import java.util.Objects;
 
 public abstract class ScoreboardBuilder {
 
-    @Nonnull protected final MinecraftPlugin plugin;
+    @NonNull protected final MinecraftPlugin plugin;
 
     protected final Scoreboard scoreboard;
     protected final Objective objective;
 
-    protected ScoreboardBuilder(@Nonnull MinecraftPlugin plugin, boolean replace) {
+    protected ScoreboardBuilder(@NonNull MinecraftPlugin plugin, boolean replace) {
         this.plugin = plugin;
         this.scoreboard = Objects.requireNonNull(Bukkit.getScoreboardManager()).getNewScoreboard();
         this.objective = this.registerObjective(replace);
     }
 
-    protected ScoreboardBuilder(@Nonnull MinecraftPlugin plugin, Player player, boolean replace) {
+    protected ScoreboardBuilder(@NonNull MinecraftPlugin plugin, Player player, boolean replace) {
         this.plugin = plugin;
         player.setScoreboard(Objects.requireNonNull(Bukkit.getScoreboardManager()).getNewScoreboard());
         this.scoreboard = player.getScoreboard();
         this.objective = this.registerObjective(replace);
     }
 
-    public final @Nonnull Objective registerObjective(String criteria, boolean replace) {
+    public final @NonNull Objective registerObjective(String criteria, boolean replace) {
         Objective objective = getObjective("display");
 
         // here when the old objective is exists.
@@ -48,15 +48,15 @@ public abstract class ScoreboardBuilder {
         return objective;
     }
 
-    public final @Nonnull Objective registerObjective(boolean replace) {
+    public final @NonNull Objective registerObjective(boolean replace) {
         return this.registerObjective("dummy", replace);
     }
 
-    public final @Nonnull Scoreboard getBoard() {
+    public final @NonNull Scoreboard getBoard() {
         return scoreboard;
     }
 
-    public final @Nonnull Objective getObjective() {
+    public final @NonNull Objective getObjective() {
         return objective;
     }
 
@@ -79,7 +79,7 @@ public abstract class ScoreboardBuilder {
         objective.getScore(footer).setScore(0);
     }
 
-    public final void setScore(@Nonnull String prefix, String content, int score) {
+    public final void setScore(@NonNull String prefix, String content, int score) {
         if (score == 0) {
             return;
         }
@@ -122,7 +122,7 @@ public abstract class ScoreboardBuilder {
         return null;
     }
 
-    public final void animate(long ticks, @Nonnull ScoreAnimation animation) {
+    public final void animate(long ticks, @NonNull ScoreAnimation animation) {
         animation.runTaskTimer(plugin, 0, ticks);
     }
 
@@ -163,7 +163,7 @@ public abstract class ScoreboardBuilder {
         if (getObjective(id) != null) Objects.requireNonNull(getObjective(id)).unregister();
     }
 
-    public final void setScore(@Nonnull String content, int id) {
+    public final void setScore(@NonNull String content, int id) {
         setScore(content, null, id);
     }
 
@@ -171,7 +171,7 @@ public abstract class ScoreboardBuilder {
         player.setScoreboard(getBoard());
     }
 
-    public final @Nonnull MinecraftPlugin getPlugin() {
+    public final @NonNull MinecraftPlugin getPlugin() {
         return plugin;
     }
 }

@@ -5,7 +5,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.ClickType;
 import org.checkerframework.checker.nullness.qual.NonNull;
 
-import javax.annotation.Nonnull;
 import java.util.function.Consumer;
 
 public abstract class Clickable extends Icon {
@@ -18,7 +17,7 @@ public abstract class Clickable extends Icon {
         this(material, 0, amount, name, lore);
     }
 
-    @Nonnull public abstract ClickType getClickType();
+    @NonNull public abstract ClickType getClickType();
 
-    @Nonnull public abstract Consumer<Player> getAction();
+    @NonNull public abstract Consumer<Player> getAction();
 }

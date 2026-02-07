@@ -3,13 +3,12 @@ package de.api.devtools.common.listener;
 import de.api.devtools.common.bundle.Bundle;
 import de.api.devtools.common.plugin.MinecraftPlugin;
 import de.api.devtools.common.utils.load.Loadable;
-
-import javax.annotation.Nonnull;
+import org.checkerframework.checker.nullness.qual.NonNull;
 
 //: type of bundle to store and manage listener objects
 public class ListenerBundle extends Bundle<EventListener> implements Loadable {
 
-    public ListenerBundle(@Nonnull MinecraftPlugin plugin, @Nonnull final String name) {
+    public ListenerBundle(@NonNull MinecraftPlugin plugin, @NonNull final String name) {
         super(plugin, name);
         if (getAutoLoad()) load();
     }
@@ -24,15 +23,15 @@ public class ListenerBundle extends Bundle<EventListener> implements Loadable {
         return plugin.getListenerManager().contains(getName());
     }
 
-    public final void add(@Nonnull EventListener listener) {
+    public final void add(@NonNull EventListener listener) {
         this.add(listener.getKey(), listener);
     }
 
-    public final void remove(@Nonnull EventListener listener) {
+    public final void remove(@NonNull EventListener listener) {
         this.remove(listener.getKey());
     }
 
-    public final boolean contains(@Nonnull EventListener listener) {
+    public final boolean contains(@NonNull EventListener listener) {
         return this.contains(listener.getKey());
     }
 }

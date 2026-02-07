@@ -4,18 +4,18 @@ import de.api.devtools.common.plugin.MinecraftPlugin;
 import org.bukkit.Server;
 import org.bukkit.event.HandlerList;
 import org.bukkit.plugin.PluginManager;
+import org.checkerframework.checker.nullness.qual.NonNull;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 import java.util.HashMap;
 import java.util.Map;
 
 public final class ListenerManager {
 
-    @Nonnull private final MinecraftPlugin plugin;
-    @Nonnull private final Server server;
+    @NonNull private final MinecraftPlugin plugin;
+    @NonNull private final Server server;
 
-    @Nonnull private final Map<String, ListenerBundle> bundles;
+    @NonNull private final Map<String, ListenerBundle> bundles;
 
     public ListenerManager(MinecraftPlugin plugin) {
         this.plugin = plugin;
@@ -24,7 +24,7 @@ public final class ListenerManager {
     }
 
     // adds a new listener bundle to the server.
-    public void addListeners(@Nonnull ListenerBundle bundle) {
+    public void addListeners(@NonNull ListenerBundle bundle) {
         this.bundles.put(bundle.getName(), bundle);
 
         final PluginManager manager = server.getPluginManager();
