@@ -1,35 +1,39 @@
 package de.api.devtools.common.listener;
 
-import de.api.devtools.common.plugin.SpigotPlugin;
+import de.api.devtools.common.plugin.MinecraftPlugin;
 import org.bukkit.Server;
 import org.bukkit.event.HandlerList;
 import org.bukkit.plugin.PluginManager;
 
+import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.HashMap;
 import java.util.Map;
 
 public final class ListenerManager {
 
-    private final SpigotPlugin plugin = SpigotPlugin.getInstance();
+    @Nonnull private final MinecraftPlugin plugin;
+    @Nonnull private final Server server;
 
-    private final Server server;
-    private final Map<String, ListenerBundle> bundles;
+    @Nonnull private final Map<String, ListenerBundle> bundles;
 
-    public ListenerManager() {
-        this.bundles = new HashMap<>();
+    public ListenerManager(MinecraftPlugin plugin) {
+        this.plugin = plugin;
         this.server = plugin.getServer();
+        this.bundles = new HashMap<>();
     }
 
     // adds a new listener bundle to the server.
-    public void addListeners(ListenerBundle bundle) {
-        this.bundles.put(bundle.name(), bundle);
+    public void addListeners(@Nonnull ListenerBundle bundle) {
+        this.bundles.put(bundle.getName(), bundle);
 
         final PluginManager manager = server.getPluginManager();
 
         bundle.getActives().values().forEach((listener) -> {
+            if (listener.isEnabled()) return;
             // enables the listener on the server.
             manager.registerEvents(listener, plugin);
+            listener.setEnabled(true);
         });
     }
 
@@ -43,7 +47,7 @@ public final class ListenerManager {
         bundle.getActives().values().forEach(HandlerList::unregisterAll);
 
         bundle.clear();
-        bundles.remove(bundle.name());
+        bundles.remove(bundle.getName());
     }
 
     @Nullable

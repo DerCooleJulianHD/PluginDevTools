@@ -5,8 +5,8 @@ import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.SkullMeta;
-import org.checkerframework.checker.nullness.qual.NonNull;
 
+import javax.annotation.Nonnull;
 import java.util.Arrays;
 import java.util.Objects;
 
@@ -26,11 +26,11 @@ public class SkullBuilder extends ItemStack {
         this.setOwner(owner.getName());
     }
 
-    public @NonNull SkullMeta getMeta() {
+    public final @Nonnull SkullMeta getMeta() {
         return meta;
     }
 
-    public void setOwner(String playername) {
+    public final void setOwner(String playername) {
         meta.setOwner(playername);
     }
 }

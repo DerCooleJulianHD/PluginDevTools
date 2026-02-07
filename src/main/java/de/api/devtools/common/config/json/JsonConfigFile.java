@@ -1,9 +1,12 @@
-package de.api.devtools.common.config;
+package de.api.devtools.common.config.json;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import de.api.devtools.common.plugin.SpigotPlugin;
+import de.api.devtools.common.config.Document;
+import de.api.devtools.common.plugin.MinecraftPlugin;
+import de.api.devtools.common.utils.Validate;
 
+import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.io.File;
 import java.io.FileReader;
@@ -11,37 +14,23 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.logging.Level;
 
-@JsonProperties() /* <-- by default */
+@JsonProperties(/* by default */)
 //: type of document where you can read and write JSON data
 public class JsonConfigFile extends Document {
 
-   public interface JsonConfigurationBuilder {
-        static Gson build(JsonProperties properties) {
-            final GsonBuilder builder = new GsonBuilder();
+    @Nonnull private final Gson gson;
 
-            if (properties.prettyPrinting())
-                builder.setPrettyPrinting();
+    public JsonConfigFile(@Nonnull MinecraftPlugin plugin, File dir, String fileName, boolean def) {
+        super(plugin, Type.JSON, dir, fileName, def);
 
-            if (!properties.htmlEscaping())
-                builder.disableHtmlEscaping();
+        final GsonBuilder builder = new GsonBuilder();
+        final JsonProperties properties = Validate.nonNull(getClass().getDeclaredAnnotation(JsonProperties.class), getClass().getSimpleName() + "misses JsonProperties annotation!");
 
-            if (!properties.innerClassSerialisation())
-                builder.disableInnerClassSerialization();
+        if (properties.prettyPrinting()) builder.setPrettyPrinting();
+        if (!properties.htmlEscaping()) builder.disableHtmlEscaping();
+        if (!properties.innerClassSerialisation()) builder.disableInnerClassSerialization();
 
-            return builder.create();
-        }
-    }
-
-    private final SpigotPlugin plugin = SpigotPlugin.getInstance();
-    private final Gson gson;
-
-    public JsonConfigFile(File dir, String fileName, boolean def) {
-        super(DocumentType.JSON, dir, fileName, def);
-        this.gson = JsonConfigurationBuilder.build(getClass().getDeclaredAnnotation(JsonProperties.class));
-    }
-
-    public JsonConfigFile(String dir, String fileName, boolean def) {
-        this(new File(dir), fileName, def);
+        this.gson = builder.create();
     }
 
     // writes an object to a Json-Configuration.
@@ -93,7 +82,4 @@ public class JsonConfigFile extends Document {
             plugin.getLogger().log(Level.SEVERE, "Unable to load: " + file.getName(), ex);
         }
     }
-
-    @Override
-    public void setDefaults() {}
 }

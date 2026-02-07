@@ -1,54 +1,103 @@
 package de.api.devtools.common.plugin;
+
+import de.api.devtools.common.config.yaml.PluginConfigFile;
 import de.api.devtools.common.listener.ListenerManager;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
-import org.checkerframework.checker.nullness.qual.NonNull;
+import org.bukkit.Server;
+import org.bukkit.plugin.Plugin;
+import org.bukkit.plugin.PluginManager;
+import org.bukkit.plugin.java.JavaPlugin;
 
+import javax.annotation.Nonnull;
 import java.io.File;
+import java.util.Objects;
 
-public interface MinecraftPlugin extends Prefixable {
+//: base class for every plugin
+public abstract class MinecraftPlugin extends JavaPlugin implements Prefixable {
 
-    // this is the [bukkit] console sender.
-    @NonNull Console getConsole();
+    protected Console console;
+    protected PluginConfigFile config;
+    protected ListenerManager listenerManager;
 
-    default void init() {} // plugin load logic
-
-    void onPluginStart(); // plugin enable logic
-
-    default void onPluginStop() {} // plugin disable logic
-
-    @NonNull ListenerManager getListenerManager();
-
-    // printing out to console, that the plugin has been enabled.
-    default void sendStartMessage() {
-        getConsole().sendMessage(ChatColor.GREEN + getPluginFullName() + " has been successfully Enabled!");
+    @Deprecated
+    @Override public final void onLoad() {
+        // init the instance of the plugin
+        console = new Console(this);
+        init();
     }
 
-    // printing out to console, that the plugin has been disabled.
-    default void sendStopMessage() {
-        getConsole().sendMessage(ChatColor.RED + getPluginName() + " has been successfully Disabled!");
+    @Deprecated
+    @Override public final void onEnable() {
+        listenerManager = new ListenerManager(this);
+        onPluginStart();
+    }
+
+    @Deprecated
+    @Override public final void onDisable() {
+        onPluginStop();
+    }
+
+    public void init() {} // plugin load logic
+
+    public abstract void onPluginStart(); // plugin enable logic
+
+    public void onPluginStop() {}; // plugin disable logic
+
+    // class who manages listeners on the server.
+    public @Nonnull ListenerManager getListenerManager() {
+        return listenerManager;
     }
 
     // the 'config.yml' file in the main plugin data folder.
-    @NonNull PluginConfigFile getPluginConfig();
+    public final @Nonnull PluginConfigFile getPluginConfig() {
+        return Objects.requireNonNull(config, "Plugin Config is not Loaded!");
+    }
 
     // loads or creates a new instance of the 'config.yml' file.
-    void loadPluginConfig(boolean def);
+    public final void loadPluginConfig(boolean def) {
+        config = new PluginConfigFile(this, def);
 
-    /* returns the plugin name in this format: '$plugin_name$[from: plugin.yml]-v.$version$'
-    example: yourplugin-v.1.0 */
-    default String getPluginFullName() {
-        return getPluginName() + "-v." + getPluginVersion();
+        if (!config.isLoaded())
+            config.load();
     }
 
     // returns the version string from the plugin description file.
-    @NonNull String getPluginVersion();
-
-    // returns the simple plugin name from the plugin description file.
-    @NonNull String getPluginName();
-
-    default @NonNull MinecraftPlugin getSubType() {
-        return this;
+    public final @Nonnull String getPluginVersion() {
+        return getDescription().getVersion();
     }
 
-    void loadPluginsFromFile(File dir);
+    // returns the simple plugin name from the plugin description file.
+    public final @Nonnull String getPluginName() {
+        return getDescription().getName();
+    }
+
+    // loads plugins from other folders
+    public final void loadPluginsFromFile(File dir) {
+        final Server server = Bukkit.getServer();
+        final PluginManager manager = server.getPluginManager();
+
+        final Plugin[] plugins = manager.loadPlugins(dir);
+
+        if (plugins.length > 0) {
+            server.getConsoleSender().sendMessage(ChatColor.GREEN + "found some plugins in: " + dir.getName());
+
+            for (Plugin target : plugins) {
+                manager.enablePlugin(target);
+            }
+        }
+
+        server.getConsoleSender().sendMessage(ChatColor.GREEN + "all plugins from: " + dir.getName() + " has been loaded and enabled on the server!");
+    }
+
+    // this is the console sender.
+    public final @Nonnull Console getConsole() {
+        return console;
+    }
+
+    @Override
+    // returns the prefix by config file.
+    public final String getPrefix() {
+        return config != null ? config.getPrefix() : "";
+    }
 }

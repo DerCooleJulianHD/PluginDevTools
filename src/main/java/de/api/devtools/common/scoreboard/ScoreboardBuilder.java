@@ -1,6 +1,6 @@
 package de.api.devtools.common.scoreboard;
 
-import de.api.devtools.common.plugin.SpigotPlugin;
+import de.api.devtools.common.plugin.MinecraftPlugin;
 import de.api.devtools.common.utils.TextUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -13,25 +13,27 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.Objects;
 
-public abstract class ScoreboardBuilder implements IScoreboard {
+public abstract class ScoreboardBuilder {
 
-    protected final SpigotPlugin plugin = SpigotPlugin.getInstance();
+    @Nonnull protected final MinecraftPlugin plugin;
+
     protected final Scoreboard scoreboard;
     protected final Objective objective;
 
-    protected ScoreboardBuilder(boolean replace) {
+    protected ScoreboardBuilder(@Nonnull MinecraftPlugin plugin, boolean replace) {
+        this.plugin = plugin;
         this.scoreboard = Objects.requireNonNull(Bukkit.getScoreboardManager()).getNewScoreboard();
         this.objective = this.registerObjective(replace);
     }
 
-    protected ScoreboardBuilder(Player player, boolean replace) {
+    protected ScoreboardBuilder(@Nonnull MinecraftPlugin plugin, Player player, boolean replace) {
+        this.plugin = plugin;
         player.setScoreboard(Objects.requireNonNull(Bukkit.getScoreboardManager()).getNewScoreboard());
         this.scoreboard = player.getScoreboard();
         this.objective = this.registerObjective(replace);
     }
 
-    @Override
-    public final @Nonnull Objective registerObjective(boolean replace) {
+    public final @Nonnull Objective registerObjective(String criteria, boolean replace) {
         Objective objective = getObjective("display");
 
         // here when the old objective is exists.
@@ -41,22 +43,42 @@ public abstract class ScoreboardBuilder implements IScoreboard {
         }
 
         // here when the objective is not exist or will be created after replace.
-        objective = getBoard().registerNewObjective("display", Criteria.DUMMY.getId());
+        objective = getBoard().registerNewObjective("display", criteria);
         objective.setDisplaySlot(DisplaySlot.SIDEBAR);
         return objective;
     }
 
-    @Override
+    public final @Nonnull Objective registerObjective(boolean replace) {
+        return this.registerObjective("dummy", replace);
+    }
+
     public final @Nonnull Scoreboard getBoard() {
         return scoreboard;
     }
 
-    @Override
     public final @Nonnull Objective getObjective() {
         return objective;
     }
 
-    @Override
+    public final void setTitle(String s) {
+        this.setTitle(getObjective(), s);
+    }
+
+    public final void setTitle(Objective objective, String s) {
+        if (objective != null) Objects.requireNonNull(objective).setDisplayName(TextUtil.colorize(s));
+    }
+
+    public final void setFooter(String s) {
+        this.setFooter(getObjective(), s);
+    }
+
+    public final void setFooter(Objective objective, String s) {
+        final int titleLength = objective.getDisplayName().length();
+        final int diffToCenter =  (titleLength / 2) - (s.length() / 2);
+        final String footer = " ".repeat(Math.max(0, diffToCenter)) + TextUtil.colorize(s);
+        objective.getScore(footer).setScore(0);
+    }
+
     public final void setScore(@Nonnull String prefix, String content, int score) {
         if (score == 0) {
             return;
@@ -73,7 +95,6 @@ public abstract class ScoreboardBuilder implements IScoreboard {
         showScore(score);
     }
 
-    @Override
     public final void removeScore(int score) {
         if (score == 0) {
             return;
@@ -134,42 +155,23 @@ public abstract class ScoreboardBuilder implements IScoreboard {
         objective.getScore(entry.getEntryName()).setScore(score);
     }
 
-    public final SpigotPlugin getPlugin() {
-        return plugin;
+    public final @Nullable Objective getObjective(String id) {
+        return getBoard().getObjective(id);
     }
 
-    private enum Entry {
-        ENTRY_0(0, "§f"),
-        ENTRY_1(1, "§c"),
-        ENTRY_2(2, "§e"),
-        ENTRY_3(3, "§a"),
-        ENTRY_4(4, "§7"),
-        ENTRY_5(5, "§4"),
-        ENTRY_6(6, "§l"),
-        ENTRY_7(7, "§m"),
-        ENTRY_8(8, "§b"),
-        ENTRY_9(9, "§8"),
-        ENTRY_10(10, "§0"),
-        ENTRY_11(11, "§6"),
-        ENTRY_12(12, "§5"),
-        ENTRY_13(13, "§d"),
-        ENTRY_14(14, "§n"),
-        ENTRY_15(15, "§r");
+    public final void removeObjective(String id) {
+        if (getObjective(id) != null) Objects.requireNonNull(getObjective(id)).unregister();
+    }
 
-        private final int id;
-        private final String entryName;
+    public final void setScore(@Nonnull String content, int id) {
+        setScore(content, null, id);
+    }
 
-        Entry(int id, String entryName) {
-            this.id = id;
-            this.entryName = entryName;
-        }
+    public final void set(Player player) {
+        player.setScoreboard(getBoard());
+    }
 
-        public final int getId() {
-            return id;
-        }
-
-        public final String getEntryName() {
-            return entryName;
-        }
+    public final @Nonnull MinecraftPlugin getPlugin() {
+        return plugin;
     }
 }

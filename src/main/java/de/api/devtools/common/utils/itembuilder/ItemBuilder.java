@@ -24,7 +24,7 @@ public class ItemBuilder extends ItemStack {
         this(material, 0, amount, name, lore);
     }
 
-    @Nonnull public ItemMeta getMeta() {
+    @Nonnull public final ItemMeta getMeta() {
         return meta;
     }
 }

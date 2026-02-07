@@ -1,27 +1,38 @@
 package de.api.devtools.common.listener;
 
-import de.api.devtools.common.bundle.KeyObjectBundle;
-import de.api.devtools.common.plugin.SpigotPlugin;
+import de.api.devtools.common.bundle.Bundle;
+import de.api.devtools.common.plugin.MinecraftPlugin;
+import de.api.devtools.common.utils.load.Loadable;
+
+import javax.annotation.Nonnull;
 
 //: type of bundle to store and manage listener objects
-public class ListenerBundle extends KeyObjectBundle<KeyListener> {
+public class ListenerBundle extends Bundle<EventListener> implements Loadable {
 
-    protected final SpigotPlugin plugin = SpigotPlugin.getInstance();
-
-    public ListenerBundle(final String name) {
-        super(name);
+    public ListenerBundle(@Nonnull MinecraftPlugin plugin, @Nonnull final String name) {
+        super(plugin, name);
+        if (getAutoLoad()) load();
     }
 
-    // returns true when it's enabled on the server.
-    /* public final boolean isEnabled(KeyListener listener) {
-        if (!contains(listener))
-            return false;
+    @Override
+    public void load() {
+        plugin.getListenerManager().addListeners(this);
+    }
 
-        final ArrayList<RegisteredListener> list = HandlerList.getRegisteredListeners(plugin);
+    @Override
+    public boolean isLoaded() {
+        return plugin.getListenerManager().contains(getName());
+    }
 
-        if (list.isEmpty())
-            return false;
+    public final void add(@Nonnull EventListener listener) {
+        this.add(listener.getKey(), listener);
+    }
 
-        return list.contains((RegisteredListener) listener);
-    } */
+    public final void remove(@Nonnull EventListener listener) {
+        this.remove(listener.getKey());
+    }
+
+    public final boolean contains(@Nonnull EventListener listener) {
+        return this.contains(listener.getKey());
+    }
 }

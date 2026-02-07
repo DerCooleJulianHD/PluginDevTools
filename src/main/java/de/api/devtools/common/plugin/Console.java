@@ -3,14 +3,15 @@ package de.api.devtools.common.plugin;
 import org.bukkit.Bukkit;
 import org.bukkit.command.ConsoleCommandSender;
 
+import javax.annotation.Nonnull;
 import java.util.logging.Level;
 
 public final class Console {
 
-    private final SpigotPlugin plugin;
-    private final ConsoleCommandSender sender = Bukkit.getConsoleSender();
+    @Nonnull private final MinecraftPlugin plugin;
+    @Nonnull private final ConsoleCommandSender sender = Bukkit.getConsoleSender();
 
-    public Console(SpigotPlugin plugin) {
+    public Console(@Nonnull MinecraftPlugin plugin) {
         this.plugin = plugin;
     }
 
@@ -30,11 +31,11 @@ public final class Console {
         plugin.getLogger().log(level, message);
     }
 
-    public MinecraftPlugin getPlugin() {
+    public @Nonnull MinecraftPlugin getPlugin() {
         return plugin;
     }
 
-    public ConsoleCommandSender getSender() {
+    public @Nonnull ConsoleCommandSender getSender() {
         return sender;
     }
 }

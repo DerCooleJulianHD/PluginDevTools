@@ -1,16 +1,20 @@
 package de.api.devtools.common.schedules;
 
+import de.api.devtools.common.plugin.MinecraftPlugin;
+
+import javax.annotation.Nonnull;
+
 public class Countdown extends Runnable implements TimeState {
 
     private int timeLeft;
 
-    public Countdown(int start, long period) {
-        super(period);
+    public Countdown(@Nonnull MinecraftPlugin plugin, int start, long period) {
+        super(plugin, period);
         this.timeLeft = start;
     }
 
-    public Countdown(int start) {
-        this(start, TimeUtil.ofSeconds(1));
+    public Countdown(@Nonnull MinecraftPlugin plugin, int start) {
+        this(plugin, start, TimeUtil.ofSeconds(1));
     }
 
     @Override
@@ -21,21 +25,15 @@ public class Countdown extends Runnable implements TimeState {
     }
 
     @Override
-    public int getTime() {
+    public final int getTime() {
         return timeLeft;
     }
 
     @Override
-    public void setTime(int time) {
+    public final void setTime(int time) {
         this.timeLeft = time;
     }
 
     @Override
     public void onTimeChange() {}
-
-    @Override
-    public void onStop() {}
-
-    @Override
-    public void onStart() {}
 }

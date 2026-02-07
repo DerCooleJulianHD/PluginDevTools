@@ -1,12 +1,12 @@
 package de.api.devtools.common.config;
 
 import de.api.devtools.common.utils.Validate;
-import de.api.devtools.common.plugin.SpigotPlugin;
+import de.api.devtools.common.plugin.MinecraftPlugin;
 import de.api.devtools.common.utils.FileManager;
 import de.api.devtools.common.utils.load.Loadable;
 import org.bukkit.Bukkit;
 
-import javax.annotation.Nullable;
+import javax.annotation.Nonnull;
 import java.io.File;
 import java.io.IOException;
 import java.util.logging.Level;
@@ -14,13 +14,14 @@ import java.util.logging.Level;
 //: base class for files to work with: especially config files
 public abstract class Document implements Loadable {
 
-    protected final SpigotPlugin plugin = SpigotPlugin.getInstance();
-    protected final DocumentType type;
+    @Nonnull protected final MinecraftPlugin plugin;
+    @Nonnull protected final Type type;
     protected final File dir, file;
     private final boolean defResource;
     private boolean loaded = false;
 
-    public Document(DocumentType type, File dir, String fileName, boolean defResource) {
+    public Document(@Nonnull MinecraftPlugin plugin, @Nonnull Type type, File dir, String fileName, boolean defResource) {
+        this.plugin = plugin;
         this.dir = dir;
         this.type = type;
         this.file = new File(dir, fileName);
@@ -31,22 +32,17 @@ public abstract class Document implements Loadable {
         if (getAutoLoad() && !isLoaded()) load();
     }
 
-    public abstract void setDefaults();
-
     // creates the directory if it doesn't exist and the file in it.
     public final void createFiles() {
         try {
             FileManager.mkdirIfNotExists(dir);
 
             if (defResource) {
-                saveDefaultResource();
+                if (!exists()) plugin.saveResource(file.getName(), true);
                 return;
             }
 
             if (!FileManager.isFileExist(file)) file.createNewFile();
-
-            if (getAutoLoad() && isLoaded())
-                setDefaults();
         } catch (IOException ex) {
             Bukkit.getLogger().log(Level.SEVERE, "Unable to create: " + file.getName(), ex);
         }
@@ -70,12 +66,8 @@ public abstract class Document implements Loadable {
         return false;
     }
 
-    public final boolean isTypeOf(DocumentType type) {
+    public final boolean isTypeOf(Type type) {
         return hasEnding(type.ending());
-    }
-
-    public final void saveDefaultResource() {
-        if (!exists()) plugin.saveResource(file.getName(), false);
     }
 
     @Override
@@ -95,13 +87,46 @@ public abstract class Document implements Loadable {
     }
 
     // the folder the config file is in.
-    public final @Nullable File getDir() {
+    public final File getDir() {
         return dir;
     }
 
     // returns the config file.
     public final File getFile() {
         return file;
+    }
+
+    @Nonnull public final MinecraftPlugin getPlugin() {
+        return plugin;
+    }
+
+    @Nonnull public final Type getType() {
+        return type;
+    }
+
+    public final boolean isDefaultResource() {
+        return defResource;
+    }
+
+    //: which type of file our file has to be
+    public enum Type {
+
+        JSON(new String[]{".json"}),
+        YAML(new String[]{".yml", ".yaml"}),
+        TOML(new String[]{".toml"}),
+        PROPERTIES(new String[]{".properties"}),
+        XML(new String[]{".xml"}),
+        TXT(new String[]{".txt"});
+
+        private final String[] values;
+
+        Type(String[] values) {
+            this.values = values;
+        }
+
+        public String[] ending() {
+            return values;
+        }
     }
 }
 

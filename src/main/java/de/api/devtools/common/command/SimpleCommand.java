@@ -1,5 +1,6 @@
 package de.api.devtools.common.command;
 
+import de.api.devtools.common.plugin.MinecraftPlugin;
 import de.api.devtools.common.utils.load.Loadable;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -11,21 +12,21 @@ import java.util.Objects;
 
 public abstract class SimpleCommand extends PluginCommand implements CommandExecutor, Loadable {
 
-    protected final org.bukkit.command.PluginCommand bukkitPluginCommand;
+    @Nullable protected final org.bukkit.command.PluginCommand bukkitPluginCommand;
 
-    protected SimpleCommand(@Nonnull String name, @Nullable String permission, boolean requiresPlayer) {
-        super(name, permission, requiresPlayer);
+    public SimpleCommand(@Nonnull MinecraftPlugin plugin, @Nonnull String name, @Nullable String permission, boolean requiresPlayer) {
+        super(plugin, name, permission, requiresPlayer);
         this.bukkitPluginCommand = Objects.requireNonNull(plugin.getCommand(name), "No such Command found. do you forget to register it in the plugin.yml ?!");
         if (getAutoLoad()) load();
     }
 
     @Override
-    public void load() {
-        bukkitPluginCommand.setExecutor(this);
+    public final void load() {
+        Objects.requireNonNull(bukkitPluginCommand).setExecutor(this);
     }
 
     @Override
-    public boolean isLoaded() {
+    public final boolean isLoaded() {
         return plugin.getCommand(name) != null;
     }
 
@@ -36,10 +37,10 @@ public abstract class SimpleCommand extends PluginCommand implements CommandExec
 
     @Override
     public @Nullable String getDescription() {
-        return getPluginCommand().getDescription();
+        return Objects.requireNonNull(bukkitPluginCommand).getDescription();
     }
 
-    public final org.bukkit.command.PluginCommand getPluginCommand() {
+    public final @Nullable org.bukkit.command.PluginCommand getBukkitPluginCommand() {
         return bukkitPluginCommand;
     }
 }

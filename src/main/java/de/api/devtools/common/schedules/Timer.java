@@ -1,16 +1,19 @@
 package de.api.devtools.common.schedules;
 
+import de.api.devtools.common.plugin.MinecraftPlugin;
+import org.checkerframework.checker.nullness.qual.NonNull;
+
 public class Timer extends Runnable implements TimeState {
 
     private int time;
 
-    public Timer(int start, long delay, long period) {
-        super(delay, period);
+    public Timer(@NonNull MinecraftPlugin plugin, int start, long delay, long period) {
+        super(plugin, delay, period);
         this.time = start;
     }
 
     @Override
-    public void run() {
+    public final void run() {
         if (!isRunning()) return;
         this.setTime(time + 1);
     }
@@ -27,10 +30,4 @@ public class Timer extends Runnable implements TimeState {
 
     @Override
     public void onTimeChange() {}
-
-    @Override
-    public void onStop() {}
-
-    @Override
-    public void onStart() {}
 }

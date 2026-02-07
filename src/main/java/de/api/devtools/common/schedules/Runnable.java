@@ -1,36 +1,34 @@
 package de.api.devtools.common.schedules;
 
-import de.api.devtools.common.plugin.SpigotPlugin;
+import de.api.devtools.common.plugin.MinecraftPlugin;
 import org.bukkit.Bukkit;
 import org.bukkit.scheduler.BukkitTask;
 
+import javax.annotation.Nonnull;
+
 public abstract class Runnable {
 
-    private static Runnable instance;
+    @Nonnull protected final MinecraftPlugin plugin;
 
-    private final long delay;
-    private final long period;
+    protected final long delay;
+    protected final long period;
 
     private boolean autoStart = getClass().isAnnotationPresent(AutoStart.class);
 
     private BukkitTask task;
 
-    public Runnable(long delay, long period) {
-        instance = this;
+    public Runnable(@Nonnull MinecraftPlugin plugin, long delay, long period) {
+        this.plugin = plugin;
         this.delay = delay;
         this.period = period;
         if (getAutoStart()) runTask();
     }
 
-    public Runnable(long period) {
-        this(0L, period);
+    public Runnable(@Nonnull MinecraftPlugin plugin, long period) {
+        this(plugin, 0L, period);
     }
 
     public abstract void run();
-
-    public static Runnable getInstance() {
-        return instance;
-    }
 
     public final long getPeriod() {
         return period;
@@ -48,11 +46,11 @@ public abstract class Runnable {
         return task != null && (!task.isCancelled());
     }
 
-    public void runTask() {
+    public final void runTask() {
         if (this.task != null)
             throw new IllegalStateException("Already scheduled as " + this.task.getTaskId() + "!");
 
-        final BukkitTask task = Bukkit.getScheduler().runTaskTimer(SpigotPlugin.getInstance(), this::run, delay, period);
+        final BukkitTask task = Bukkit.getScheduler().runTaskTimer(plugin, this::run, delay, period);
 
         this.setTask(task);
     }
@@ -61,7 +59,7 @@ public abstract class Runnable {
         this.task = task;
     }
 
-    public void cancel() {
+    public final void cancel() {
         if (task == null)
             throw new IllegalStateException("Not scheduled yet!");
 
@@ -74,15 +72,19 @@ public abstract class Runnable {
         if (expression) cancel();
     }
 
-    public abstract void onStop();
+    public void onStop() {}
 
-    public abstract void onStart();
+    public void onStart() {}
 
     public final boolean getAutoStart() {
         return autoStart;
     }
 
-    public void setAutoStart(boolean b) {
+    public final void setAutoStart(boolean b) {
         this.autoStart = b;
+    }
+
+    @Nonnull public MinecraftPlugin getPlugin() {
+        return plugin;
     }
 }

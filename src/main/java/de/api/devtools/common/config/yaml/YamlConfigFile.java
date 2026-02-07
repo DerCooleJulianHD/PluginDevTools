@@ -1,5 +1,7 @@
-package de.api.devtools.common.config;
+package de.api.devtools.common.config.yaml;
 
+import de.api.devtools.common.config.Document;
+import de.api.devtools.common.plugin.MinecraftPlugin;
 import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.configuration.ConfigurationSection;
@@ -7,7 +9,9 @@ import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.inventory.ItemStack;
+import org.checkerframework.checker.nullness.qual.NonNull;
 
+import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.io.File;
 import java.io.IOException;
@@ -19,22 +23,15 @@ import java.util.logging.Level;
 //: type of document to read and write values in keys from a config file
 public class YamlConfigFile extends Document {
 
-    private final FileConfiguration config = new YamlConfiguration();
+    @Nonnull private final FileConfiguration config = new YamlConfiguration();
 
-    public YamlConfigFile(File dir, String fileName, boolean def) {
-        super(DocumentType.YAML, dir, fileName, def);
-    }
-
-    public YamlConfigFile(String dir, String fileName, boolean def) {
-        this(new File(dir), fileName, def);
+    public YamlConfigFile(MinecraftPlugin plugin, File dir, String fileName, boolean defResource) {
+        super(plugin, Type.YAML, dir, fileName, defResource);
     }
 
     @Override
     public final void load() {
         try {
-            if (config == null)
-                return;
-
             if (!exists())
                 createFiles();
 
@@ -47,9 +44,7 @@ public class YamlConfigFile extends Document {
 
     // writes an object to a Yaml-Configuration.
     public final void write(String k, Object v) {
-        if (!isLoaded())
-            load();
-
+        if (!isLoaded()) load();
         config.set(k, v);
         save();
     }
@@ -272,7 +267,7 @@ public class YamlConfigFile extends Document {
     }
 
     // returns a section
-    public final ConfigurationSection getConfigurationSection(String name) {
+    public final ConfigurationSection getSection(String name) {
         return config.getConfigurationSection(name);
     }
 
@@ -281,10 +276,7 @@ public class YamlConfigFile extends Document {
         config.createSection(name);
     }
 
-    public final FileConfiguration getConfig() {
+    public final @NonNull FileConfiguration getFileConfiguration() {
         return config;
     }
-
-    @Override
-    public void setDefaults() {}
 }

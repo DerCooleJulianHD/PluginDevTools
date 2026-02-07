@@ -1,24 +1,22 @@
-package de.api.devtools.common.plugin;
+package de.api.devtools.common.config.yaml;
 
-import de.api.devtools.common.config.YamlConfigFile;
+import de.api.devtools.common.plugin.Prefixable;
+import de.api.devtools.common.plugin.MinecraftPlugin;
 import de.api.devtools.common.utils.load.AutoLoad;
-import org.checkerframework.checker.nullness.qual.NonNull;
+
+import javax.annotation.Nonnull;
 
 @AutoLoad
 //: the config.yml file from the plugin
 public final class PluginConfigFile extends YamlConfigFile implements Prefixable {
 
-    public PluginConfigFile(SpigotPlugin plugin, boolean def) {
-        super(plugin.getDataFolder(), "config.yml", def);
-    }
-
-    public PluginConfigFile(String dir, boolean def) {
-        super(dir, "config.yml", def);
+    public PluginConfigFile(@Nonnull MinecraftPlugin plugin, boolean def) {
+        super(plugin, plugin.getDataFolder(), "config.yml", def);
     }
 
     @Override
     // returns the String that is set in plugin config.
-    public @NonNull String getPrefix() {
+    public @Nonnull String getPrefix() {
         return readString("prefix") != null ? readString("prefix") : "";
     }
 

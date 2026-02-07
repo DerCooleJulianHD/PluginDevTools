@@ -1,10 +1,11 @@
 package de.api.devtools.common.command;
 
-import de.api.devtools.common.plugin.SpigotPlugin;
+import de.api.devtools.common.plugin.MinecraftPlugin;
 import de.api.devtools.common.utils.Messages;
 import de.api.devtools.common.utils.Permissible;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.checkerframework.checker.nullness.qual.NonNull;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -13,22 +14,21 @@ import java.util.Objects;
 //: base object for any type of command
 public abstract class PluginCommand implements Permissible, ICommandExecutor {
 
-    private static PluginCommand instance;
+    @Nonnull protected final MinecraftPlugin plugin;
 
-    protected final SpigotPlugin plugin = SpigotPlugin.getInstance();
-    protected final String name;
+    @Nonnull protected final String name;
     @Nullable protected String permission;
 
     protected final boolean requiresPlayer;
 
-    protected PluginCommand(@Nonnull final String name, @Nullable String permission, boolean requiresPlayer) {
-        instance = this; // static instance for outside access
+    protected PluginCommand(@Nonnull MinecraftPlugin plugin, @Nonnull final String name, @Nullable String permission, boolean requiresPlayer) {
+        this.plugin = plugin;
         this.name = name; // name this command will be registered on
         this.permission = permission; // permission require to execute
         this.requiresPlayer = requiresPlayer; // when only players are allowed to execute
     }
 
-    protected boolean onCommandExecute(@Nonnull CommandSender sender, @Nonnull String [] args) {
+    protected final boolean onCommandExecute(@Nonnull CommandSender sender, @Nonnull String [] args) {
         if (requiresPermission()) {
             if (!sender.hasPermission(Objects.requireNonNull(getPermission()))) {
                 sender.sendMessage(Messages.COMMAND_NO_PERMISSION.getValue());
@@ -55,12 +55,12 @@ public abstract class PluginCommand implements Permissible, ICommandExecutor {
         this.permission = value;
     }
 
-    public final SpigotPlugin getPlugin() {
+    public final @NonNull MinecraftPlugin getPlugin() {
         return plugin;
     }
 
     // the name this command is registered on.
-    public final String getName() {
+    public final @NonNull String getName() {
         return name;
     }
 
@@ -68,9 +68,5 @@ public abstract class PluginCommand implements Permissible, ICommandExecutor {
 
     public final boolean requiresPlayer() {
         return requiresPlayer;
-    }
-
-    public static PluginCommand getInstance() {
-        return instance;
     }
 }

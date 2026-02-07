@@ -10,7 +10,7 @@ public abstract class ScoreAnimation extends BukkitRunnable {
     public abstract void update();
 
     @Override
-    public void run() {
+    public final void run() {
         update();
     }
 }
