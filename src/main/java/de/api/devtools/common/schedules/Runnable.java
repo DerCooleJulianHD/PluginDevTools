@@ -3,12 +3,11 @@ package de.api.devtools.common.schedules;
 import de.api.devtools.common.plugin.MinecraftPlugin;
 import org.bukkit.Bukkit;
 import org.bukkit.scheduler.BukkitTask;
-import org.checkerframework.checker.nullness.qual.NonNull;
 
 
 public abstract class Runnable {
 
-    @NonNull protected final MinecraftPlugin plugin;
+    protected final MinecraftPlugin plugin;
 
     protected final long delay;
     protected final long period;
@@ -17,14 +16,14 @@ public abstract class Runnable {
 
     private BukkitTask task;
 
-    public Runnable(@NonNull MinecraftPlugin plugin, long delay, long period) {
+    public Runnable(MinecraftPlugin plugin, long delay, long period) {
         this.plugin = plugin;
         this.delay = delay;
         this.period = period;
         if (getAutoStart()) runTask();
     }
 
-    public Runnable(@NonNull MinecraftPlugin plugin, long period) {
+    public Runnable(MinecraftPlugin plugin, long period) {
         this(plugin, 0L, period);
     }
 
@@ -84,7 +83,7 @@ public abstract class Runnable {
         this.autoStart = b;
     }
 
-    @NonNull public MinecraftPlugin getPlugin() {
+    public MinecraftPlugin getPlugin() {
         return plugin;
     }
 }

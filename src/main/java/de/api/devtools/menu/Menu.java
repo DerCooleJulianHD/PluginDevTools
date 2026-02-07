@@ -8,19 +8,17 @@ import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.ClickType;
-import org.checkerframework.checker.nullness.qual.NonNull;
-import org.checkerframework.checker.nullness.qual.Nullable;
 
 import java.util.function.Consumer;
 
 public abstract class Menu extends MenuInventory implements Viewable {
 
-    protected final @Nullable Menu parent;
+    protected final Menu parent;
     protected boolean keepOpen = false;
 
     protected Player viewer = null;
 
-    public Menu(@Nullable Menu parent, @NonNull Rows rows, @NonNull String title) {
+    public Menu(Menu parent, Rows rows, String title) {
         super(rows.getSize(), title);
         this.parent = parent;
         if (parent != null) inventory.setItem(getSize() - 1, getButtonReturnBack());
@@ -32,7 +30,7 @@ public abstract class Menu extends MenuInventory implements Viewable {
     }
 
     @Override
-    public @Nullable Player getViewer() {
+    public Player getViewer() {
         return viewer;
     }
 
@@ -41,7 +39,7 @@ public abstract class Menu extends MenuInventory implements Viewable {
         this.viewer = player;
     }
 
-    public final @Nullable Menu getParent() {
+    public final Menu getParent() {
         return parent;
     }
 
@@ -58,12 +56,12 @@ public abstract class Menu extends MenuInventory implements Viewable {
     public final Clickable getButtonReturnBack() {
         return new Clickable(Material.SPRUCE_DOOR, 0, 1, ChatColor.RED + "Return", ChatColor.GRAY + "Return to previous Menu.") {
             @Override
-            public @NonNull ClickType getClickType() {
+            public ClickType getClickType() {
                 return ClickType.LEFT;
             }
 
             @Override
-            public @NonNull Consumer<Player> getAction() {
+            public Consumer<Player> getAction() {
                 return player -> {
                     if (parent == null)
                         return;

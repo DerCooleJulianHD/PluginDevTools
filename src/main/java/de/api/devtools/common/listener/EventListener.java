@@ -7,21 +7,21 @@ import org.checkerframework.checker.nullness.qual.NonNull;
 
 public class EventListener implements Listener {
 
-    @NonNull protected final MinecraftPlugin plugin;
-    @NonNull protected final String name;
+    protected final MinecraftPlugin plugin;
+    protected final String name;
 
     protected boolean enabled = false;
 
-    public EventListener(@NonNull MinecraftPlugin plugin, @NonNull String name) {
+    public EventListener(MinecraftPlugin plugin, @NonNull String name) {
         this.plugin = plugin;
         this.name = name;
     }
 
-    @NonNull public final MinecraftPlugin getPlugin() {
+    public final MinecraftPlugin getPlugin() {
         return plugin;
     }
 
-    @NonNull public final String getName() {
+    public final String getName() {
         return name;
     }
 

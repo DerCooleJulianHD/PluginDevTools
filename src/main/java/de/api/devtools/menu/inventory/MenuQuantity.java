@@ -1,7 +1,5 @@
 package de.api.devtools.menu.inventory;
 
-import org.checkerframework.checker.nullness.qual.NonNull;
-
 import java.util.Set;
 
 public interface MenuQuantity {
@@ -10,7 +8,7 @@ public interface MenuQuantity {
 
    void setDraggable(int slot);
 
-   @NonNull Set<Integer> getDraggable();
+   Set<Integer> getDraggable();
 
    boolean getKeepOpen();
 

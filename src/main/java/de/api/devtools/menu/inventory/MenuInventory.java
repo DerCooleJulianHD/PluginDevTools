@@ -4,8 +4,7 @@ import de.api.devtools.menu.item.Icon;
 import org.bukkit.Bukkit;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.InventoryHolder;
-import org.checkerframework.checker.nullness.qual.NonNull;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.HashMap;
 import java.util.HashSet;
@@ -37,11 +36,11 @@ public abstract class MenuInventory implements InventoryHolder, MenuQuantity {
     }
 
     @Override
-    public @NonNull Set<Integer> getDraggable() {
+    public Set<Integer> getDraggable() {
         return draggable;
     }
 
-    public @Nullable Icon getItemAt(int slot) {
+    public Icon getItemAt(int slot) {
         return items.get(slot);
     }
 
@@ -50,16 +49,16 @@ public abstract class MenuInventory implements InventoryHolder, MenuQuantity {
         items.put(slot, item);
     }
 
-    public @NonNull Map<Integer, Icon> getItems() {
+    public Map<Integer, Icon> getItems() {
         return items;
     }
 
     @Override
-    public @NonNull Inventory getInventory() {
+    public @NotNull Inventory getInventory() {
         return inventory;
     }
 
-    public @NonNull String getTitle() {
+    public String getTitle() {
         return title;
     }
 

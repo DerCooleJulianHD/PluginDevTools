@@ -5,8 +5,6 @@ import com.google.gson.GsonBuilder;
 import de.api.devtools.common.config.Document;
 import de.api.devtools.common.plugin.MinecraftPlugin;
 import de.api.devtools.common.utils.Validate;
-import org.checkerframework.checker.nullness.qual.NonNull;
-import org.checkerframework.checker.nullness.qual.Nullable;
 
 import java.io.File;
 import java.io.FileReader;
@@ -18,28 +16,31 @@ import java.util.logging.Level;
 //: type of document where you can read and write JSON data
 public class JsonConfigFile extends Document {
 
-    @NonNull private final Gson gson;
+    private Gson gson;
 
-    public JsonConfigFile(@NonNull MinecraftPlugin plugin, File dir, String fileName, boolean def) {
+    public JsonConfigFile(MinecraftPlugin plugin, File dir, String fileName, boolean def) {
         super(plugin, Type.JSON, dir, fileName, def);
 
-        final GsonBuilder builder = new GsonBuilder();
-        final JsonProperties properties = Validate.nonNull(getClass().getDeclaredAnnotation(JsonProperties.class), getClass().getSimpleName() + "misses JsonProperties annotation!");
+        try {
+            createFiles();
 
-        if (properties.prettyPrinting()) builder.setPrettyPrinting();
-        if (!properties.htmlEscaping()) builder.disableHtmlEscaping();
-        if (!properties.innerClassSerialisation()) builder.disableInnerClassSerialization();
+            final GsonBuilder builder = new GsonBuilder();
+            final JsonProperties properties = Validate.nonNull(getClass().getDeclaredAnnotation(JsonProperties.class), getClass().getSimpleName() + "misses JsonProperties annotation!");
 
-        this.gson = builder.create();
+            if (properties.prettyPrinting()) builder.setPrettyPrinting();
+            if (!properties.htmlEscaping()) builder.disableHtmlEscaping();
+            if (!properties.innerClassSerialisation()) builder.disableInnerClassSerialization();
+
+            this.gson = builder.create();
+        } catch (Exception ex) {
+            plugin.getLogger().log(Level.SEVERE, "Unable to load: " + file.getName(), ex);
+        }
     }
 
     // writes an object to a Json-Configuration.
     public final void write(Object o) {
         if (!file.exists())
             return;
-
-        if (!isLoaded())
-            load();
 
         try {
             final FileWriter writer = new FileWriter(file);
@@ -51,12 +52,8 @@ public class JsonConfigFile extends Document {
         }
     }
 
-    @Nullable
     public final Object read(Class<?> classOfT) {
         if (!file.exists())
-            return null;
-
-        if (!isLoaded())
             return null;
 
         try {
@@ -69,17 +66,5 @@ public class JsonConfigFile extends Document {
         }
 
         return null;
-    }
-
-    @Override
-    public final void load() {
-        try {
-            if (!exists())
-                createFiles();
-
-            this.setLoaded(true);
-        } catch (Exception ex) {
-            plugin.getLogger().log(Level.SEVERE, "Unable to load: " + file.getName(), ex);
-        }
     }
 }

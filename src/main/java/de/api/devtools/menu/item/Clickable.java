@@ -9,15 +9,15 @@ import java.util.function.Consumer;
 
 public abstract class Clickable extends Icon {
 
-    public Clickable(@NonNull Material material, int id, int amount, String name, String... lore) {
+    public Clickable(Material material, int id, int amount, String name, String... lore) {
         super(material, id, amount, name, lore);
     }
 
-    public Clickable(@NonNull Material material, int amount, String name, String... lore) {
+    public Clickable(Material material, int amount, String name, String... lore) {
         this(material, 0, amount, name, lore);
     }
 
-    @NonNull public abstract ClickType getClickType();
+    public abstract ClickType getClickType();
 
-    @NonNull public abstract Consumer<Player> getAction();
+    public abstract Consumer<Player> getAction();
 }

@@ -14,7 +14,7 @@ public abstract class SimpleCommand extends PluginCommand implements CommandExec
 
     protected final org.bukkit.command.PluginCommand bukkitPluginCommand;
 
-    public SimpleCommand(@NonNull MinecraftPlugin plugin, @NonNull String name, @Nullable String permission, boolean requiresPlayer) {
+    public SimpleCommand(MinecraftPlugin plugin, String name, String permission, boolean requiresPlayer) {
         super(plugin, name, permission, requiresPlayer);
         this.bukkitPluginCommand = Objects.requireNonNull(plugin.getCommand(name), "No such Command found. do you forget to register it in the plugin.yml ?!");
         if (getAutoLoad()) load();

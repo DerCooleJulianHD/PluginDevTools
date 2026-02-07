@@ -1,18 +1,17 @@
 package de.api.devtools.common.schedules;
 
 import de.api.devtools.common.plugin.MinecraftPlugin;
-import org.checkerframework.checker.nullness.qual.NonNull;
 
 public class Countdown extends Runnable implements TimeState {
 
     private int timeLeft;
 
-    public Countdown(@NonNull MinecraftPlugin plugin, int start, long period) {
+    public Countdown(MinecraftPlugin plugin, int start, long period) {
         super(plugin, period);
         this.timeLeft = start;
     }
 
-    public Countdown(@NonNull MinecraftPlugin plugin, int start) {
+    public Countdown(MinecraftPlugin plugin, int start) {
         this(plugin, start, TimeUtil.ofSeconds(1));
     }
 

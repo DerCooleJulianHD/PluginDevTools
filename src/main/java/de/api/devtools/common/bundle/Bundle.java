@@ -1,7 +1,6 @@
 package de.api.devtools.common.bundle;
 
 import de.api.devtools.common.plugin.MinecraftPlugin;
-import org.checkerframework.checker.nullness.qual.NonNull;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.function.BiConsumer;
@@ -9,13 +8,13 @@ import java.util.function.BiConsumer;
 //: object to store other objects by type
 public abstract class Bundle<T> {
 
-    @NonNull protected final MinecraftPlugin plugin;
-    @NonNull protected final String name;
+    protected final MinecraftPlugin plugin;
+    protected final String name;
 
     // this is the map, all objects of type T will be stored in.
-    @NonNull protected final Map<String, T> actives = new HashMap<>();
+    protected final Map<String, T> actives = new HashMap<>();
 
-    public Bundle(@NonNull MinecraftPlugin plugin, @NonNull String name) {
+    public Bundle(MinecraftPlugin plugin, String name) {
         this.plugin = plugin;
         this.name = name;
     }
@@ -70,7 +69,7 @@ public abstract class Bundle<T> {
         return actives.containsKey(k);
     }
 
-    public final @NonNull Map<String, T> getActives() {
+    public final Map<String, T> getActives() {
         return actives;
     }
 
@@ -90,7 +89,7 @@ public abstract class Bundle<T> {
     }
 
     // returns the name for exact identify
-    public final @NonNull String getName() {
+    public final String getName() {
         return name;
     }
 }

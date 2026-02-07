@@ -5,7 +5,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
 
 public interface Viewable {
 
-    @Nullable Player getViewer();
+    Player getViewer();
 
     void setViewer(Player player);
 

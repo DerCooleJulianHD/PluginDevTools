@@ -8,7 +8,6 @@ import org.bukkit.Server;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.checkerframework.checker.nullness.qual.NonNull;
 
 import java.io.File;
 import java.util.Objects;
@@ -45,30 +44,27 @@ public abstract class MinecraftPlugin extends JavaPlugin implements Prefixable {
     public void onPluginStop() {}; // plugin disable logic
 
     // class who manages listeners on the server.
-    public @NonNull ListenerManager getListenerManager() {
+    public ListenerManager getListenerManager() {
         return listenerManager;
     }
 
     // the 'config.yml' file in the main plugin data folder.
-    public final @NonNull PluginConfigFile getPluginConfig() {
+    public final PluginConfigFile getPluginConfig() {
         return Objects.requireNonNull(config, "Plugin Config is not Loaded!");
     }
 
     // loads or creates a new instance of the 'config.yml' file.
     public final void loadPluginConfig(boolean def) {
-        config = new PluginConfigFile(this, def);
-
-        if (!config.isLoaded())
-            config.load();
+        if (config == null) config = new PluginConfigFile(this, def);
     }
 
     // returns the version string from the plugin description file.
-    public final @NonNull String getPluginVersion() {
+    public final String getPluginVersion() {
         return getDescription().getVersion();
     }
 
     // returns the simple plugin name from the plugin description file.
-    public final @NonNull String getPluginName() {
+    public final String getPluginName() {
         return getDescription().getName();
     }
 
@@ -91,7 +87,7 @@ public abstract class MinecraftPlugin extends JavaPlugin implements Prefixable {
     }
 
     // this is the console sender.
-    public final @NonNull Console getConsole() {
+    public final Console getConsole() {
         return console;
     }
 

@@ -8,10 +8,10 @@ import java.util.logging.Level;
 
 public final class Console {
 
-    @NonNull private final MinecraftPlugin plugin;
-    @NonNull private final ConsoleCommandSender sender = Bukkit.getConsoleSender();
+    private final MinecraftPlugin plugin;
+    private final ConsoleCommandSender sender = Bukkit.getConsoleSender();
 
-    public Console(@NonNull MinecraftPlugin plugin) {
+    public Console(MinecraftPlugin plugin) {
         this.plugin = plugin;
     }
 
@@ -31,11 +31,11 @@ public final class Console {
         plugin.getLogger().log(level, message);
     }
 
-    public @NonNull MinecraftPlugin getPlugin() {
+    public MinecraftPlugin getPlugin() {
         return plugin;
     }
 
-    public @NonNull ConsoleCommandSender getSender() {
+    public ConsoleCommandSender getSender() {
         return sender;
     }
 }

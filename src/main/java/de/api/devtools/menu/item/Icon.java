@@ -6,11 +6,11 @@ import org.checkerframework.checker.nullness.qual.NonNull;
 
 public class Icon extends ItemBuilder {
 
-    public Icon(@NonNull Material material, int id, int amount, String name, String... lore) {
+    public Icon(Material material, int id, int amount, String name, String... lore) {
         super(material, id, amount, name, lore);
     }
 
-    public Icon(@NonNull Material material, int amount, String name, String... lore) {
+    public Icon(Material material, int amount, String name, String... lore) {
         super(material, amount, name, lore);
     }
 }

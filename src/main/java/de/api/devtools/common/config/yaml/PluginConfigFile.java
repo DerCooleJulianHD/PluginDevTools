@@ -2,10 +2,8 @@ package de.api.devtools.common.config.yaml;
 
 import de.api.devtools.common.plugin.Prefixable;
 import de.api.devtools.common.plugin.MinecraftPlugin;
-import de.api.devtools.common.utils.load.AutoLoad;
 import org.checkerframework.checker.nullness.qual.NonNull;
 
-@AutoLoad
 //: the config.yml file from the plugin
 public final class PluginConfigFile extends YamlConfigFile implements Prefixable {
 
