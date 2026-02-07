@@ -24,7 +24,7 @@ public abstract class MinecraftPlugin extends JavaPlugin implements Prefixable {
     @Override public final void onLoad() {
         // init the instance of the plugin
         console = new Console(this);
-        init();
+        onPluginInit();
     }
 
     @Deprecated
@@ -38,7 +38,7 @@ public abstract class MinecraftPlugin extends JavaPlugin implements Prefixable {
         onPluginStop();
     }
 
-    public void init() {} // plugin load logic
+    public void onPluginInit() {} // plugin load logic
 
     public abstract void onPluginStart(); // plugin enable logic
 
