@@ -1,10 +1,9 @@
 package de.api.devtools.menu.inventory;
 
-import de.api.devtools.item.Icon;
+import de.api.devtools.menu.item.Icon;
 import org.bukkit.Bukkit;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.InventoryHolder;
-import org.bukkit.inventory.ItemStack;
 import org.checkerframework.checker.nullness.qual.NonNull;
 
 import javax.annotation.Nonnull;

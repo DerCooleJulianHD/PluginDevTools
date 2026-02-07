@@ -1,6 +1,6 @@
 package de.api.devtools.menu;
 
-import de.api.devtools.item.ItemCreator;
+import de.api.devtools.common.utils.itembuilder.ItemBuilder;
 import org.bukkit.ChatColor;
 import org.bukkit.inventory.Inventory;
 
@@ -14,7 +14,7 @@ public final class MenuOption {
 
             final Inventory inventory = menu.getInventory();
 
-            inventory.setItem(slot, ItemCreator.of(color.getMaterial(), 1, ChatColor.DARK_GRAY.toString(), "").make());
+            inventory.setItem(slot, new ItemBuilder(color.getMaterial(), 1, ChatColor.DARK_GRAY.toString(), null));
         }
     }
 }

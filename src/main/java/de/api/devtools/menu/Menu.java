@@ -1,7 +1,7 @@
 package de.api.devtools.menu;
 
-import de.api.devtools.item.Clickable;
-import de.api.devtools.item.ItemCreator;
+import de.api.devtools.menu.item.Clickable;
+import de.api.devtools.common.utils.itembuilder.ItemBuilder;
 import de.api.devtools.menu.inventory.MenuInventory;
 import de.api.devtools.menu.inventory.Rows;
 import de.api.devtools.menu.inventory.Viewable;
@@ -9,9 +9,11 @@ import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.ClickType;
+import org.checkerframework.checker.nullness.qual.NonNull;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import java.util.function.Consumer;
 
 public abstract class Menu extends MenuInventory implements Viewable {
 
@@ -56,12 +58,21 @@ public abstract class Menu extends MenuInventory implements Viewable {
     }
 
     public final Clickable getButtonReturnBack() {
-        final ItemCreator item = ItemCreator.of(Material.SPRUCE_DOOR, 1, ChatColor.RED + "Return", ChatColor.GRAY + "Return to previous Menu.");
-        return new Clickable(item, ClickType.LEFT, player -> {
-            if (parent == null)
-                return;
+        return new Clickable(Material.SPRUCE_DOOR, 0, 1, ChatColor.RED + "Return", ChatColor.GRAY + "Return to previous Menu.") {
+            @Override
+            public @NonNull ClickType getClickType() {
+                return ClickType.LEFT;
+            }
 
-            parent.open(player);
-        });
+            @Override
+            public @NonNull Consumer<Player> getAction() {
+                return player -> {
+                    if (parent == null)
+                        return;
+
+                    parent.open(player);
+                };
+            }
+        };
     }
 }
