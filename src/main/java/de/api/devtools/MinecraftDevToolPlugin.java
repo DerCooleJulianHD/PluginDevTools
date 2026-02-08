@@ -1,6 +1,7 @@
 package de.api.devtools;
 
-import de.api.devtools.common.listener.ItemClickListener;
+import de.api.devtools.menu.listener.HotbarItemInteractListener;
+import de.api.devtools.menu.listener.ItemClickListener;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.plugin.PluginManager;
@@ -14,5 +15,6 @@ public final class MinecraftDevToolPlugin extends JavaPlugin {
 
         final PluginManager manager = getServer().getPluginManager();
         manager.registerEvents(new ItemClickListener(), this);
+        manager.registerEvents(new HotbarItemInteractListener(), this);
     }
 }

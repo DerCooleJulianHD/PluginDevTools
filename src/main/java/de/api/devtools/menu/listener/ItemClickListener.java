@@ -1,4 +1,4 @@
-package de.api.devtools.common.listener;
+package de.api.devtools.menu.listener;
 
 import de.api.devtools.menu.item.Clickable;
 import de.api.devtools.menu.item.Icon;
