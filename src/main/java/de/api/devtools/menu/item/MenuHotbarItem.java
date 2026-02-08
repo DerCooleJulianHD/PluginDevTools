@@ -10,13 +10,13 @@ public class MenuHotbarItem extends HotbarItem {
 
     private final Menu menu;
 
-    public MenuHotbarItem(Menu menu, Material material, int id, int amount, String name, String... lore) {
-        super(material, id, amount, name, lore);
+    public MenuHotbarItem(Menu menu, int slot, Material material, int id, int amount, String name, String... lore) {
+        super(slot, material, id, amount, name, lore);
         this.menu = menu;
     }
 
-    public MenuHotbarItem(Menu menu, Material material, int amount, String name, String... lore) {
-        super(material, amount, name, lore);
+    public MenuHotbarItem(Menu menu, int slot, Material material, int amount, String name, String... lore) {
+        super(slot, material, amount, name, lore);
         this.menu = menu;
     }
 
